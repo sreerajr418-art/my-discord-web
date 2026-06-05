@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VELORA | Next-Gen Multi-Bot Matrix</title>
+    <title>Premium Matrix Control Panel</title>
     <style>
         :root {
-            --bg-main: #020306; --bg-nav: #060913; --card-bg: rgba(9, 14, 26, 0.75);
+            --bg-main: #030407; --bg-nav: #080b14; --card-bg: rgba(12, 17, 30, 0.75);
             --accent: #ff0055; --accent-glow: rgba(255, 0, 85, 0.45);
-            --secondary: #00f0ff; --secondary-glow: rgba(0, 240, 255, 0.35);
-            --text-main: #ffffff; --text-muted: #7485a5; --sidebar-bg: #04060d; --success: #00ff88;
+            --secondary: #00e5ff; --secondary-glow: rgba(0, 229, 255, 0.35);
+            --text-main: #ffffff; --text-muted: #7e8da8; --sidebar-bg: #05070f; --success: #00ff77;
         }
         body { 
             background-color: var(--bg-main); color: var(--text-main); 
@@ -18,21 +18,20 @@
         }
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         
-        /* PREMIUM STICKY NAVBAR */
+        /* PREMIUM NAVBAR (Fixed Z-Index & Clean Layout) */
         .navbar { 
-            background: rgba(6, 9, 19, 0.8); padding: 20px 6%; 
-            display: flex; justify-content: space-between; align-items: center; 
+            background: rgba(6, 9, 19, 0.85); padding: 20px 6%; 
+            display: flex; justify-content: flex-end; align-items: center; 
             border-bottom: 2px solid var(--accent); box-shadow: 0 0 30px var(--accent-glow);
-            backdrop-filter: blur(15px); position: sticky; top: 0; z-index: 100;
+            backdrop-filter: blur(15px); position: sticky; top: 0; z-index: 50;
         }
-        .nav-logo { font-size: 1.8rem; font-weight: 900; letter-spacing: 4px; color: var(--accent); text-shadow: 0 0 15px var(--accent-glow); transform: skewX(-5deg); cursor: pointer; }
         .nav-links button { background: transparent; border: 1px solid var(--secondary); color: var(--secondary); padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s; box-shadow: 0 0 10px var(--secondary-glow); }
         .nav-links button:hover { background: var(--secondary); color: #000; box-shadow: 0 0 20px var(--secondary); }
 
         /* HERO WELCOME LANDING SECTION */
         .hero-section {
-            height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; padding: 0 20px; position: relative;
+            height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 0 20px; position: relative; z-index: 10;
         }
         .hero-badge { background: rgba(255, 0, 85, 0.1); border: 1px solid var(--accent); color: var(--accent); padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; box-shadow: 0 0 15px rgba(255,0,85,0.2); }
         .hero-section h1 { font-size: 4.5rem; font-weight: 900; margin: 0; letter-spacing: -1px; background: linear-gradient(135deg, #fff 30%, var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 40px rgba(0,240,255,0.1); }
@@ -40,21 +39,21 @@
         .hero-btn { background: linear-gradient(135deg, var(--accent), #9e0032); color: white; border: none; padding: 16px 45px; border-radius: 14px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 8px 25px var(--accent-glow); transition: 0.3s; text-transform: uppercase; letter-spacing: 2px; }
         .hero-btn:hover { transform: translateY(-4px); box-shadow: 0 12px 35px var(--accent-glow); }
 
-        /* DISCORD SERVER SELECTION AREA */
-        .server-selection-screen { padding: 100px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.02); background: rgba(4,6,12,0.4); }
+        /* DISCORD SERVER SELECTION AREA (Added Pointer Events Fix) */
+        .server-selection-screen { padding: 100px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.02); background: rgba(4, 6, 12, 0.5); position: relative; z-index: 20; pointer-events: auto; }
         .server-selection-screen h2 { font-size: 2.8rem; text-shadow: 0 0 25px var(--secondary-glow); color: var(--secondary); font-weight: 900; margin-bottom: 10px; }
-        .server-grid { display: flex; gap: 35px; justify-content: center; flex-wrap: wrap; margin-top: 50px; }
+        .server-grid { display: flex; gap: 35px; justify-content: center; flex-wrap: wrap; margin-top: 50px; pointer-events: auto; }
         .server-card { 
             background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px);
             border-radius: 24px; padding: 35px; width: 240px; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6); text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6); text-align: center; position: relative; z-index: 30; pointer-events: auto;
         }
         .server-card:hover { border-color: var(--secondary); transform: translateY(-12px) scale(1.03); box-shadow: 0 0 40px var(--secondary-glow); }
-        .server-icon-img { width: 95px; height: 95px; border-radius: 50%; margin-bottom: 15px; border: 3px solid var(--accent); box-shadow: 0 0 18px var(--accent-glow); }
-        .server-name { font-weight: 800; font-size: 1.3rem; color: #fff; }
+        .server-icon-img { width: 95px; height: 95px; border-radius: 50%; margin-bottom: 15px; border: 3px solid var(--accent); box-shadow: 0 0 18px var(--accent-glow); pointer-events: none; }
+        .server-name { font-weight: 800; font-size: 1.3rem; color: #fff; pointer-events: none; }
         
         /* CONTROL DASHBOARD CORE */
-        .dashboard-section { display: none; max-width: 1250px; margin: 40px auto; padding: 0 20px; animation: fadeIn 0.5s ease-in-out; }
+        .dashboard-section { display: none; max-width: 1250px; margin: 40px auto; padding: 0 20px; animation: fadeIn 0.5s ease-in-out; position: relative; z-index: 40; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .dashboard-container { 
             background: rgba(6, 9, 18, 0.9); border-radius: 28px; border: 1px solid rgba(255, 255, 255, 0.04);
@@ -105,7 +104,6 @@
     <canvas id="bg-canvas"></canvas>
 
     <div class="navbar">
-        <div class="nav-logo" onclick="window.scrollTo(0,0)">VELORA</div>
         <div class="nav-links"><button onclick="scrollToServers()">Control Panel</button></div>
     </div>
 
@@ -117,7 +115,7 @@
     </div>
 
     <div class="server-selection-screen" id="server-select-area">
-        <h2>Select a Active Cluster</h2>
+        <h2>Select an Active Cluster</h2>
         <p style="color: var(--text-muted); margin-bottom: 10px;">Choose a database node directory below to establish configuration link.</p>
         <div class="server-grid" id="dynamic-server-grid"></div>
     </div>
@@ -316,7 +314,7 @@
             document.getElementById("server-select-area").scrollIntoView({ behavior: 'smooth' });
         }
 
-        // WYSIWYG PREVIEW HANDLER (NEW FEATURE)
+        // WYSIWYG PREVIEW HANDLER
         function updateLivePreview() {
             const heading = document.getElementById("welcome-title-input").value || "WELCOME";
             const sub = document.getElementById("welcome-subtitle-input").value || "Welcome to our community server!";
@@ -389,7 +387,6 @@
                 const data = await response.json();
                 cacheGuildsData = data.guilds;
                 
-                document.getElementById("main-bot-name").innerText = data.name.toUpperCase();
                 document.getElementById("sidebar-bot-name").innerText = data.name;
                 document.getElementById("bot-profile-avatar").src = data.avatar;
                 
@@ -453,7 +450,7 @@
                     method: "POST", headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ channel_id: document.getElementById("welcome-channel-dropdown").value, title: document.getElementById("welcome-title-input").value, subtitle: document.getElementById("welcome-subtitle-input").value, bg_url: document.getElementById("welcome-bg-input").value })
                 });
-                alert("Welcome matrix setup successfully pushed!");
+                alert("Welcome matrix layout pushed!");
             } catch (err) { console.error(err); }
         }
 
@@ -463,7 +460,7 @@
                     method: "POST", headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ channel_id: document.getElementById("goodbye-channel-dropdown").value, title: document.getElementById("goodbye-title-input").value, subtitle: document.getElementById("goodbye-subtitle-input").value, bg_url: document.getElementById("goodbye-bg-input").value })
                 });
-                alert("Goodbye matrix setup successfully pushed!");
+                alert("Goodbye matrix layout pushed!");
             } catch (err) { console.error(err); }
         }
 
