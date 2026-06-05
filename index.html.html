@@ -6,99 +6,98 @@
     <title>Premium Dashboard</title>
     <style>
         :root {
-            --bg-main: #06070d;
-            --bg-nav: #0d111c;
-            --card-bg: rgba(20, 26, 41, 0.6);
-            --accent: #ff007f;
-            --accent-glow: rgba(255, 0, 127, 0.4);
-            --secondary: #00f0ff;
-            --secondary-glow: rgba(0, 240, 255, 0.3);
-            --text-main: #ffffff;
-            --text-muted: #8b9bb4;
-            --sidebar-bg: #090d16;
-            --success: #00ff66;
+            --bg-main: #05060b; --bg-nav: #0a0d1a; --card-bg: rgba(16, 22, 38, 0.7);
+            --accent: #ff0055; --accent-glow: rgba(255, 0, 85, 0.5);
+            --secondary: #00e5ff; --secondary-glow: rgba(0, 229, 255, 0.4);
+            --text-main: #ffffff; --text-muted: #8292b0; --sidebar-bg: #070912; --success: #00ff77;
         }
         body { 
-            background: radial-gradient(circle at 50% 0%, #121829 0%, var(--bg-main) 70%);
+            background: radial-gradient(circle at 50% 0%, #0f1526 0%, var(--bg-main) 75%);
             color: var(--text-main); font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; padding: 0; 
         }
         .navbar { 
-            background: linear-gradient(90deg, var(--bg-nav), #161b2b); padding: 18px 5%; 
+            background: linear-gradient(90deg, var(--bg-nav), #121726); padding: 18px 5%; 
             display: flex; justify-content: space-between; align-items: center; 
-            border-bottom: 2px solid var(--accent); box-shadow: 0 0 20px var(--accent-glow);
+            border-bottom: 2px solid var(--accent); box-shadow: 0 0 25px var(--accent-glow);
+            animation: pulseGlow 4s infinite alternate;
         }
-        .nav-logo { font-size: 1.6rem; font-weight: 900; letter-spacing: 2px; color: var(--accent); text-shadow: 0 0 10px var(--accent-glow); }
+        @keyframes pulseGlow { 
+            0% { box-shadow: 0 0 15px var(--accent-glow); } 
+            100% { box-shadow: 0 0 30px var(--accent-glow), 0 0 10px var(--secondary-glow); } 
+        }
+        .nav-logo { font-size: 1.6rem; font-weight: 900; letter-spacing: 2px; color: var(--accent); text-shadow: 0 0 12px var(--accent-glow); }
         .server-selection-screen { padding: 60px 20px; text-align: center; }
-        .server-selection-screen h1 { font-size: 2.5rem; text-shadow: 0 0 15px var(--secondary-glow); color: var(--secondary); }
+        .server-selection-screen h1 { font-size: 2.8rem; text-shadow: 0 0 15px var(--secondary-glow); color: var(--secondary); margin-bottom: 5px; }
         .server-grid { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; margin-top: 40px; }
         .server-card { 
-            background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px);
-            border-radius: 16px; padding: 30px; width: 240px; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center;
+            background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 30px; width: 230px; cursor: pointer; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6); text-align: center;
         }
         .server-card:hover { 
-            border-color: var(--secondary); transform: translateY(-8px) scale(1.02); 
-            box-shadow: 0 0 30px var(--secondary-glow);
+            border-color: var(--secondary); transform: translateY(-10px); 
+            box-shadow: 0 0 35px var(--secondary-glow);
         }
         .server-icon-img { width: 90px; height: 90px; border-radius: 50%; margin-bottom: 15px; border: 3px solid var(--accent); box-shadow: 0 0 15px var(--accent-glow); }
-        .server-name { font-weight: 800; font-size: 1.2rem; margin-top: 10px; color: #fff; }
+        .server-name { font-weight: 800; font-size: 1.2rem; color: #fff; }
         .dashboard-section { display: none; max-width: 1200px; margin: 40px auto; padding: 0 20px; }
         .dashboard-container { 
-            background: rgba(13, 17, 28, 0.8); border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px); display: flex; height: 650px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            background: rgba(10, 13, 26, 0.85); border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(25px); display: flex; height: 680px; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.7);
         }
-        .db-sidebar { width: 240px; background-color: var(--sidebar-bg); padding: 30px 20px; border-right: 1px solid rgba(255,255,255,0.05); }
-        .sidebar-profile { display: flex; align-items: center; gap: 15px; margin-bottom: 35px; background: rgba(255,255,255,0.02); padding: 12px; border-radius: 12px; }
+        .db-sidebar { width: 240px; background-color: var(--sidebar-bg); padding: 30px 20px; border-right: 1px solid rgba(255,255,255,0.04); }
+        .sidebar-profile { display: flex; align-items: center; gap: 15px; margin-bottom: 35px; background: rgba(255,255,255,0.02); padding: 12px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.05); }
         .avatar-img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--secondary); }
-        .db-menu-item { padding: 14px 18px; color: var(--text-muted); border-radius: 12px; margin-bottom: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 10px; }
-        .db-menu-item.active, .db-menu-item:hover { background: linear-gradient(135deg, rgba(255,0,127,0.2), rgba(0,240,255,0.1)); color: #fff; border-left: 4px solid var(--accent); }
+        .db-menu-item { padding: 14px 18px; color: var(--text-muted); border-radius: 12px; margin-bottom: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 10px; border-left: 4px solid transparent; }
+        .db-menu-item.active, .db-menu-item:hover { background: linear-gradient(135deg, rgba(255,0,85,0.15), rgba(0,229,255,0.05)); color: #fff; border-left-color: var(--accent); }
         .db-content { flex: 1; padding: 45px; overflow-y: auto; }
         .db-panel { display: none; }
         .db-panel.active { display: block; }
         .toggle-box { 
             background: var(--card-bg); padding: 22px; border-radius: 16px; 
             display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.03); transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.02); transition: 0.3s;
         }
-        .toggle-box:hover { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.1); }
+        .toggle-box:hover { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.08); box-shadow: 0 0 15px rgba(255,255,255,0.02); }
         .form-group { margin-bottom: 22px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--secondary); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--secondary); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; text-shadow: 0 0 8px var(--secondary-glow); }
         .form-control { 
-            width: 95%; padding: 12px 15px; background-color: #090c15; border: 1px solid rgba(255,255,255,0.1); 
-            border-radius: 10px; color: white; font-size: 1rem; outline: none; transition: 0.3s;
+            width: 95%; padding: 12px 15px; background-color: #05070e; border: 1px solid rgba(255,255,255,0.08); 
+            border-radius: 12px; color: white; font-size: 1rem; outline: none; transition: 0.3s;
         }
-        .form-control:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(255,0,127,0.2); }
-        .switch { width: 55px; height: 28px; background-color: var(--accent); border-radius: 50px; position: relative; cursor: pointer; box-shadow: 0 0 10px var(--accent-glow); transition: 0.3s; }
+        .form-control:focus { border-color: var(--accent); box-shadow: 0 0 12px rgba(255,0,85,0.3); }
+        .switch { width: 55px; height: 28px; background-color: var(--accent); border-radius: 50px; position: relative; cursor: pointer; box-shadow: 0 0 12px var(--accent-glow); transition: 0.3s; }
         .switch::after { content: ''; position: absolute; width: 22px; height: 22px; background-color: white; border-radius: 50px; top: 3px; right: 3px; transition: 0.3s; }
-        .switch.off { background-color: #252b3d; box-shadow: none; }
+        .switch.off { background-color: #202636; box-shadow: none; }
         .switch.off::after { right: calc(100% - 25px); }
-        .back-btn { background: transparent; color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.3s; }
-        .back-btn:hover { color: #fff; border-color: #fff; }
+        .back-btn { background: transparent; color: var(--text-muted); border: 1px solid rgba(255,255,255,0.08); padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .back-btn:hover { color: #fff; border-color: var(--secondary); box-shadow: 0 0 10px var(--secondary-glow); }
         .save-btn { 
-            background: linear-gradient(135deg, var(--accent), #bc0062); color: white; border: none; 
+            background: linear-gradient(135deg, var(--accent), #a30036); color: white; border: none; 
             padding: 14px 35px; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 1rem; 
-            box-shadow: 0 5px 15px var(--accent-glow); transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+            box-shadow: 0 6px 20px var(--accent-glow); transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
         }
-        .save-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px var(--accent-glow); }
+        .save-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 28px var(--accent-glow); }
         .grid-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .panel-heading-icon { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 25px; }
     </style>
 </head>
 <body>
 
     <div class="navbar">
-        <div class="nav-logo" id="main-bot-name">VELORA ELITE</div>
+        <div class="nav-logo" id="main-bot-name">VELORA CYBERNET</div>
     </div>
 
     <div class="server-selection-screen" id="server-select-area">
-        <h1>Select a Community</h1>
-        <p style="color: var(--text-muted);">Choose a server below to custom fit automation layouts instantly.</p>
+        <h1>Select a Cyberspace</h1>
+        <p style="color: var(--text-muted);">Choose a neural server branch below to customize matrix operations instantly.</p>
         <div class="server-grid" id="dynamic-server-grid"></div>
     </div>
 
     <div class="dashboard-section" id="main-dashboard-area">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
-            <h2 id="active-panel-title" style="color: var(--secondary);">✨ Server Panel</h2>
-            <button class="back-btn" onclick="showServerSelection()">← Back to Servers</button>
+            <h2 id="active-panel-title" style="color: var(--secondary);">✨ System Link Established</h2>
+            <button class="back-btn" onclick="showServerSelection()">← Core Network</button>
         </div>
         <div class="dashboard-container">
             <div class="db-sidebar">
@@ -106,15 +105,16 @@
                     <img src="" class="avatar-img" id="bot-profile-avatar" alt="Bot">
                     <div id="sidebar-bot-name" style="font-weight: 800; font-size: 1.05rem;">Loading...</div>
                 </div>
-                <div class="db-menu-item active" onclick="switchTab('general', this)">🛡️ Moderation</div>
-                <div class="db-menu-item" onclick="switchTab('autorole', this)">🤖 Auto-Roles</div>
-                <div class="db-menu-item" onclick="switchTab('welcome', this)">👋 Welcome Card</div>
-                <div class="db-menu-item" onclick="switchTab('goodbye', this)">🏃 Goodbye Card</div>
+                <div class="db-menu-item active" onclick="switchTab('general', this)">🛡️ AutoMod Engine</div>
+                <div class="db-menu-item" onclick="switchTab('autorole', this)">🤖 Core Auto-Roles</div>
+                <div class="db-menu-item" onclick="switchTab('conditional_role', this)">💎 Role Tag Rewards</div>
+                <div class="db-menu-item" onclick="switchTab('welcome', this)">👋 Welcome Matrix</div>
+                <div class="db-menu-item" onclick="switchTab('goodbye', this)">🏃 Goodbye Matrix</div>
             </div>
             
             <div class="db-content">
                 <div id="panel-general" class="db-panel active">
-                    <h3 style="color: var(--secondary); margin-bottom: 25px;">Security & AutoMod</h3>
+                    <div class="panel-heading-icon"><h3 style="color: var(--secondary); margin:0;">Security Protocols</h3></div>
                     <div class="toggle-box">
                         <div><b>Anti-Spam Filter</b></div>
                         <div class="switch" id="sw-anti_spam" onclick="sendToggleRequest('anti_spam')"></div>
@@ -126,7 +126,7 @@
                 </div>
 
                 <div id="panel-autorole" class="db-panel">
-                    <h3 style="color: var(--secondary); margin-bottom: 25px;">Multi Auto-Role Module</h3>
+                    <div class="panel-heading-icon"><h3 style="color: var(--secondary); margin:0;">Join Automation Roles</h3></div>
                     <div class="toggle-box">
                         <div><b>Enable Member Auto-Role</b></div>
                         <div class="switch" id="sw-auto_role_enabled" onclick="sendToggleRequest('auto_role_enabled')"></div>
@@ -143,11 +143,29 @@
                         <label>Target Bot Role</label>
                         <select class="form-control" id="bot-autorole-dropdown"></select>
                     </div>
-                    <button class="save-btn" onclick="saveAutoRoleConfig()">Save Configurations</button>
+                    <button class="save-btn" onclick="saveAutoRoleConfig()">Save Setup</button>
+                </div>
+
+                <div id="panel-conditional_role" class="db-panel">
+                    <div class="panel-heading-icon"><h3 style="color: var(--secondary); margin:0;">Role Tag Reward Modifier</h3></div>
+                    <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">When a member gains/tags a specific target role (e.g. Booster or VIP), the bot will instantly inject an extra role to them.</p>
+                    <div class="toggle-box">
+                        <div><b>Enable Conditional Role Rewards</b></div>
+                        <div class="switch" id="sw-conditional_role_enabled" onclick="sendToggleRequest('conditional_role_enabled')"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>If Member Gains This Role (Trigger Tag)</label>
+                        <select class="form-control" id="conditional-trigger-dropdown"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Give Them This Extra Role (Reward Tag)</label>
+                        <select class="form-control" id="conditional-reward-dropdown"></select>
+                    </div>
+                    <button class="save-btn" onclick="saveConditionalRoleConfig()">Save Rewards</button>
                 </div>
                 
                 <div id="panel-welcome" class="db-panel">
-                    <h3 style="color: var(--secondary); margin-bottom: 25px;">Welcome Banner Customizer</h3>
+                    <div class="panel-heading-icon"><h3 style="color: var(--secondary); margin:0;">Dynamic Welcome Matrix</h3></div>
                     <div class="toggle-box">
                         <div><b>Enable Welcome Cards</b></div>
                         <div class="switch" id="sw-welcome_logs" onclick="sendToggleRequest('welcome_logs')"></div>
@@ -170,11 +188,11 @@
                         <label>Background Image URL (800x350)</label>
                         <input type="text" class="form-control" id="welcome-bg-input">
                     </div>
-                    <button class="save-btn" onclick="saveWelcomeBannerConfig()">Save Settings</button>
+                    <button class="save-btn" onclick="saveWelcomeBannerConfig()">Apply Changes</button>
                 </div>
 
                 <div id="panel-goodbye" class="db-panel">
-                    <h3 style="color: var(--secondary); margin-bottom: 25px;">Goodbye Banner Customizer</h3>
+                    <div class="panel-heading-icon"><h3 style="color: var(--secondary); margin:0;">Dynamic Goodbye Matrix</h3></div>
                     <div class="toggle-box">
                         <div><b>Enable Goodbye Cards</b></div>
                         <div class="switch" id="sw-goodbye_logs" onclick="sendToggleRequest('goodbye_logs')"></div>
@@ -197,7 +215,7 @@
                         <label>Background Image URL</label>
                         <input type="text" class="form-control" id="goodbye-bg-input">
                     </div>
-                    <button class="save-btn" onclick="saveGoodbyeBannerConfig()">Save Settings</button>
+                    <button class="save-btn" onclick="saveGoodbyeBannerConfig()">Apply Changes</button>
                 </div>
             </div>
         </div>
@@ -210,18 +228,22 @@
         function enterDashboard(guildId, guildName) {
             document.getElementById('server-select-area').style.display = 'none';
             document.getElementById('main-dashboard-area').style.display = 'block';
-            document.getElementById('active-panel-title').innerText = "✨ " + guildName;
+            document.getElementById('active-panel-title').innerText = "✨ " + guildName.toUpperCase() + " CONTROL INTERFACE";
             
             const activeGuild = cacheGuildsData.find(g => g.id === guildId);
             const wDropdown = document.getElementById("welcome-channel-dropdown");
             const gDropdown = document.getElementById("goodbye-channel-dropdown");
             const rDropdown = document.getElementById("autorole-dropdown");
             const brDropdown = document.getElementById("bot-autorole-dropdown");
+            const ctDropdown = document.getElementById("conditional-trigger-dropdown");
+            const crDropdown = document.getElementById("conditional-reward-dropdown");
             
             wDropdown.innerHTML = '<option value="None">Disable Channel</option>';
             gDropdown.innerHTML = '<option value="None">Disable Channel</option>';
             rDropdown.innerHTML = '<option value="None">No Role Selected</option>';
             brDropdown.innerHTML = '<option value="None">No Role Selected</option>';
+            ctDropdown.innerHTML = '<option value="None">No Role Selected</option>';
+            crDropdown.innerHTML = '<option value="None">No Role Selected</option>';
             
             if(activeGuild) {
                 if(activeGuild.channels) {
@@ -233,8 +255,8 @@
                 if(activeGuild.roles) {
                     activeGuild.roles.forEach(role => {
                         const row = `<option value="${role.id}">${role.name}</option>`;
-                        rDropdown.innerHTML += row;
-                        brDropdown.innerHTML += row;
+                        rDropdown.innerHTML += row; brDropdown.innerHTML += row;
+                        ctDropdown.innerHTML += row; crDropdown.innerHTML += row;
                     });
                 }
             }
@@ -258,7 +280,7 @@
                 const data = await response.json();
                 cacheGuildsData = data.guilds;
                 
-                document.getElementById("main-bot-name").innerText = data.name.toUpperCase();
+                document.getElementById("main-bot-name").innerText = data.name.toUpperCase() + " // FRAMEWORK";
                 document.getElementById("sidebar-bot-name").innerText = data.name;
                 document.getElementById("bot-profile-avatar").src = data.avatar;
                 
@@ -276,6 +298,7 @@
                 updateSwitchUI("auto_mod_links", data.features.auto_mod_links);
                 updateSwitchUI("auto_role_enabled", data.features.auto_role_enabled);
                 updateSwitchUI("bot_auto_role_enabled", data.features.bot_auto_role_enabled);
+                updateSwitchUI("conditional_role_enabled", data.features.conditional_role_enabled);
                 updateSwitchUI("welcome_logs", data.features.welcome_logs);
                 updateSwitchUI("goodbye_logs", data.features.goodbye_logs);
                 
@@ -291,6 +314,8 @@
                 
                 document.getElementById("autorole-dropdown").value = data.features.auto_role_id;
                 document.getElementById("bot-autorole-dropdown").value = data.features.bot_auto_role_id;
+                document.getElementById("conditional-trigger-dropdown").value = data.features.trigger_role_id;
+                document.getElementById("conditional-reward-dropdown").value = data.features.extra_reward_role_id;
             } catch (error) { console.error(error); }
         }
 
@@ -302,8 +327,7 @@
         async function sendToggleRequest(featureName) {
             try {
                 const response = await fetch(PTERO_URL + "api/toggle", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    method: "POST", headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ feature: featureName })
                 });
                 const resData = await response.json();
@@ -335,12 +359,19 @@
             try {
                 await fetch(PTERO_URL + "api/save_autorole", {
                     method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ 
-                        role_id: document.getElementById("autorole-dropdown").value,
-                        bot_role_id: document.getElementById("bot-autorole-dropdown").value
-                    })
+                    body: JSON.stringify({ role_id: document.getElementById("autorole-dropdown").value, bot_role_id: document.getElementById("bot-autorole-dropdown").value })
                 });
-                alert("All Auto-Role layout updates saved!");
+                alert("Core Auto-Roles updated!");
+            } catch (err) { console.error(err); }
+        }
+
+        async function saveConditionalRoleConfig() {
+            try {
+                await fetch(PTERO_URL + "api/save_conditional_roles", {
+                    method: "POST", headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ trigger_role: document.getElementById("conditional-trigger-dropdown").value, extra_role: document.getElementById("conditional-reward-dropdown").value })
+                });
+                alert("Role Tag Rewards saved!");
             } catch (err) { console.error(err); }
         }
 
