@@ -37,7 +37,7 @@
         .dashboard-section { display: none; max-width: 1100px; margin: 40px auto; padding: 0 20px; }
         .dashboard-container {
             background-color: var(--bg-nav); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.08);
-            display: flex; height: 500px; overflow: hidden; text-align: left;
+            display: flex; height: 600px; overflow: hidden; text-align: left;
         }
         .db-sidebar { width: 220px; background-color: var(--sidebar-bg); padding: 25px 15px; }
         .sidebar-profile { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; }
@@ -51,20 +51,21 @@
             background-color: var(--card-bg); padding: 20px; border-radius: 12px;
             display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;
         }
-        .form-group { margin-bottom: 20px; text-align: left; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-muted); }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--text-muted); font-size: 0.9rem; }
         .form-control {
-            width: 95%; padding: 12px; background-color: var(--card-bg); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px; color: white; font-size: 1rem; outline: none;
+            width: 95%; padding: 10px; background-color: var(--card-bg); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px; color: white; font-size: 0.95rem; outline: none;
         }
         .form-control:focus { border-color: var(--accent); }
+        .color-picker-box { display: flex; align-items: center; gap: 10px; }
+        .color-input { width: 60px; height: 40px; background: none; border: none; cursor: pointer; }
         .switch { width: 50px; height: 26px; background-color: var(--accent); border-radius: 50px; position: relative; cursor: pointer; }
         .switch::after { content: ''; position: absolute; width: 20px; height: 20px; background-color: white; border-radius: 50px; top: 3px; right: 3px; transition: 0.3s; }
         .switch.off { background-color: #3f4248; }
         .switch.off::after { right: calc(100% - 23px); }
         .back-btn { background-color: transparent; color: var(--text-muted); border: 1px solid #3f4248; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
         .save-btn { background-color: var(--accent); color: white; border: none; padding: 12px 30px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; margin-top: 10px; }
-        .save-btn:hover { background-color: #4752C4; }
         .fix-notice { color: #faa61a; background-color: rgba(250, 166, 26, 0.1); padding: 10px; border-radius: 6px; display: none; margin: 15px; border: 1px dashed #faa61a; }
     </style>
 </head>
@@ -119,24 +120,41 @@
                 </div>
                 
                 <div id="panel-welcome" class="db-panel">
-                    <h3>Greeting Logs & Configuration</h3>
+                    <h3>Advanced Greeting Embed Configuration</h3>
                     <div class="toggle-box">
                         <div><b>Enable Welcome Messages</b></div>
                         <div class="switch" id="sw-welcome_logs" onclick="sendToggleRequest('welcome_logs')"></div>
                     </div>
                     
                     <div class="form-group">
-                        <label>Select Welcome Channel</label>
-                        <select class="form-control" id="welcome-channel-dropdown">
-                            </select>
+                        <label>Target Channel</label>
+                        <select class="form-control" id="welcome-channel-dropdown"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Embed Title</label>
+                        <input type="text" class="form-control" id="embed-title-input">
                     </div>
                     
                     <div class="form-group">
-                        <label>Custom Welcome Message</label>
-                        <textarea class="form-control" id="welcome-msg-text" rows="4" placeholder="Use {user} to mention the joining member..."></textarea>
+                        <label>Embed Description</label>
+                        <textarea class="form-control" id="embed-desc-text" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Embed Theme Color</label>
+                        <div class="color-picker-box">
+                            <input type="color" class="color-input" id="embed-color-picker">
+                            <span style="font-size:0.9rem; color:var(--text-muted);">Pick a color for the sidebar trim</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Embed Thumbnail URL</label>
+                        <input type="text" class="form-control" id="embed-thumb-input" placeholder="https://link-to-image.png">
                     </div>
                     
-                    <button class="save-btn" onclick="saveWelcomeConfiguration()">Save Welcome Settings</button>
+                    <button class="save-btn" onclick="saveWelcomeEmbedConfiguration()">Save Advanced Embed</button>
                 </div>
             </div>
         </div>
@@ -151,7 +169,6 @@
             document.getElementById('main-dashboard-area').style.display = 'block';
             document.getElementById('active-panel-title').innerText = "✨ " + guildName;
             
-            // Find the selected guild from cached server array
             const activeGuild = cacheGuildsData.find(g => g.id === guildId);
             const dropdown = document.getElementById("welcome-channel-dropdown");
             dropdown.innerHTML = '<option value="None">Disable Channel</option>';
@@ -206,7 +223,10 @@
                 updateSwitchUI("leveling_system", data.features.leveling_system);
                 
                 document.getElementById("welcome-channel-dropdown").value = data.features.welcome_channel_id;
-                document.getElementById("welcome-msg-text").value = data.features.welcome_message;
+                document.getElementById("embed-title-input").value = data.features.embed_title;
+                document.getElementById("embed-desc-text").value = data.features.embed_description;
+                document.getElementById("embed-color-picker").value = data.features.embed_color;
+                document.getElementById("embed-thumb-input").value = data.features.embed_thumbnail;
                 
                 document.getElementById("browser-shield-notice").style.display = "none";
             } catch (error) {
@@ -232,21 +252,30 @@
             } catch (err) { console.error(err); }
         }
 
-        async function saveWelcomeConfiguration() {
+        async function saveWelcomeEmbedConfiguration() {
             const channelId = document.getElementById("welcome-channel-dropdown").value;
-            const msgText = document.getElementById("welcome-msg-text").value;
+            const titleText = document.getElementById("embed-title-input").value;
+            const descText = document.getElementById("embed-desc-text").value;
+            const colorHex = document.getElementById("embed-color-picker").value;
+            const thumbUrl = document.getElementById("embed-thumb-input").value;
             
             try {
-                const response = await fetch(PTERO_URL + "api/save_welcome", {
+                const response = await fetch(PTERO_URL + "api/save_welcome_embed", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ channel_id: channelId, message: msgText })
+                    body: JSON.stringify({ 
+                        channel_id: channelId, 
+                        title: titleText, 
+                        description: descText, 
+                        color: colorHex, 
+                        thumbnail: thumbUrl 
+                    })
                 });
                 const result = await response.json();
-                if(result.success) { alert("Welcome settings saved successfully!"); }
+                if(result.success) { alert("Advanced Embed configurations pushed successfully!"); }
             } catch (err) {
                 console.error(err);
-                alert("Failed to save welcome configurations.");
+                alert("Pushed failed, check backend endpoint connectivity.");
             }
         }
 
