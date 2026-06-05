@@ -114,6 +114,29 @@
             background-color: #3f4248;
         }
 
+        /* LIVE STATS CONTAINER */
+        .stats-section {
+            max-width: 1100px;
+            margin: 0 auto 20px auto;
+            padding: 0 20px;
+        }
+
+        #bot-stats-loader {
+            background-color: var(--bg-nav);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: inline-block;
+            min-width: 300px;
+        }
+
+        .loading-text {
+            color: var(--accent);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
         /* DASHBOARD SECTION */
         .dashboard-section {
             max-width: 1100px;
@@ -303,6 +326,12 @@
         </div>
     </div>
 
+    <div class="stats-section">
+        <div id="bot-stats-loader">
+            <p class="loading-text">Fetching live bot statistics...</p>
+        </div>
+    </div>
+
     <div class="dashboard-section" id="live-preview">
         <h2>✨ Interactive Dashboard</h2>
         <p>Try clicking the toggle switches below to see how easy it is to configure your server.</p>
@@ -360,9 +389,30 @@
     </footer>
 
     <script>
+        // Toggle Switch Function
         function toggleSwitch(element) {
             element.classList.toggle('off');
         }
+
+        // Live Bot Connection Script
+        // CRITICAL: Replace 'YOUR_PTERODACTYL_IP' with your actual Pterodactyl container IP and Port allocation
+        const PTERO_URL = "http://YOUR_PTERODACTYL_IP:5000/"; 
+
+        async function fetchLiveBotData() {
+            try {
+                const response = await fetch(PTERO_URL);
+                if (!response.ok) throw new Error("Network response error");
+                
+                const htmlContent = await response.text();
+                document.getElementById("bot-stats-loader").innerHTML = htmlContent;
+            } catch (error) {
+                console.error("Connection failed:", error);
+                document.getElementById("bot-stats-loader").innerHTML = "<p style='color: #f04747; font-weight: bold; margin: 0;'>Bot Server Offline</p>";
+            }
+        }
+
+        // Fired automatically when GitHub page mounts
+        window.addEventListener('load', fetchLiveBotData);
     </script>
 
 </body>
