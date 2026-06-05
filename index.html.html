@@ -99,21 +99,6 @@
             line-height: 1.6;
         }
 
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .btn-secondary {
-            background-color: transparent;
-            color: white;
-            border: 2px solid #3f4248;
-        }
-        .btn-secondary:hover {
-            background-color: #3f4248;
-        }
-
         /* LIVE STATS CONTAINER */
         .stats-section {
             max-width: 1100px;
@@ -228,11 +213,19 @@
             color: var(--accent);
         }
 
-        /* Main Content */
+        /* Main Content Panel */
         .db-content {
             flex: 1;
             padding: 40px;
             overflow-y: auto;
+        }
+
+        .db-panel {
+            display: none;
+        }
+
+        .db-panel.active {
+            display: block;
         }
 
         .db-header {
@@ -262,11 +255,6 @@
             align-items: center;
             margin-bottom: 20px;
             border: 1px solid rgba(255, 255, 255, 0.03);
-            transition: 0.3s;
-        }
-
-        .toggle-box:hover {
-            border-color: rgba(88, 101, 242, 0.2);
         }
 
         .toggle-title {
@@ -317,7 +305,6 @@
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* BROWSER SECURITY INSTRUCTION TEXT */
         .fix-notice {
             color: #faa61a;
             font-size: 0.95rem;
@@ -345,14 +332,10 @@
     <div class="hero">
         <h1 id="hero-title">Welcome to SuperBot Dashboard</h1>
         <p>The next-generation Discord bot setup. Manage moderation, toggle automated systems, and customize everything in real-time from a sleek interface.</p>
-        <div class="btn-group">
-            <a href="https://discord.com/oauth2/authorize?client_id=1499880240640692465" class="nav-btn" style="padding: 16px 35px; font-size: 1.1rem;">Invite to Server</a>
-            <a href="#live-preview" class="nav-btn btn-secondary" style="padding: 14px 35px; font-size: 1.1rem; border-radius: 8px; text-decoration: none;">Explore Dashboard</a>
-        </div>
     </div>
 
     <div class="stats-section">
-        <div class="stats-grid" id="stats-display-container">
+        <div class="stats-grid">
             <div class="stat-card">
                 <h3>Status</h3>
                 <p id="bot-live-status" style="color: #949ba4;">Loading...</p>
@@ -373,7 +356,6 @@
 
     <div class="dashboard-section" id="live-preview">
         <h2>✨ Interactive Dashboard</h2>
-        <p>Try clicking the toggle switches below to see how easy it is to configure your server.</p>
         
         <div class="dashboard-container">
             <div class="db-sidebar">
@@ -384,41 +366,67 @@
                         <div style="font-size: 0.8rem; color: var(--text-muted);">Owner</div>
                     </div>
                 </div>
-                <div class="db-menu-item active">⚙️ General Settings</div>
-                <div class="db-menu-item">🛡️ Moderation</div>
-                <div class="db-menu-item">👋 Welcome Logs</div>
-                <div class="db-menu-item">🎵 Music Player</div>
+                <div class="db-menu-item active" onclick="switchTab('general', this)">⚙️ General Settings</div>
+                <div class="db-menu-item" onclick="switchTab('moderation', this)">🛡️ Moderation</div>
+                <div class="db-menu-item" onclick="switchTab('welcome', this)">👋 Welcome Logs</div>
+                <div class="db-menu-item" onclick="switchTab('music', this)">🎵 Music Player</div>
             </div>
             
             <div class="db-content">
-                <div class="db-header">
-                    <span>Server Management</span>
-                    <span class="server-badge" id="live-badge-status">● Connecting</span>
-                </div>
                 
-                <div class="toggle-box">
-                    <div>
-                        <div class="toggle-title">Enable Anti-Spam System</div>
-                        <div class="toggle-desc">Automatically mutes members who spam links or fast messages.</div>
+                <div id="panel-general" class="db-panel active">
+                    <div class="db-header">
+                        <span>General Server Management</span>
+                        <span class="server-badge" id="live-badge-status-1">● Connecting</span>
                     </div>
-                    <div class="switch" onclick="toggleSwitch(this)"></div>
+                    
+                    <div class="toggle-box">
+                        <div>
+                            <div class="toggle-title">Leveling & XP System</div>
+                            <div class="toggle-desc">Give points and auto-roles to your active community members.</div>
+                        </div>
+                        <div class="switch off" id="sw-leveling_system" onclick="sendToggleRequest('leveling_system')"></div>
+                    </div>
                 </div>
 
-                <div class="toggle-box">
-                    <div>
-                        <div class="toggle-title">Welcome & Goodbye Logs</div>
-                        <div class="toggle-desc">Send beautiful greeting messages when someone joins your server.</div>
+                <div id="panel-moderation" class="db-panel">
+                    <div class="db-header">
+                        <span>Automated Security Tools</span>
+                        <span class="server-badge" id="live-badge-status-2">● Connected</span>
                     </div>
-                    <div class="switch" onclick="toggleSwitch(this)"></div>
+                    
+                    <div class="toggle-box">
+                        <div>
+                            <div class="toggle-title">Enable Anti-Spam System</div>
+                            <div class="toggle-desc">Automatically mutes members who spam links or fast messages.</div>
+                        </div>
+                        <div class="switch" id="sw-anti_spam" onclick="sendToggleRequest('anti_spam')"></div>
+                    </div>
                 </div>
 
-                <div class="toggle-box">
-                    <div>
-                        <div class="toggle-title">Leveling & XP System</div>
-                        <div class="toggle-desc">Give points and auto-roles to your active community members.</div>
+                <div id="panel-welcome" class="db-panel">
+                    <div class="db-header">
+                        <span>Greeting Announcements</span>
+                        <span class="server-badge" id="live-badge-status-3">● Connected</span>
                     </div>
-                    <div class="switch off" onclick="toggleSwitch(this)"></div>
+                    
+                    <div class="toggle-box">
+                        <div>
+                            <div class="toggle-title">Welcome & Goodbye Logs</div>
+                            <div class="toggle-desc">Send beautiful greeting messages when someone joins your server.</div>
+                        </div>
+                        <div class="switch" id="sw-welcome_logs" onclick="sendToggleRequest('welcome_logs')"></div>
+                    </div>
                 </div>
+
+                <div id="panel-music" class="db-panel">
+                    <div class="db-header">
+                        <span>Audio Engine Status</span>
+                        <span class="server-badge">● Active</span>
+                    </div>
+                    <p style="color: var(--text-muted);">Music controller engine is online. Manage ongoing tracks here.</p>
+                </div>
+
             </div>
         </div>
     </div>
@@ -428,13 +436,18 @@
     </footer>
 
     <script>
-        function toggleSwitch(element) {
-            element.classList.toggle('off');
-        }
-
-        // Target API URL
         const PTERO_URL = "http://87.232.72.111:15378/"; 
 
+        // Function to switch between dashboard tabs
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.db-panel').forEach(panel => panel.classList.remove('active'));
+            document.querySelectorAll('.db-menu-item').forEach(item => item.classList.remove('active'));
+            
+            document.getElementById('panel-' + tabId).classList.add('active');
+            element.classList.add('active');
+        }
+
+        // Fetch live configuration and update switches dynamically
         async function fetchLiveBotData() {
             try {
                 const response = await fetch(PTERO_URL);
@@ -449,18 +462,48 @@
                 
                 document.getElementById("main-bot-name").innerText = "🤖 " + data.name;
                 document.getElementById("hero-title").innerText = "Welcome to " + data.name + " Dashboard";
-                document.getElementById("live-badge-status").innerText = "● " + data.status;
+                
+                document.getElementById("live-badge-status-1").innerText = "● " + data.status;
+
+                // Syncing the toggle switch UI with the backend features state
+                updateSwitchUI("anti_spam", data.features.anti_spam);
+                updateSwitchUI("welcome_logs", data.features.welcome_logs);
+                updateSwitchUI("leveling_system", data.features.leveling_system);
+
                 document.getElementById("browser-shield-notice").style.display = "none";
             } catch (error) {
                 console.error("Connection failed:", error);
                 document.getElementById("bot-live-status").innerText = "Offline";
                 document.getElementById("bot-live-status").style.color = "#f04747";
-                document.getElementById("live-badge-status").innerText = "● Offline";
-                document.getElementById("live-badge-status").style.color = "#f04747";
-                document.getElementById("live-badge-status").style.backgroundColor = "rgba(240, 71, 71, 0.15)";
-                
-                // Show instruction if browser blocks the connection
                 document.getElementById("browser-shield-notice").style.display = "block";
+            }
+        }
+
+        function updateSwitchUI(feature, isEnabled) {
+            const el = document.getElementById("sw-" + feature);
+            if (el) {
+                if (isEnabled) {
+                    el.classList.remove("off");
+                } else {
+                    el.classList.add("off");
+                }
+            }
+        }
+
+        // Trigger POST request to backend when a switch is clicked
+        async function sendToggleRequest(featureName) {
+            try {
+                const response = await fetch(PTERO_URL + "api/toggle", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ feature: featureName })
+                });
+                const resData = await response.json();
+                if (resData.success) {
+                    updateSwitchUI(featureName, resData.current_state);
+                }
+            } catch (err) {
+                console.error("Failed to push toggle state:", err);
             }
         }
 
