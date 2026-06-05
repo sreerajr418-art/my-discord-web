@@ -316,6 +316,18 @@
             font-size: 0.9rem;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
+
+        /* BROWSER SECURITY INSTRUCTION TEXT */
+        .fix-notice {
+            color: #faa61a;
+            font-size: 0.95rem;
+            margin-top: 15px;
+            background-color: rgba(250, 166, 26, 0.1);
+            padding: 10px;
+            border-radius: 6px;
+            display: none;
+            border: 1px dashed #faa61a;
+        }
     </style>
 </head>
 <body>
@@ -353,6 +365,9 @@
                 <h3>Total Users</h3>
                 <p id="bot-live-users">0</p>
             </div>
+        </div>
+        <div class="fix-notice" id="browser-shield-notice">
+            ⚠️ Browser blocked the secure connection. Click the Lock/Tune icon near website URL, go to Site Settings, set "Insecure Content" to ALLOW, then refresh.
         </div>
     </div>
 
@@ -417,7 +432,7 @@
             element.classList.toggle('off');
         }
 
-        // Direct HTTP Request to bypass Pterodactyl SSL issues
+        // Target API URL
         const PTERO_URL = "http://87.232.72.111:15378/"; 
 
         async function fetchLiveBotData() {
@@ -427,7 +442,6 @@
                 
                 const data = await response.json();
                 
-                // Live injecting fetched values into premium UI elements
                 document.getElementById("bot-live-status").innerText = data.status;
                 document.getElementById("bot-live-status").style.color = data.status === "Online" ? "#23a55a" : "#faa61a";
                 document.getElementById("bot-live-servers").innerText = data.servers;
@@ -436,6 +450,7 @@
                 document.getElementById("main-bot-name").innerText = "🤖 " + data.name;
                 document.getElementById("hero-title").innerText = "Welcome to " + data.name + " Dashboard";
                 document.getElementById("live-badge-status").innerText = "● " + data.status;
+                document.getElementById("browser-shield-notice").style.display = "none";
             } catch (error) {
                 console.error("Connection failed:", error);
                 document.getElementById("bot-live-status").innerText = "Offline";
@@ -443,6 +458,9 @@
                 document.getElementById("live-badge-status").innerText = "● Offline";
                 document.getElementById("live-badge-status").style.color = "#f04747";
                 document.getElementById("live-badge-status").style.backgroundColor = "rgba(240, 71, 71, 0.15)";
+                
+                // Show instruction if browser blocks the connection
+                document.getElementById("browser-shield-notice").style.display = "block";
             }
         }
 
