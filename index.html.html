@@ -75,7 +75,7 @@
         .server-selection-screen {
             display: block;
             padding: 80px 20px;
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
@@ -101,7 +101,7 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 12px;
             padding: 25px;
-            width: 240px;
+            width: 220px;
             cursor: pointer;
             transition: 0.3s;
             text-align: center;
@@ -343,12 +343,8 @@
         <h1>Select a Server</h1>
         <p>Choose a discord community below to begin configuring live bot structures.</p>
         
-        <div class="server-grid">
-            <div class="server-card" onclick="enterDashboard()">
-                <img src="https://cdn.discordapp.com/embed/avatars/0.png" class="server-icon-img" id="guild-avatar-display" alt="Server Icon">
-                <div class="server-name" id="guild-name-display">Active Guild</div>
-                <div class="server-status">● Connected</div>
-            </div>
+        <div class="server-grid" id="dynamic-server-grid">
+            <p style="color: var(--text-muted);">Scanning for connected bot servers...</p>
         </div>
     </div>
 
@@ -435,12 +431,11 @@
 
     <script>
         const PTERO_URL = "http://87.232.72.111:15378/"; 
-        let globalGuildName = "Server";
 
-        function enterDashboard() {
+        function enterDashboard(guildName) {
             document.getElementById('server-select-area').style.display = 'none';
             document.getElementById('main-dashboard-area').style.display = 'block';
-            document.getElementById('active-panel-title').innerText = "✨ " + globalGuildName + " Panel";
+            document.getElementById('active-panel-title').innerText = "✨ " + guildName + " Panel";
         }
 
         function showServerSelection() {
@@ -462,16 +457,28 @@
                 if (!response.ok) throw new Error("API Failure");
                 
                 const data = await response.json();
-                globalGuildName = data.guild_name;
                 
-                // Set text names
                 document.getElementById("main-bot-name").innerText = "🤖 " + data.name;
                 document.getElementById("sidebar-bot-name").innerText = data.name;
-                document.getElementById("guild-name-display").innerText = data.guild_name;
-                
-                // Injecting live server icon and bot avatar images
-                document.getElementById("guild-avatar-display").src = data.guild_icon;
                 document.getElementById("bot-profile-avatar").src = data.avatar;
+                
+                // Clear the loader text inside grid
+                const grid = document.getElementById("dynamic-server-grid");
+                grid.innerHTML = "";
+                
+                # Loop through all guilds received from python backend API
+                data.guilds.forEach(guild => {
+                    const card = document.createElement("div");
+                    card.className = "server-card";
+                    card.onclick = () => enterDashboard(guild.name);
+                    
+                    card.innerHTML = `
+                        <img src="${guild.icon}" class="server-icon-img" alt="${guild.name}">
+                        <div class="server-name">${guild.name}</div>
+                        <div class="server-status" style="color: #949ba4;">${guild.users} Members</div>
+                    `;
+                    grid.appendChild(card);
+                });
                 
                 updateSwitchUI("anti_spam", data.features.anti_spam);
                 updateSwitchUI("welcome_logs", data.features.welcome_logs);
