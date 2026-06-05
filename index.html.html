@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="YOUR_GOOGLE_CONSOLE_CODE_HERE" />
-    <meta name="description" content="Velora Bot - Premium Discord bot featuring automated welcomes, secure firewalls and dashboard tracking nodes.">
-    <meta name="keywords" content="velora bot, velora discord bot, velora dashboard, velora panel">
+    <meta name="description" content="Velora Bot - Premium Discord bot dashboard with secure OAuth2 login.">
     <link rel="canonical" href="https://my-discord-web-five.vercel.app/" />
     <title>VELORA | Premium Control Panel</title>
     <style>
@@ -19,21 +18,26 @@
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         .navbar { background: rgba(6, 9, 19, 0.85); padding: 20px 6%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--accent); box-shadow: 0 0 30px var(--accent-glow); backdrop-filter: blur(15px); position: sticky; top: 0; z-index: 50; }
         .nav-logo { font-size: 1.8rem; font-weight: 900; letter-spacing: 4px; color: var(--accent); text-shadow: 0 0 15px var(--accent-glow); transform: skewX(-5deg); cursor: pointer; }
-        .nav-links button { background: transparent; border: 1px solid var(--secondary); color: var(--secondary); padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s; box-shadow: 0 0 10px var(--secondary-glow); }
-        .nav-links button:hover { background: var(--secondary); color: #000; box-shadow: 0 0 20px var(--secondary); }
+        
+        .login-btn { background: #5865F2; color: #fff; border: none; padding: 12px 28px; border-radius: 10px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(88,101,242,0.4); transition: 0.3s; }
+        .login-btn:hover { background: #4752c4; transform: translateY(-2px); }
+        .user-nav-badge { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.03); padding: 6px 16px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.08); }
+        .user-nav-av { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--secondary); }
+
         .hero-section { height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; position: relative; z-index: 10; }
         .hero-badge { background: rgba(255, 0, 85, 0.1); border: 1px solid var(--accent); color: var(--accent); padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; box-shadow: 0 0 15px rgba(255,0,85,0.2); }
         .hero-section h1 { font-size: 5rem; font-weight: 900; margin: 0; letter-spacing: 2px; background: linear-gradient(135deg, #fff 40%, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 40px rgba(255,0,85,0.1); }
         .hero-section p { color: var(--text-muted); font-size: 1.3rem; max-width: 600px; margin: 20px 0 35px 0; line-height: 1.6; }
         .hero-btn { background: linear-gradient(135deg, var(--accent), #9e0032); color: white; border: none; padding: 16px 45px; border-radius: 14px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 8px 25px var(--accent-glow); transition: 0.3s; text-transform: uppercase; letter-spacing: 2px; }
-        .hero-btn:hover { transform: translateY(-4px); box-shadow: 0 12px 35px var(--accent-glow); }
-        .server-selection-screen { padding: 100px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.02); background: rgba(4, 6, 12, 0.5); position: relative; z-index: 20; }
+        
+        .server-selection-screen { display: none; padding: 100px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.02); background: rgba(4, 6, 12, 0.5); position: relative; z-index: 20; }
         .server-selection-screen h2 { font-size: 2.8rem; text-shadow: 0 0 25px var(--secondary-glow); color: var(--secondary); font-weight: 900; margin-bottom: 10px; }
         .server-grid { display: flex; gap: 35px; justify-content: center; flex-wrap: wrap; margin-top: 50px; }
         .server-card { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border-radius: 24px; padding: 35px; width: 240px; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 20px 40px rgba(0,0,0,0.6); text-align: center; position: relative; z-index: 30; }
         .server-card:hover { border-color: var(--secondary); transform: translateY(-12px) scale(1.03); box-shadow: 0 0 40px var(--secondary-glow); }
         .server-icon-img { width: 95px; height: 95px; border-radius: 50%; margin-bottom: 15px; border: 3px solid var(--accent); box-shadow: 0 0 18px var(--accent-glow); pointer-events: none; }
         .server-name { font-weight: 800; font-size: 1.3rem; color: #fff; pointer-events: none; }
+        
         .dashboard-section { display: none; max-width: 1250px; margin: 40px auto; padding: 0 20px; animation: fadeIn 0.5s ease-in-out; position: relative; z-index: 40; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .dashboard-container { background: rgba(6, 9, 18, 0.9); border-radius: 28px; border: 1px solid rgba(255, 255, 255, 0.04); backdrop-filter: blur(30px); display: flex; height: 740px; overflow: hidden; box-shadow: 0 30px 70px rgba(0,0,0,0.8); }
@@ -47,16 +51,10 @@
         .db-panel { display: none; }
         .db-panel.active { display: block; }
         .live-preview-window { background: #090e1a; border: 1px dashed var(--secondary); border-radius: 16px; padding: 20px; margin-bottom: 25px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
-        .live-preview-window::before { content: 'LIVE EMBED BANNERS MODIFIERS PREVIEW'; position: absolute; top: 8px; left: 12px; font-size: 0.65rem; font-weight: 800; color: var(--secondary); letter-spacing: 1px; }
-        .mock-banner { width: 90%; height: 130px; background: #161b29; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); border-left: 5px solid var(--accent); }
-        .mock-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #fff; margin-bottom: 8px; }
-        .mock-title { font-weight: 800; font-size: 1.1rem; margin: 0; color: #fff; }
-        .mock-subtitle { font-size: 0.8rem; color: var(--text-muted); margin: 4px 0 0 0; }
         .toggle-box { background: var(--card-bg); padding: 24px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.02); }
         .form-group { margin-bottom: 24px; }
         .form-group label { display: block; margin-bottom: 10px; font-weight: 700; color: var(--secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; }
         .form-control { width: 95%; padding: 14px 18px; background-color: #04050a; border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; color: white; font-size: 1rem; outline: none; }
-        .form-control:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(255,0,85,0.25); }
         .switch { width: 58px; height: 30px; background-color: var(--accent); border-radius: 50px; position: relative; cursor: pointer; box-shadow: 0 0 15px var(--accent-glow); transition: 0.3s; }
         .switch::after { content: ''; position: absolute; width: 24px; height: 24px; background-color: white; border-radius: 50px; top: 3px; right: 3px; transition: 0.3s; }
         .switch.off { background-color: #1b202e; box-shadow: none; }
@@ -67,7 +65,6 @@
         .panel-header-title { font-size: 1.5rem; font-weight: 800; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 30px; color: #fff; }
         .live-metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
         .metric-mini-card { background: rgba(4,6,12,0.7); border: 1px solid rgba(255,255,255,0.02); padding: 18px; border-radius: 16px; text-align: center; }
-        .metric-mini-card h4 { margin: 0; font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; }
         .metric-mini-card p { margin: 6px 0 0 0; font-size: 1.6rem; font-weight: 800; color: var(--secondary); }
     </style>
 </head>
@@ -77,7 +74,9 @@
 
     <div class="navbar">
         <div class="nav-logo" onclick="hideDashboardArea()">VELORA</div>
-        <div class="nav-links"><button onclick="scrollToServers()">Control Panel</button></div>
+        <div class="nav-links" id="nav-auth-box">
+            <button class="login-btn" onclick="redirectToDiscordOAuth()">Login with Discord</button>
+        </div>
     </div>
 
     <div class="hero-section" id="home-view">
@@ -108,7 +107,7 @@
                 <div class="db-menu-item" onclick="switchTab('autorole', this)">🤖 Core Auto-Roles</div>
                 <div class="db-menu-item" onclick="switchTab('tag_role', this)">💎 Name Tag Roles</div>
                 <div class="db-menu-item" onclick="switchTab('welcome', this)">👋 Welcome Banners</div>
-                <div class="db-menu-item" onclick="switchTab('goodbye', this)">🏃 Goodbye Banners</div>
+                <div class="db-menu-item" onclick="goodbye', this)">🏃 Goodbye Banners</div>
                 <div class="db-menu-item" onclick="switchTab('adv_modules', this)">💎 Advanced Modules</div>
             </div>
             
@@ -190,36 +189,83 @@
     </div>
 
     <script>
-        // Use a secure reverse proxy to forward requests directly to HTTP port securely
-        const BASE_PTERO = "http://87.232.72.111:15378";
-        const PTERO_URL = "https://api.allorigins.win/raw?url=" + encodeURIComponent(BASE_PTERO) + "/";
-        const WRITE_URL = BASE_PTERO + "/";
+        const WRITE_URL = "http://87.232.72.111:15378/";
+        const DISCORD_CLIENT_ID = "1499880240640692465"; 
+        const REDIRECT_URI = encodeURIComponent("https://my-discord-web-five.vercel.app/");
 
         let cacheGuildsData = [];
-        const canvas = document.getElementById("bg-canvas");
-        const ctx = canvas.getContext("2d");
-        let particles = [];
 
-        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener("resize", resizeCanvas); resizeCanvas();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2.5 + 0.5;
-                this.speedX = Math.random() * 0.4 - 0.2; this.speedY = Math.random() * 0.4 - 0.2;
-                this.color = Math.random() > 0.4 ? "rgba(0, 240, 255, 0.18)" : "rgba(255, 0, 85, 0.15)";
-            }
-            update() {
-                this.x += this.speedX; this.y += this.speedY;
-                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-            }
-            draw() { ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
+        function redirectToDiscordOAuth() {
+            window.location.href = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=identify%20guilds`;
         }
-        for (let i = 0; i < 90; i++) { particles.push(new Particle()); }
-        function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
-        animate();
+
+        async function checkOAuthCallback() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            if (code) {
+                document.getElementById("nav-auth-box").innerHTML = "<span style='color:var(--secondary);'>Authenticating...</span>";
+                try {
+                    const res = await fetch(WRITE_URL + "api/auth", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ code: code })
+                    });
+                    const data = await res.json();
+                    if (data.guilds) {
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                        loadAuthenticatedDashboard(data);
+                    }
+                } catch(e) {
+                    document.getElementById("nav-auth-box").innerHTML = "<span style='color:var(--accent);'>Auth Error</span>";
+                }
+            }
+        }
+
+        function loadAuthenticatedDashboard(data) {
+            cacheGuildsData = data.guilds;
+            document.getElementById("nav-auth-box").innerHTML = `
+                <div class="user-nav-badge">
+                    <img src="${data.user.avatar}" class="user-nav-av">
+                    <span>${data.user.name}</span>
+                </div>
+            `;
+            document.getElementById("server-select-area").style.display = "block";
+            const grid = document.getElementById("dynamic-server-grid");
+            grid.innerHTML = "";
+            data.guilds.forEach(guild => {
+                const card = document.createElement("div");
+                card.className = "server-card";
+                card.onclick = () => enterDashboard(guild.id, guild.name);
+                card.innerHTML = `<img src="${guild.icon}" class="server-icon-img" alt="I"><div class="server-name">${guild.name}</div><div style="color:var(--text-muted); font-size:0.85rem; margin-top:5px;">${guild.users} Members</div>`;
+                grid.appendChild(card);
+            });
+
+            updateSwitchUI("anti_spam", data.features.anti_spam);
+            updateSwitchUI("auto_mod_links", data.features.auto_mod_links);
+            updateSwitchUI("auto_role_enabled", data.features.auto_role_enabled);
+            updateSwitchUI("bot_auto_role_enabled", data.features.bot_auto_role_enabled);
+            updateSwitchUI("tag_role_enabled", data.features.tag_role_enabled);
+            updateSwitchUI("welcome_logs", data.features.welcome_logs);
+            updateSwitchUI("goodbye_logs", data.features.goodbye_logs);
+            updateSwitchUI("economy_enabled", data.features.economy_enabled);
+            
+            document.getElementById("welcome-channel-dropdown").value = data.features.welcome_channel_id;
+            document.getElementById("welcome-title-input").value = data.features.banner_title;
+            document.getElementById("welcome-subtitle-input").value = data.features.banner_subtitle;
+            document.getElementById("welcome-bg-input").value = data.features.banner_bg_url;
+            document.getElementById("goodbye-channel-dropdown").value = data.features.goodbye_channel_id;
+            document.getElementById("goodbye-title-input").value = data.features.goodbye_title;
+            document.getElementById("goodbye-subtitle-input").value = data.features.goodbye_subtitle;
+            document.getElementById("goodbye-bg-input").value = data.features.goodbye_bg_url;
+            document.getElementById("autorole-dropdown").value = data.features.auto_role_id;
+            document.getElementById("bot-autorole-dropdown").value = data.features.bot_auto_role_id;
+            document.getElementById("tag-text-input").value = data.features.required_name_tag;
+            document.getElementById("tag-reward-dropdown").value = data.features.tag_reward_role_id;
+            document.getElementById("core-prefix-input").value = data.features.custom_prefix;
+            document.getElementById("core-footer-input").value = data.features.embed_footer_text;
+            document.getElementById("adv-currency-input").value = data.features.currency_name;
+            document.getElementById("adv-log-channel-dropdown").value = data.features.log_channel_id;
+        }
 
         function scrollToServers() { document.getElementById("server-select-area").scrollIntoView({ behavior: 'smooth' }); }
 
@@ -290,53 +336,6 @@
             element.classList.add('active');
         }
 
-        async function fetchLiveBotData() {
-            try {
-                // Fetch data through an SSL-Bypassing Proxy to allow automatic connection
-                const response = await fetch(PTERO_URL);
-                const data = await response.json();
-                cacheGuildsData = data.guilds;
-                
-                const grid = document.getElementById("dynamic-server-grid");
-                grid.innerHTML = "";
-                data.guilds.forEach(guild => {
-                    const card = document.createElement("div");
-                    card.className = "server-card";
-                    card.onclick = () => enterDashboard(guild.id, guild.name);
-                    card.innerHTML = `<img src="${guild.icon}" class="server-icon-img" alt="I"><div class="server-name">${guild.name}</div><div style="color:var(--text-muted); font-size:0.85rem; margin-top:5px;">${guild.users} Members</div>`;
-                    grid.appendChild(card);
-                });
-                
-                updateSwitchUI("anti_spam", data.features.anti_spam);
-                updateSwitchUI("auto_mod_links", data.features.auto_mod_links);
-                updateSwitchUI("auto_role_enabled", data.features.auto_role_enabled);
-                updateSwitchUI("bot_auto_role_enabled", data.features.bot_auto_role_enabled);
-                updateSwitchUI("tag_role_enabled", data.features.tag_role_enabled);
-                updateSwitchUI("welcome_logs", data.features.welcome_logs);
-                updateSwitchUI("goodbye_logs", data.features.goodbye_logs);
-                updateSwitchUI("economy_enabled", data.features.economy_enabled);
-                
-                document.getElementById("welcome-channel-dropdown").value = data.features.welcome_channel_id;
-                document.getElementById("welcome-title-input").value = data.features.banner_title;
-                document.getElementById("welcome-subtitle-input").value = data.features.banner_subtitle;
-                document.getElementById("welcome-bg-input").value = data.features.banner_bg_url;
-                document.getElementById("goodbye-channel-dropdown").value = data.features.goodbye_channel_id;
-                document.getElementById("goodbye-title-input").value = data.features.goodbye_title;
-                document.getElementById("goodbye-subtitle-input").value = data.features.goodbye_subtitle;
-                document.getElementById("goodbye-bg-input").value = data.features.goodbye_bg_url;
-                
-                document.getElementById("autorole-dropdown").value = data.features.auto_role_id;
-                document.getElementById("bot-autorole-dropdown").value = data.features.bot_auto_role_id;
-                document.getElementById("tag-text-input").value = data.features.required_name_tag;
-                document.getElementById("tag-reward-dropdown").value = data.features.tag_reward_role_id;
-                
-                document.getElementById("core-prefix-input").value = data.features.custom_prefix;
-                document.getElementById("core-footer-input").value = data.features.embed_footer_text;
-                document.getElementById("adv-currency-input").value = data.features.currency_name;
-                document.getElementById("adv-log-channel-dropdown").value = data.features.log_channel_id;
-            } catch (error) { console.error(error); }
-        }
-
         function updateSwitchUI(feature, isEnabled) {
             const el = document.getElementById("sw-" + feature);
             if (el) { el.classList.toggle("off", !isEnabled); }
@@ -350,7 +349,7 @@
                 });
                 const resData = await response.json();
                 if (resData.success) { updateSwitchUI(featureName, resData.current_state); }
-            } catch (err) { alert("Action requires Insecure Content Permission if server direct connection fails."); }
+            } catch (err) { console.error(err); }
         }
 
         async function saveWelcomeBannerConfig() {
@@ -413,7 +412,30 @@
             } catch (err) { console.error(err); }
         }
 
-        window.addEventListener('load', fetchLiveBotData);
+        const canvas = document.getElementById("bg-canvas");
+        const ctx = canvas.getContext("2d");
+        let particles = [];
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener("resize", resizeCanvas); resizeCanvas();
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2.5 + 0.5;
+                this.speedX = Math.random() * 0.4 - 0.2; this.speedY = Math.random() * 0.4 - 0.2;
+                this.color = Math.random() > 0.4 ? "rgba(0, 240, 255, 0.18)" : "rgba(255, 0, 85, 0.15)";
+            }
+            update() {
+                this.x += this.speedX; this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() { ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
+        }
+        for (let i = 0; i < 90; i++) { particles.push(new Particle()); }
+        function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
+        animate();
+
+        window.addEventListener('load', checkOAuthCallback);
     </script>
 </body>
 </html>
