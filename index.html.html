@@ -745,6 +745,8 @@
                     if (data.guilds) {
                         window.history.replaceState({}, document.title, window.location.pathname);
                         loadAuthenticatedDashboard(data);
+                    } else {
+                        document.getElementById("nav-auth-box").innerHTML = "<span style='color:var(--accent);'>Authentication Error</span>";
                     }
                 } catch(e) { document.getElementById("nav-auth-box").innerHTML = "<span style='color:var(--accent);'>Auth Failed</span>"; }
             }
