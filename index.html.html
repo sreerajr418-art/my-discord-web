@@ -6,39 +6,21 @@
     <title>Premium Dashboard</title>
     <style>
         :root {
-            --bg-main: #0b0c10;
-            --bg-nav: #12141c;
-            --card-bg: #1a1d26;
-            --accent: #5865F2;
-            --text-main: #ffffff;
-            --text-muted: #949ba4;
-            --sidebar-bg: #15171e;
-            --success: #23a55a;
+            --bg-main: #0b0c10; --bg-nav: #12141c; --card-bg: #1a1d26;
+            --accent: #5865F2; --text-main: #ffffff; --text-muted: #949ba4;
+            --sidebar-bg: #15171e; --success: #23a55a;
         }
-        body { 
-            background-color: var(--bg-main); color: var(--text-main); 
-            font-family: system-ui, sans-serif; margin: 0; padding: 0; text-align: center;
-        }
-        .navbar {
-            background-color: var(--bg-nav); padding: 15px 5%;
-            display: flex justify-content: space-between; align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
+        body { background-color: var(--bg-main); color: var(--text-main); font-family: system-ui, sans-serif; margin: 0; padding: 0; text-align: center; }
+        .navbar { background-color: var(--bg-nav); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
         .nav-logo { font-size: 1.4rem; font-weight: 800; }
         .server-selection-screen { display: block; padding: 60px 20px; }
         .server-grid { display: flex; gap: 25px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
-        .server-card {
-            background-color: var(--bg-nav); border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px; padding: 25px; width: 220px; cursor: pointer; transition: 0.3s;
-        }
+        .server-card { background-color: var(--bg-nav); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 25px; width: 220px; cursor: pointer; transition: 0.3s; }
         .server-card:hover { border-color: var(--accent); transform: translateY(-3px); }
         .server-icon-img { width: 75px; height: 75px; border-radius: 50%; margin-bottom: 15px; border: 2px solid var(--accent); }
         .server-name { font-weight: 700; font-size: 1.1rem; }
         .dashboard-section { display: none; max-width: 1100px; margin: 40px auto; padding: 0 20px; }
-        .dashboard-container {
-            background-color: var(--bg-nav); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.08);
-            display: flex; height: 600px; overflow: hidden; text-align: left;
-        }
+        .dashboard-container { background-color: var(--bg-nav); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.08); display: flex; height: 600px; overflow: hidden; text-align: left; }
         .db-sidebar { width: 220px; background-color: var(--sidebar-bg); padding: 25px 15px; }
         .sidebar-profile { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; }
         .avatar-img { width: 40px; height: 40px; border-radius: 50%; }
@@ -47,25 +29,16 @@
         .db-content { flex: 1; padding: 40px; overflow-y: auto; }
         .db-panel { display: none; }
         .db-panel.active { display: block; }
-        .toggle-box {
-            background-color: var(--card-bg); padding: 20px; border-radius: 12px;
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;
-        }
+        .toggle-box { background-color: var(--card-bg); padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .form-group { margin-bottom: 15px; text-align: left; }
         .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--text-muted); font-size: 0.9rem; }
-        .form-control {
-            width: 95%; padding: 10px; background-color: var(--card-bg); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px; color: white; font-size: 0.95rem; outline: none;
-        }
-        .color-picker-box { display: flex; align-items: center; gap: 10px; }
-        .color-input { width: 60px; height: 40px; background: none; border: none; cursor: pointer; }
+        .form-control { width: 95%; padding: 10px; background-color: var(--card-bg); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-size: 0.95rem; outline: none; }
         .switch { width: 50px; height: 26px; background-color: var(--accent); border-radius: 50px; position: relative; cursor: pointer; }
         .switch::after { content: ''; position: absolute; width: 20px; height: 20px; background-color: white; border-radius: 50px; top: 3px; right: 3px; transition: 0.3s; }
         .switch.off { background-color: #3f4248; }
         .switch.off::after { right: calc(100% - 23px); }
         .back-btn { background-color: transparent; color: var(--text-muted); border: 1px solid #3f4248; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
         .save-btn { background-color: var(--accent); color: white; border: none; padding: 12px 30px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; margin-top: 10px; }
-        .placeholder-guide { background: rgba(88, 101, 242, 0.05); border: 1px solid rgba(88, 101, 242, 0.2); padding: 10px; border-radius: 6px; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; }
     </style>
 </head>
 <body>
@@ -77,9 +50,7 @@
     <div class="server-selection-screen" id="server-select-area">
         <h1>Select a Server</h1>
         <p>Choose a discord community below to begin configuring live bot structures.</p>
-        <div class="server-grid" id="dynamic-server-grid">
-            <p style="color: var(--text-muted);">Scanning for connected bot servers...</p>
-        </div>
+        <div class="server-grid" id="dynamic-server-grid"></div>
     </div>
 
     <div class="dashboard-section" id="main-dashboard-area">
@@ -90,93 +61,84 @@
         <div class="dashboard-container">
             <div class="db-sidebar">
                 <div class="sidebar-profile">
-                    <img src="https://cdn.discordapp.com/embed/avatars/1.png" class="avatar-img" id="bot-profile-avatar" alt="Bot">
+                    <img src="" class="avatar-img" id="bot-profile-avatar" alt="Bot">
                     <div id="sidebar-bot-name" style="font-weight: bold;">Loading...</div>
                 </div>
-                <div class="db-menu-item active" onclick="switchTab('general', this)">⚙️ General</div>
-                <div class="db-menu-item" onclick="switchTab('welcome', this)">👋 Welcome Logs</div>
-                <div class="db-menu-item" onclick="switchTab('goodbye', this)">🏃 Goodbye Logs</div>
+                <div class="db-menu-item active" onclick="switchTab('general', this)">⚙️ General / AutoMod</div>
+                <div class="db-menu-item" onclick="switchTab('welcome', this)">👋 Welcome Banner</div>
+                <div class="db-menu-item" onclick="switchTab('goodbye', this)">🏃 Goodbye Banner</div>
             </div>
             
             <div class="db-content">
                 <div id="panel-general" class="db-panel active">
-                    <h3>General Settings</h3>
+                    <h3>Server Security & Automation</h3>
                     <div class="toggle-box">
-                        <div><b>Leveling & XP System</b></div>
-                        <div class="switch off" id="sw-leveling_system" onclick="sendToggleRequest('leveling_system')"></div>
-                    </div>
-                    <div class="toggle-box">
-                        <div><b>Enable Anti-Spam System</b></div>
+                        <div><b>Anti-Spam System</b></div>
                         <div class="switch" id="sw-anti_spam" onclick="sendToggleRequest('anti_spam')"></div>
                     </div>
+                    <div class="toggle-box">
+                        <div><b>Block Links & Discord Invites</b></div>
+                        <div class="switch" id="sw-auto_mod_links" onclick="sendToggleRequest('auto_mod_links')"></div>
+                    </div>
+                    <div class="toggle-box">
+                        <div><b>Auto-Role System (Give roles to new members)</b></div>
+                        <div class="switch" id="sw-auto_role_enabled" onclick="sendToggleRequest('auto_role_enabled')"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Auto-Role</label>
+                        <select class="form-control" id="autorole-dropdown"></select>
+                    </div>
+                    <button class="save-btn" onclick="saveAutoRoleConfig()">Save Auto-Role</button>
                 </div>
                 
                 <div id="panel-welcome" class="db-panel">
-                    <h3>Advanced Greeting Embed</h3>
+                    <h3>Auto-Centering Welcome Banner</h3>
                     <div class="toggle-box">
-                        <div><b>Enable Welcome Messages</b></div>
+                        <div><b>Enable Welcome Cards</b></div>
                         <div class="switch" id="sw-welcome_logs" onclick="sendToggleRequest('welcome_logs')"></div>
                     </div>
-                    <div class="placeholder-guide">
-                        <b>Variables:</b> {user} = Mention User | {server} = Server Name | {count} = Member Count
-                    </div>
                     <div class="form-group">
-                        <label>Target Channel</label>
+                        <label>Channel</label>
                         <select class="form-control" id="welcome-channel-dropdown"></select>
                     </div>
                     <div class="form-group">
-                        <label>Embed Title</label>
-                        <input type="text" class="form-control" id="embed-title-input">
+                        <label>Main Banner Heading Text</label>
+                        <input type="text" class="form-control" id="welcome-title-input">
                     </div>
                     <div class="form-group">
-                        <label>Embed Description</label>
-                        <textarea class="form-control" id="embed-desc-text" rows="3"></textarea>
+                        <label>Subtitle Text (Use {count} for live member counts)</label>
+                        <input type="text" class="form-control" id="welcome-subtitle-input">
                     </div>
                     <div class="form-group">
-                        <label>Embed Theme Color</label>
-                        <div class="color-picker-box">
-                            <input type="color" class="color-input" id="welcome-color-picker">
-                        </div>
+                        <label>Background Image URL (800x350 Recommended)</label>
+                        <input type="text" class="form-control" id="welcome-bg-input">
                     </div>
-                    <div class="form-group">
-                        <label>Thumbnail URL (Type <b>{avatar}</b> to show user's profile image)</label>
-                        <input type="text" class="form-control" id="embed-thumb-input">
-                    </div>
-                    <button class="save-btn" onclick="saveWelcomeEmbedConfiguration()">Save Welcome Embed</button>
+                    <button class="save-btn" onclick="saveWelcomeBannerConfig()">Save Welcome Banner</button>
                 </div>
 
                 <div id="panel-goodbye" class="db-panel">
-                    <h3>Advanced Goodbye Embed</h3>
+                    <h3>Auto-Centering Goodbye Banner</h3>
                     <div class="toggle-box">
-                        <div><b>Enable Goodbye Messages</b></div>
+                        <div><b>Enable Goodbye Cards</b></div>
                         <div class="switch" id="sw-goodbye_logs" onclick="sendToggleRequest('goodbye_logs')"></div>
                     </div>
-                    <div class="placeholder-guide">
-                        <b>Variables:</b> {user} = Username | {server} = Server Name | {count} = Remaining Members
-                    </div>
                     <div class="form-group">
-                        <label>Target Channel</label>
+                        <label>Channel</label>
                         <select class="form-control" id="goodbye-channel-dropdown"></select>
                     </div>
                     <div class="form-group">
-                        <label>Embed Title</label>
+                        <label>Main Banner Heading Text</label>
                         <input type="text" class="form-control" id="goodbye-title-input">
                     </div>
                     <div class="form-group">
-                        <label>Embed Description</label>
-                        <textarea class="form-control" id="goodbye-desc-text" rows="3"></textarea>
+                        <label>Subtitle Text</label>
+                        <input type="text" class="form-control" id="goodbye-subtitle-input">
                     </div>
                     <div class="form-group">
-                        <label>Embed Theme Color</label>
-                        <div class="color-picker-box">
-                            <input type="color" class="color-input" id="goodbye-color-picker">
-                        </div>
+                        <label>Background Image URL</label>
+                        <input type="text" class="form-control" id="goodbye-bg-input">
                     </div>
-                    <div class="form-group">
-                        <label>Thumbnail URL (Type <b>{avatar}</b> to show user's profile image)</label>
-                        <input type="text" class="form-control" id="goodbye-thumb-input">
-                    </div>
-                    <button class="save-btn" onclick="saveGoodbyeEmbedConfiguration()">Save Goodbye Embed</button>
+                    <button class="save-btn" onclick="saveGoodbyeBannerConfig()">Save Goodbye Banner</button>
                 </div>
             </div>
         </div>
@@ -194,16 +156,24 @@
             const activeGuild = cacheGuildsData.find(g => g.id === guildId);
             const wDropdown = document.getElementById("welcome-channel-dropdown");
             const gDropdown = document.getElementById("goodbye-channel-dropdown");
+            const rDropdown = document.getElementById("autorole-dropdown");
             
             wDropdown.innerHTML = '<option value="None">Disable Channel</option>';
             gDropdown.innerHTML = '<option value="None">Disable Channel</option>';
+            rDropdown.innerHTML = '<option value="None">No Role Elected</option>';
             
-            if(activeGuild && activeGuild.channels) {
-                activeGuild.channels.forEach(ch => {
-                    const opt = `<option value="${ch.id}"># ${ch.name}</option>`;
-                    wDropdown.innerHTML += opt;
-                    gDropdown.innerHTML += opt;
-                });
+            if(activeGuild) {
+                if(activeGuild.channels) {
+                    activeGuild.channels.forEach(ch => {
+                        const opt = `<option value="${ch.id}"># ${ch.name}</option>`;
+                        wDropdown.innerHTML += opt; gDropdown.innerHTML += opt;
+                    });
+                }
+                if(activeGuild.roles) {
+                    activeGuild.roles.forEach(role => {
+                        rDropdown.innerHTML += `<option value="${role.id}">${role.name}</option>`;
+                    });
+                }
             }
         }
 
@@ -223,47 +193,40 @@
             try {
                 const response = await fetch(PTERO_URL);
                 const data = await response.json();
-                
                 cacheGuildsData = data.guilds;
+                
                 document.getElementById("main-bot-name").innerText = "🤖 " + data.name;
                 document.getElementById("sidebar-bot-name").innerText = data.name;
                 document.getElementById("bot-profile-avatar").src = data.avatar;
                 
                 const grid = document.getElementById("dynamic-server-grid");
                 grid.innerHTML = "";
-                
                 data.guilds.forEach(guild => {
                     const card = document.createElement("div");
                     card.className = "server-card";
                     card.onclick = () => enterDashboard(guild.id, guild.name);
-                    card.innerHTML = `
-                        <img src="${guild.icon}" class="server-icon-img" alt="Icon">
-                        <div class="server-name">${guild.name}</div>
-                        <div style="color: #949ba4; font-size:0.85rem; margin-top:5px;">${guild.users} Members</div>
-                    `;
+                    card.innerHTML = `<img src="${guild.icon}" class="server-icon-img" alt="I"><div class="server-name">${guild.name}</div><div style="color:#949ba4; font-size:0.85rem;">${guild.users} Members</div>`;
                     grid.appendChild(card);
                 });
                 
                 updateSwitchUI("anti_spam", data.features.anti_spam);
+                updateSwitchUI("auto_mod_links", data.features.auto_mod_links);
+                updateSwitchUI("auto_role_enabled", data.features.auto_role_enabled);
                 updateSwitchUI("welcome_logs", data.features.welcome_logs);
                 updateSwitchUI("goodbye_logs", data.features.goodbye_logs);
-                updateSwitchUI("leveling_system", data.features.leveling_system);
                 
                 document.getElementById("welcome-channel-dropdown").value = data.features.welcome_channel_id;
-                document.getElementById("embed-title-input").value = data.features.embed_title;
-                document.getElementById("embed-desc-text").value = data.features.embed_description;
-                document.getElementById("welcome-color-picker").value = data.features.embed_color;
-                document.getElementById("embed-thumb-input").value = data.features.embed_thumbnail;
+                document.getElementById("welcome-title-input").value = data.features.banner_title;
+                document.getElementById("welcome-subtitle-input").value = data.features.banner_subtitle;
+                document.getElementById("welcome-bg-input").value = data.features.banner_bg_url;
 
                 document.getElementById("goodbye-channel-dropdown").value = data.features.goodbye_channel_id;
                 document.getElementById("goodbye-title-input").value = data.features.goodbye_title;
-                document.getElementById("goodbye-desc-text").value = data.features.goodbye_description;
-                document.getElementById("goodbye-color-picker").value = data.features.goodbye_color;
-                document.getElementById("goodbye-thumb-input").value = data.features.goodbye_thumbnail;
+                document.getElementById("goodbye-subtitle-input").value = data.features.goodbye_subtitle;
+                document.getElementById("goodbye-bg-input").value = data.features.goodbye_bg_url;
                 
-            } catch (error) {
-                console.error(error);
-            }
+                document.getElementById("autorole-dropdown").value = data.features.auto_role_id;
+            } catch (error) { console.error(error); }
         }
 
         function updateSwitchUI(feature, isEnabled) {
@@ -283,37 +246,33 @@
             } catch (err) { console.error(err); }
         }
 
-        async function saveWelcomeEmbedConfiguration() {
+        async function saveWelcomeBannerConfig() {
             try {
-                await fetch(PTERO_URL + "api/save_welcome_embed", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ 
-                        channel_id: document.getElementById("welcome-channel-dropdown").value, 
-                        title: document.getElementById("embed-title-input").value, 
-                        description: document.getElementById("embed-desc-text").value, 
-                        color: document.getElementById("welcome-color-picker").value, 
-                        thumbnail: document.getElementById("embed-thumb-input").value 
-                    })
+                await fetch(PTERO_URL + "api/save_welcome_banner", {
+                    method: "POST", headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ channel_id: document.getElementById("welcome-channel-dropdown").value, title: document.getElementById("welcome-title-input").value, subtitle: document.getElementById("welcome-subtitle-input").value, bg_url: document.getElementById("welcome-bg-input").value })
                 });
-                alert("Welcome settings saved!");
+                alert("Welcome card configuration updated!");
             } catch (err) { console.error(err); }
         }
 
-        async function saveGoodbyeEmbedConfiguration() {
+        async function saveGoodbyeBannerConfig() {
             try {
-                await fetch(PTERO_URL + "api/save_goodbye_embed", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ 
-                        channel_id: document.getElementById("goodbye-channel-dropdown").value, 
-                        title: document.getElementById("goodbye-title-input").value, 
-                        description: document.getElementById("goodbye-desc-text").value, 
-                        color: document.getElementById("goodbye-color-picker").value, 
-                        thumbnail: document.getElementById("goodbye-thumb-input").value 
-                    })
+                await fetch(PTERO_URL + "api/save_goodbye_banner", {
+                    method: "POST", headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ channel_id: document.getElementById("goodbye-channel-dropdown").value, title: document.getElementById("goodbye-title-input").value, subtitle: document.getElementById("goodbye-subtitle-input").value, bg_url: document.getElementById("goodbye-bg-input").value })
                 });
-                alert("Goodbye settings saved!");
+                alert("Goodbye card configuration updated!");
+            } catch (err) { console.error(err); }
+        }
+
+        async function saveAutoRoleConfig() {
+            try {
+                await fetch(PTERO_URL + "api/save_autorole", {
+                    method: "POST", headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ role_id: document.getElementById("autorole-dropdown").value })
+                });
+                alert("Auto-Role saved successfully!");
             } catch (err) { console.error(err); }
         }
 
