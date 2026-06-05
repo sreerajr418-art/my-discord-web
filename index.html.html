@@ -3,34 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Discord Bot</title>
+    <title>My Discord Bot | Official Website</title>
     <style>
         body { 
             background-color: #23272a; 
             color: white; 
-            font-family: sans-serif; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             text-align: center; 
-            padding: 50px; 
+            padding: 0;
+            margin: 0;
+        }
+        .hero {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #2c2f33 0%, #23272a 100%);
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            color: #b9bbbe;
+            margin-bottom: 30px;
         }
         .btn { 
             background-color: #5865F2; 
             color: white; 
-            padding: 15px 25px; 
+            padding: 15px 35px; 
             text-decoration: none; 
-            border-radius: 5px; 
+            border-radius: 8px; 
             font-weight: bold; 
+            font-size: 1.1rem;
             display: inline-block; 
-            margin-top: 20px; 
+            transition: 0.3s;
         }
         .btn:hover { 
             background-color: #4752C4; 
+            transform: translateY(-2px);
+        }
+        .features {
+            padding: 50px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background-color: #2c2f33;
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid #36393f;
+            text-align: left;
+        }
+        .card h3 {
+            margin-top: 0;
+            color: #5865F2;
+        }
+        .card p {
+            color: #b9bbbe;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        footer {
+            padding: 30px;
+            color: #72767d;
+            font-size: 0.9rem;
+            border-top: 1px solid #2c2f33;
         }
     </style>
 </head>
 <body>
-    <h1>🤖 My Discord Bot</h1>
-    <p>The ultimate bot to make your server active and amazing!</p>
-    
-    <a href="https://discord.com/oauth2/authorize?client_id=1499880240640692465" class="btn">Invite to Server</a> 
+
+    <div class="hero">
+        <h1>👋 Welcome to My Discord Bot!</h1>
+        <p class="subtitle">The ultimate bot to make your server active, fun, and well-moderated.</p>
+        <a href="https://discord.com/oauth2/authorize?client_id=1499880240640692465" class="btn">Add to Discord</a> 
+    </div>
+
+    <h2 style="margin-top: 40px;">✨ What Can I Do?</h2>
+    <div class="features">
+        <div class="card">
+            <h3>🛡️ Moderation</h3>
+            <p>Keep your server safe with advanced auto-mod, ban, kick, and mute commands easily.</p>
+        </div>
+        <div class="card">
+            <h3>🎉 Entertainment</h3>
+            <p>Fun games, memes, and interactive commands to keep your members active and engaged.</p>
+        </div>
+        <div class="card">
+            <h3>🎵 Music (Optional)</h3>
+            <p>High-quality lag-free music streaming directly into your voice channels 24/7.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 My Discord Bot. All rights reserved.</p>
+    </footer>
+
 </body>
 </html>
