@@ -3,27 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VELORA | Control Panel</title>
+    <title>VELORA | Premium Control Panel</title>
     <style>
         :root { --bg: #020306; --accent: #ff0055; --secondary: #00f0ff; --premium: #ffaa00; }
         body { background: var(--bg); color: #fff; font-family: sans-serif; margin: 0; text-align: center; }
         .navbar { padding: 20px; background: #060913; display: flex; justify-content: space-between; align-items: center; }
-        .login-btn { background: #5865F2; color: #fff; padding: 10px 20px; border-radius: 8px; cursor: pointer; border: none; }
-        .dropzone { border: 2px dashed var(--secondary); padding: 50px; margin: 40px; border-radius: 15px; cursor: pointer; }
-        .premium-gate { border: 2px solid var(--premium); padding: 30px; margin: 40px; border-radius: 15px; }
-        .db-panel { display: none; padding: 20px; }
+        .dropzone { border: 2px dashed var(--secondary); padding: 40px; margin: 20px; border-radius: 15px; cursor: pointer; }
+        .premium-gate { border: 2px solid var(--premium); padding: 30px; margin: 20px; border-radius: 15px; }
+        .panel { display: none; padding: 20px; }
         .active { display: block; }
-        button { padding: 12px 25px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
-        .save-btn { background: var(--accent); color: white; }
+        button { padding: 12px 25px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; background: var(--accent); color: white; }
     </style>
 </head>
 <body>
 
     <div class="navbar">
         <div class="logo">VELORA</div>
-        <div id="nav-auth-box">
-            <button class="login-btn" onclick="redirectToDiscordOAuth()">Login with Discord</button>
-        </div>
+        <button id="login-btn" onclick="login()">Login with Discord</button>
     </div>
 
     <div id="main-ui">
@@ -31,27 +27,25 @@
         
         <div id="premium-gate" class="premium-gate">
             <h3>Premium Anti-Nuke (20 Rs)</h3>
-            <button onclick="processPremiumPayment()">Unlock Premium Features</button>
+            <button onclick="pay()">Unlock Premium Features</button>
         </div>
 
         <div class="dropzone" id="drop-zone" ondrop="handleDrop(event)" ondragover="event.preventDefault()">
             Drag & Drop Banner Image Here
         </div>
 
-        <div id="dashboard-content" class="db-panel">
+        <div id="dashboard-content" class="panel">
             <h3>Connected Servers</h3>
-            <div id="server-list"></div>
+            <div id="guild-list"></div>
         </div>
     </div>
 
     <script>
-        const WRITE_URL = "http://87.232.72.111:15378/";
+        const API_URL = "http://87.232.72.111:15378/";
         const CLIENT_ID = "1499880240640692465";
         const REDIRECT_URI = encodeURIComponent("https://my-discord-web-five.vercel.app/");
 
-        function redirectToDiscordOAuth() {
-            window.location.href = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=identify%20guilds`;
-        }
+        function login() { window.location.href = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=identify%20guilds`; }
 
         async function handleDrop(e) {
             e.preventDefault();
@@ -60,43 +54,46 @@
             formData.append("image", file);
             let res = await fetch("https://api.imgbb.com/1/upload?key=f86e3f5ec2029be469c45ef8df462e70", { method: "POST", body: formData });
             let data = await res.json();
-            alert("Upload Success! Image URL: " + data.data.url);
+            alert("Upload Success! URL: " + data.data.url);
         }
 
-        async function processPremiumPayment() {
-            let res = await fetch(WRITE_URL + "api/unlock_premium", {
+        async function pay() {
+            let res = await fetch(API_URL + "api/unlock_premium", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({ amount: 20 })
             });
             if((await res.json()).success) {
-                alert("Premium Unlocked!");
+                alert("Premium Features Unlocked!");
                 location.reload();
             } else {
                 alert("Payment Failed.");
             }
         }
 
-        // OAuth Handling
-        async function checkAuth() {
+        async function init() {
             const code = new URLSearchParams(window.location.search).get('code');
             if (code) {
-                let res = await fetch(WRITE_URL + "api/auth", {
-                    method: "POST",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify({ code: code })
-                });
-                let data = await res.json();
-                if(data.guilds) {
-                    document.getElementById("dashboard-content").classList.add("active");
-                    let list = document.getElementById("server-list");
-                    data.guilds.forEach(g => {
-                        list.innerHTML += `<div style="padding:10px; border:1px solid #333;">${g.name}</div>`;
+                try {
+                    let res = await fetch(API_URL + "api/auth", {
+                        method: "POST",
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify({ code: code })
                     });
+                    let data = await res.json();
+                    if(data.user) {
+                        document.getElementById("login-btn").style.display = "none";
+                        document.getElementById("dashboard-content").classList.add("active");
+                        data.guilds.forEach(g => {
+                            document.getElementById("guild-list").innerHTML += `<div class="box">${g.name}</div>`;
+                        });
+                    }
+                } catch(e) {
+                    alert("Auth Failed. Check redirect URI in Developer Portal.");
                 }
             }
         }
-        window.onload = checkAuth;
+        init();
     </script>
 </body>
 </html>
