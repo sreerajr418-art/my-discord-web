@@ -389,14 +389,12 @@
     </footer>
 
     <script>
-        // Toggle Switch Function
         function toggleSwitch(element) {
             element.classList.toggle('off');
         }
 
-        // Live Bot Connection Script
-        // CRITICAL: Replace 'YOUR_PTERODACTYL_IP' with your actual Pterodactyl container IP and Port allocation
-        const PTERO_URL = "http://YOUR_PTERODACTYL_IP:5000/"; 
+        // Target Pterodactyl URL automatically updated
+        const PTERO_URL = "http://87.232.72.111:15378/"; 
 
         async function fetchLiveBotData() {
             try {
@@ -411,7 +409,6 @@
             }
         }
 
-        // Fired automatically when GitHub page mounts
         window.addEventListener('load', fetchLiveBotData);
     </script>
 
