@@ -13,6 +13,7 @@
             --accent: #ff0055; --accent-glow: rgba(255, 0, 85, 0.45);
             --secondary: #00f0ff; --secondary-glow: rgba(0, 240, 255, 0.35);
             --text-main: #ffffff; --text-muted: #7485a5; --sidebar-bg: #04060d; --success: #00ff88;
+            --premium-color: #ffaa00; --premium-glow: rgba(255,170,0,0.4);
         }
         body { background-color: var(--bg-main); color: var(--text-main); font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; padding: 0; overflow-x: hidden; position: relative; scroll-behavior: smooth; }
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
@@ -40,21 +41,36 @@
         
         .dashboard-section { display: none; max-width: 1250px; margin: 40px auto; padding: 0 20px; animation: fadeIn 0.5s ease-in-out; position: relative; z-index: 40; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .dashboard-container { background: rgba(6, 9, 18, 0.9); border-radius: 28px; border: 1px solid rgba(255, 255, 255, 0.04); backdrop-filter: blur(30px); display: flex; height: 740px; overflow: hidden; box-shadow: 0 30px 70px rgba(0,0,0,0.8); }
+        .dashboard-container { background: rgba(6, 9, 18, 0.9); border-radius: 28px; border: 1px solid rgba(255, 255, 255, 0.04); backdrop-filter: blur(30px); display: flex; height: 780px; overflow: hidden; box-shadow: 0 30px 70px rgba(0,0,0,0.8); }
         .db-sidebar { width: 250px; background-color: var(--sidebar-bg); padding: 35px 20px; border-right: 1px solid rgba(255,255,255,0.03); }
         .sidebar-profile { display: flex; align-items: center; gap: 15px; margin-bottom: 35px; background: rgba(255,255,255,0.01); padding: 14px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.04); }
         .avatar-img { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--secondary); box-shadow: 0 0 10px var(--secondary-glow); }
         #sidebar-server-name { font-weight: 800; font-size: 1.05rem; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; }
         .db-menu-item { padding: 14px 18px; color: var(--text-muted); border-radius: 14px; margin-bottom: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 12px; font-size: 0.95rem; }
         .db-menu-item.active, .db-menu-item:hover { background: linear-gradient(135deg, rgba(255,0,85,0.18), rgba(0,240,255,0.05)); color: #fff; border-left: 4px solid var(--accent); }
+        .db-menu-item.premium-tab { color: var(--premium-color); }
+        .db-menu-item.premium-tab.active, .db-menu-item.premium-tab:hover { background: rgba(255,170,0,0.1); border-left-color: var(--premium-color); }
         .db-content { flex: 1; padding: 45px; overflow-y: auto; }
         .db-panel { display: none; }
         .db-panel.active { display: block; }
-        .live-preview-window { background: #090e1a; border: 1px dashed var(--secondary); border-radius: 16px; padding: 20px; margin-bottom: 25px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
-        .mock-banner { width: 90%; height: 130px; background: #161b29; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); border-left: 5px solid var(--accent); }
-        .mock-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #fff; margin-bottom: 8px; }
-        .mock-title { font-weight: 800; font-size: 1.1rem; margin: 0; color: #fff; }
-        .mock-subtitle { font-size: 0.8rem; color: var(--text-muted); margin: 4px 0 0 0; }
+        
+        /* FILE DRAG AND DROP ZONE WORKSPACE CSS */
+        .dropzone-area {
+            border: 2px dashed rgba(0, 240, 255, 0.4); background: rgba(4,6,12,0.8);
+            border-radius: 16px; padding: 30px; text-align: center; cursor: pointer;
+            transition: 0.3s; margin-bottom: 20px; color: var(--text-muted);
+        }
+        .dropzone-area:hover, .dropzone-area.dragover { border-color: var(--secondary); background: rgba(0,240,255,0.03); color: #fff; }
+        
+        /* PREMIUM CORE UI OVERLAY BLOCKERS */
+        .premium-lock-screen {
+            background: linear-gradient(135deg, rgba(15,10,5,0.95), rgba(4,5,10,0.98));
+            border: 1px solid var(--premium-color); box-shadow: 0 0 40px var(--premium-glow);
+            border-radius: 20px; padding: 45px; text-align: center; margin-top: 20px;
+        }
+        .premium-buy-btn { background: linear-gradient(135deg, var(--premium-color), #b37700); color: #000; border: none; padding: 15px 40px; border-radius: 12px; font-weight: 800; font-size: 1.05rem; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; margin-top: 20px; box-shadow: 0 5px 20px var(--premium-glow); }
+        .premium-buy-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px var(--premium-color); }
+
         .toggle-box { background: var(--card-bg); padding: 24px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.02); }
         .form-group { margin-bottom: 24px; }
         .form-group label { display: block; margin-bottom: 10px; font-weight: 700; color: var(--secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; }
@@ -114,6 +130,7 @@
                 <div class="db-menu-item" onclick="switchTab('goodbye', this)">🏃 Goodbye Banners</div>
                 <div class="db-menu-item" onclick="switchTab('adv_modules', this)">💎 Advanced Modules</div>
                 <div class="db-menu-item" onclick="switchTab('bot_identity', this)">🎨 Bot Customizer</div>
+                <div class="db-menu-item premium-tab" onclick="switchTab('anti_nuke', this)">👑 Premium Anti-Nuke</div>
             </div>
             
             <div class="db-content">
@@ -162,6 +179,15 @@
                     </div>
                     <div class="toggle-box"><div><b>Enable Welcome Cards</b></div><div class="switch" id="sw-welcome_logs" onclick="sendToggleRequest('welcome_logs')"></div></div>
                     <div class="form-group"><label>Channel Destination</label><select class="form-control" id="welcome-channel-dropdown"></select></div>
+                    
+                    <div class="form-group">
+                        <label>Upload Banner Canvas Asset File</label>
+                        <div class="dropzone-area" id="welcome-dropzone" ondragover="handleDragOver(event, this)" ondragleave="handleDragLeave(this)" ondrop="handleFileDrop(event, this, 'welcome-bg-input')">
+                            📥 Drag & Drop your Banner Image here or Click to upload
+                        </div>
+                        <input type="file" id="welcome-file-hidden" style="display:none;" onchange="handleFileSelect(event, 'welcome-bg-input')">
+                    </div>
+
                     <div class="grid-two-col">
                         <div class="form-group"><label>Main Title</label><input type="text" class="form-control" id="welcome-title-input" oninput="updateLivePreview()"></div>
                         <div class="form-group"><label>Subtitle</label><input type="text" class="form-control" id="welcome-subtitle-input" oninput="updateLivePreview()"></div>
@@ -177,6 +203,14 @@
                     <div class="panel-header-title">Dynamic Goodbye Canvas</div>
                     <div class="toggle-box"><div><b>Enable Goodbye Cards</b></div><div class="switch" id="sw-goodbye_logs" onclick="sendToggleRequest('goodbye_logs')"></div></div>
                     <div class="form-group"><label>Channel Destination</label><select class="form-control" id="goodbye-channel-dropdown"></select></div>
+                    
+                    <div class="form-group">
+                        <label>Upload Goodbye Canvas File</label>
+                        <div class="dropzone-area" id="goodbye-dropzone" ondragover="handleDragOver(event, this)" ondragleave="handleDragLeave(this)" ondrop="handleFileDrop(event, this, 'goodbye-bg-input')">
+                            📥 Drag & Drop your Goodbye Image here
+                        </div>
+                    </div>
+
                     <div class="grid-two-col">
                         <div class="form-group"><label>Main Title</label><input type="text" class="form-control" id="goodbye-title-input"></div>
                         <div class="form-group"><label>Subtitle</label><input type="text" class="form-control" id="goodbye-subtitle-input"></div>
@@ -189,19 +223,58 @@
                     <div class="panel-header-title">Advanced Control Systems</div>
                     <div class="toggle-box"><div><b>Virtual Economy Ledger Module</b></div><div class="switch" id="sw-economy_enabled" onclick="sendToggleRequest('economy_enabled')"></div></div>
                     <div class="toggle-box"><div><b>Server XP / Leveling Module</b></div><div class="switch" id="sw-leveling_system" onclick="sendToggleRequest('leveling_system')"></div></div>
-                    <div class="form-group"><label>Custom Currency Token Name</label><input type="text" class="form-control" id="adv-currency-input"></div>
+                    <div class="form-group"><label>Custom Currency Token Asset Name</label><input type="text" class="form-control" id="adv-currency-input"></div>
                     <div class="form-group"><label>Global Server Logs Channel</label><select class="form-control" id="adv-log-channel-dropdown"></select></div>
                     <button class="save-btn" onclick="saveAdvancedModulesConfig()">Commit Advanced Modules</button>
                 </div>
 
                 <div id="panel-bot_identity" class="db-panel">
                     <div class="panel-header-title">Bot Mainframe Identity Customizer</div>
+                    
+                    <div class="form-group">
+                        <label>Drag & Drop New Profile Avatar</label>
+                        <div class="dropzone-area" id="avatar-dropzone" ondragover="handleDragOver(event, this)" ondragleave="handleDragLeave(this)" ondrop="handleFileDrop(event, this, 'bot-avatar-url-input')">
+                            🖼️ Drag New Profile Picture file here
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label>New Bot Profile Picture Image URL</label>
                         <input type="text" class="form-control" id="bot-avatar-url-input" placeholder="https://i.imgur.com/your-image.png">
                     </div>
                     <button class="save-btn" onclick="triggerBotAvatarChange()">Flash Avatar Identity</button>
                 </div>
+
+                <div id="panel-anti_nuke" class="db-panel">
+                    <div class="panel-header-title" style="color:var(--premium-color);">👑 Cyber Vault Premium Anti-Nuke Defenses</div>
+                    
+                    <div id="premium-locked-gate" class="premium-lock-screen">
+                        <h2 style="margin:0; color:var(--premium-color);">⚡ SYSTEM PROTOCOLS LOCK</h2>
+                        <p style="color:var(--text-muted); font-size:0.95rem; margin-top:10px;">Anti-Nuke mass destructive payload defenses require an active system validation cluster node license to run.</p>
+                        <h3 style="color:#fff; margin-bottom: 5px;">Price Node: $4.99 / Monthly</h3>
+                        <button class="premium-buy-btn" onclick="simulatePremiumPurchase()">Purchase & Unlock Features</button>
+                    </div>
+
+                    <div id="premium-unlocked-panel" style="display:none;">
+                        <div class="toggle-box">
+                            <div><b>Enable Main Mainframe Anti-Nuke Defenses</b></div>
+                            <div class="switch" id="sw-anti_nuke_enabled" onclick="sendToggleRequest('anti_nuke_enabled')"></div>
+                        </div>
+                        <div class="toggle-box">
+                            <div><b>Anti-Bot Injection Protection</b><br><small style="color:var(--text-muted)">Bans rogue automated bot requests</small></div>
+                            <div class="switch" id="sw-anti_bot_join" onclick="sendToggleRequest('anti_bot_join')"></div>
+                        </div>
+                        <div class="toggle-box">
+                            <div><b>Anti-Channel Purge Overrides</b><br><small style="color:var(--text-muted)">Auto-clones channels if a staff account goes rogue</small></div>
+                            <div class="switch" id="sw-anti_channel_purge" onclick="sendToggleRequest('anti_channel_purge')"></div>
+                        </div>
+                        <div class="toggle-box">
+                            <div><b>Anti-Mass Kick / Ban Firewall</b></div>
+                            <div class="switch" id="sw-anti_member_mass_kick" onclick="sendToggleRequest('anti_member_mass_kick')"></div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -210,11 +283,66 @@
         const WRITE_URL = "http://87.232.72.111:15378/";
         const DISCORD_CLIENT_ID = "1499880240640692465"; 
         const REDIRECT_URI = encodeURIComponent("https://my-discord-web-five.vercel.app/");
+        const IMGBB_API_KEY = "f86e3f5ec2029be469c45ef8df462e70"; // Integrated Free Secure Upload Relay Token
 
         let cacheGuildsData = [];
 
         function redirectToDiscordOAuth() {
             window.location.href = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=identify%20guilds`;
+        }
+
+        // --- NEW COMPONENT LOGIC: FILE UPLOAD DRAG DROP LAYER RECEPTORS ---
+        function handleDragOver(e, element) { e.preventDefault(); element.classList.add("dragover"); }
+        function handleDragLeave(element) { element.classList.remove("dragover"); }
+        
+        async function handleFileDrop(e, element, inputTargetId) {
+            e.preventDefault();
+            element.classList.remove("dragover");
+            const files = e.dataTransfer.files;
+            if(files.length > 0) { await uploadFileToRelay(files[0], element, inputTargetId); }
+        }
+
+        document.getElementById("welcome-dropzone").addEventListener("click", () => {
+            document.getElementById("welcome-file-hidden").click();
+        });
+
+        function handleFileSelect(e, inputTargetId) {
+            const files = e.target.files;
+            if(files.length > 0) { uploadFileToRelay(files[0], document.getElementById("welcome-dropzone"), inputTargetId); }
+        }
+
+        async function uploadFileToRelay(file, element, inputTargetId) {
+            element.innerText = "⚡ Uploading asset array to pipeline...";
+            let formData = new FormData();
+            formData.append("image", file);
+            
+            try {
+                const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: "POST", body: formData });
+                const json = await res.json();
+                if(json.success) {
+                    const finalUrl = json.data.url;
+                    document.getElementById(inputTargetId).value = finalUrl;
+                    element.innerText = "✅ Asset linked successfully!";
+                    updateLivePreview();
+                } else { element.innerText = "❌ File link package rejected."; }
+            } catch(err) { element.innerText = "❌ Network transaction failure."; }
+        }
+
+        // --- PREMIUM OPERATION GATE LICENSE SIMULATOR ---
+        async function simulatePremiumPurchase() {
+            const accept = confirm("Confirm premium payment matrix processing for $4.99?");
+            if(accept) {
+                try {
+                    const res = await fetch(WRITE_URL + "api/unlock_premium", { method: "POST", headers: { "Content-Type": "application/json" } });
+                    const data = await res.json();
+                    if(data.premium_unlocked) {
+                        alert("🎉 Payment secure! Premium anti-nuke licenses loaded.");
+                        document.getElementById("premium-locked-gate").style.display = "none";
+                        document.getElementById("premium-unlocked-panel").style.display = "block";
+                        updateSwitchUI("anti_nuke_enabled", true);
+                    }
+                } catch(e) { alert("Mainframe ledger error"); }
+            }
         }
 
         async function checkOAuthCallback() {
@@ -224,8 +352,7 @@
                 document.getElementById("nav-auth-box").innerHTML = "<span style='color:var(--secondary);'>Authenticating...</span>";
                 try {
                     const res = await fetch(WRITE_URL + "api/auth", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
+                        method: "POST", headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ code: code })
                     });
                     const data = await res.json();
@@ -233,9 +360,7 @@
                         window.history.replaceState({}, document.title, window.location.pathname);
                         loadAuthenticatedDashboard(data);
                     }
-                } catch(e) {
-                    document.getElementById("nav-auth-box").innerHTML = "<span style='color:var(--accent);'>Auth Error</span>";
-                }
+                } catch(e) { document.getElementById("nav-auth-box").innerHTML = "<span style='color:var(--accent);'>Auth Error</span>"; }
             }
         }
 
@@ -258,6 +383,11 @@
                 grid.appendChild(card);
             });
 
+            if(data.features.premium_unlocked) {
+                document.getElementById("premium-locked-gate").style.display = "none";
+                document.getElementById("premium-unlocked-panel").style.display = "block";
+            }
+
             updateSwitchUI("anti_spam", data.features.anti_spam);
             updateSwitchUI("auto_mod_links", data.features.auto_mod_links);
             updateSwitchUI("auto_role_enabled", data.features.auto_role_enabled);
@@ -267,6 +397,11 @@
             updateSwitchUI("goodbye_logs", data.features.goodbye_logs);
             updateSwitchUI("economy_enabled", data.features.economy_enabled);
             updateSwitchUI("leveling_system", data.features.leveling_system);
+            
+            updateSwitchUI("anti_nuke_enabled", data.features.anti_nuke_enabled);
+            updateSwitchUI("anti_bot_join", data.features.anti_bot_join);
+            updateSwitchUI("anti_channel_purge", data.features.anti_channel_purge);
+            updateSwitchUI("anti_member_mass_kick", data.features.anti_member_mass_kick);
             
             document.getElementById("welcome-channel-dropdown").value = data.features.welcome_channel_id;
             document.getElementById("welcome-title-input").value = data.features.banner_title;
@@ -298,8 +433,7 @@
             const color = document.getElementById("welcome-color-input").value || "#FFFFFF";
 
             const tEl = document.getElementById("lbl-preview-title");
-            tEl.innerText = heading + " DISCORD_USER";
-            tEl.style.color = color;
+            tEl.innerText = heading + " DISCORD_USER"; tEl.style.color = color;
             
             document.getElementById("lbl-preview-subtitle").innerText = sub.replace("{count}", "154");
             if(bg && bg.startsWith("http")) {
@@ -353,7 +487,7 @@
         function hideDashboardArea() {
             document.getElementById('main-dashboard-area').style.display = 'none';
             document.getElementById('home-view').style.display = 'flex';
-            document.getElementById('server-select-area').style.block = 'block';
+            document.getElementById('server-select-area').style.display = 'block';
         }
 
         function switchTab(tabId, element) {
@@ -361,11 +495,6 @@
             document.querySelectorAll('.db-menu-item').forEach(i => i.classList.remove('active'));
             document.getElementById('panel-' + tabId).classList.add('active');
             element.classList.add('active');
-        }
-
-        function updateSwitchUI(feature, isEnabled) {
-            const el = document.getElementById("sw-" + feature);
-            if (el) { el.classList.toggle("off", !isEnabled); }
         }
 
         async function sendToggleRequest(featureName) {
@@ -376,6 +505,7 @@
                 });
                 const resData = await response.json();
                 if (resData.success) { updateSwitchUI(featureName, resData.current_state); }
+                else { alert("Module Locked! License Activation Required."); }
             } catch (err) { console.error(err); }
         }
 
@@ -450,12 +580,11 @@
                 const res = await response.json();
                 if(res.success) alert("Bot avatar updated successfully!");
                 else alert("Error updating avatar identity.");
-            } catch(e) { alert("Mainframe rate-limit block. Retry later."); }
+            } catch(e) { alert("Mainframe block. Retry later."); }
         }
 
-        const canvas = document.getElementById("bg-canvas");
-        const ctx = canvas.getContext("2d");
-        let particles = [];
+        // Vector node particle asset generator
+        const canvas = document.getElementById("bg-canvas"); const ctx = canvas.getContext("2d"); let particles = [];
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener("resize", resizeCanvas); resizeCanvas();
         class Particle {
@@ -465,11 +594,7 @@
                 this.speedX = Math.random() * 0.4 - 0.2; this.speedY = Math.random() * 0.4 - 0.2;
                 this.color = Math.random() > 0.4 ? "rgba(0, 240, 255, 0.18)" : "rgba(255, 0, 85, 0.15)";
             }
-            update() {
-                this.x += this.speedX; this.y += this.speedY;
-                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-            }
+            update() { this.x += this.speedX; this.y += this.speedY; if (this.x < 0 || this.x > canvas.width) this.speedX *= -1; if (this.y < 0 || this.y > canvas.height) this.speedY *= -1; }
             draw() { ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
         }
         for (let i = 0; i < 90; i++) { particles.push(new Particle()); }
