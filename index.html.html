@@ -14,6 +14,7 @@
             --text-main: #ffffff;
             --text-muted: #949ba4;
             --sidebar-bg: #15171e;
+            --success: #23a55a;
         }
 
         body { 
@@ -39,7 +40,7 @@
         }
 
         .nav-logo {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 800;
             display: flex;
             align-items: center;
@@ -61,69 +62,129 @@
         .nav-btn {
             background-color: var(--accent);
             color: white;
-            padding: 8px 20px;
-            border-radius: 5px;
+            padding: 10px 24px;
+            border-radius: 8px;
             text-decoration: none;
             font-weight: bold;
             transition: 0.3s;
+            border: none;
+            cursor: pointer;
         }
 
         .nav-btn:hover {
             background-color: var(--accent-hover);
+            transform: translateY(-2px);
         }
 
-        /* HERO SECTION */
+        /* WELCOME / HERO SECTION */
         .hero {
-            padding: 80px 20px 40px 20px;
-            background: radial-gradient(circle at top, rgba(88, 101, 242, 0.12) 0%, transparent 50%);
+            padding: 100px 20px 60px 20px;
+            background: radial-gradient(circle at top, rgba(88, 101, 242, 0.15) 0%, transparent 60%);
         }
 
-        h1 {
-            font-size: 3rem;
+        .hero h1 {
+            font-size: 3.5rem;
             font-weight: 800;
-            margin-bottom: 15px;
+            margin: 0 0 20px 0;
+            background: linear-gradient(to right, #fff, #949ba4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .subtitle {
+        .hero p {
             color: var(--text-muted);
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto 30px auto;
+            font-size: 1.3rem;
+            max-width: 650px;
+            margin: 0 auto 40px auto;
+            line-height: 1.6;
         }
 
-        /* DASHBOARD PREVIEW SECTION */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 2px solid #3f4248;
+        }
+        .btn-secondary:hover {
+            background-color: #3f4248;
+        }
+
+        /* DASHBOARD SECTION */
         .dashboard-section {
-            max-width: 1000px;
-            margin: 50px auto 80px auto;
+            max-width: 1100px;
+            margin: 40px auto 80px auto;
             padding: 0 20px;
+        }
+
+        .dashboard-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-section p {
+            color: var(--text-muted);
+            margin-bottom: 40px;
         }
 
         .dashboard-container {
             background-color: var(--bg-nav);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
             display: flex;
-            height: 450px;
+            height: 500px;
             overflow: hidden;
             text-align: left;
         }
 
-        /* Dashboard Sidebar Mockup */
+        /* Sidebar */
         .db-sidebar {
-            width: 220px;
+            width: 240px;
             background-color: var(--sidebar-bg);
-            padding: 20px;
+            padding: 25px 15px;
             border-right: 1px solid rgba(255, 255, 255, 0.05);
         }
 
+        .sidebar-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            padding: 0 10px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
         .db-menu-item {
-            padding: 12px;
+            padding: 14px 18px;
             color: var(--text-muted);
-            border-radius: 6px;
+            border-radius: 8px;
             margin-bottom: 8px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.2s;
+        }
+
+        .db-menu-item:hover {
+            background-color: rgba(255,255,255,0.03);
+            color: white;
         }
 
         .db-menu-item.active {
@@ -131,68 +192,86 @@
             color: var(--accent);
         }
 
-        /* Dashboard Main Content Mockup */
+        /* Main Content */
         .db-content {
             flex: 1;
-            padding: 30px;
+            padding: 40px;
             overflow-y: auto;
         }
 
         .db-header {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 10px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .server-badge {
+            font-size: 0.9rem;
+            background-color: rgba(35, 165, 90, 0.15);
+            color: var(--success);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
         }
 
         .toggle-box {
             background-color: var(--card-bg);
-            padding: 20px;
-            border-radius: 8px;
+            padding: 22px;
+            border-radius: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.02);
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: 0.3s;
+        }
+
+        .toggle-box:hover {
+            border-color: rgba(88, 101, 242, 0.2);
         }
 
         .toggle-title {
             font-weight: 600;
+            font-size: 1.1rem;
             margin-bottom: 5px;
         }
 
         .toggle-desc {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
         }
 
-        /* Fake Toggle Switch */
+        /* Toggle Switches */
         .switch {
-            width: 50px;
-            height: 26px;
+            width: 55px;
+            height: 28px;
             background-color: var(--accent);
             border-radius: 50px;
             position: relative;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
         .switch::after {
             content: '';
             position: absolute;
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             background-color: white;
             border-radius: 50px;
             top: 3px;
             right: 3px;
+            transition: 0.3s;
         }
 
         .switch.off {
             background-color: #3f4248;
         }
         .switch.off::after {
-            right: auto;
-            left: 3px;
+            right: calc(100% - 25px);
         }
 
         footer {
@@ -210,22 +289,33 @@
         <div class="nav-links">
             <a href="#" class="active">Home</a>
             <a href="#">Commands</a>
-            <a href="#">Support</a>
-            <a href="https://discord.com/oauth2/authorize?client_id=1499880240640692465" class="nav-btn">Dashboard</a>
+            <a href="#">Premium</a>
+            <a href="https://discord.com/oauth2/authorize?client_id=1499880240640692465" class="nav-btn">Login</a>
         </div>
     </div>
 
     <div class="hero">
-        <h1>Control Everything from the Dashboard</h1>
-        <p class="subtitle">Customize your server moderation, welcome messages, and music logs with our powerful web dashboard.</p>
-        <a href="https://discord.com/oauth2/authorize?client_id=1499880240640692465" class="nav-btn" style="padding: 15px 35px; font-size: 1.1rem; border-radius: 8px;">Invite Bot & Login</a> 
+        <h1>Welcome to SuperBot Dashboard</h1>
+        <p>The next-generation Discord bot setup. Manage moderation, toggle automated systems, and customize everything in real-time from a sleek interface.</p>
+        <div class="btn-group">
+            <a href="https://discord.com/oauth2/authorize?client_id=1499880240640692465" class="nav-btn" style="padding: 16px 35px; font-size: 1.1rem;">Invite to Server</a>
+            <a href="#live-preview" class="nav-btn btn-secondary" style="padding: 14px 35px; font-size: 1.1rem; border-radius: 8px; text-decoration: none;">Explore Dashboard</a>
+        </div>
     </div>
 
-    <div class="dashboard-section">
-        <h2 style="font-size: 2rem; margin-bottom: 30px;">✨ Live Dashboard Preview</h2>
+    <div class="dashboard-section" id="live-preview">
+        <h2>✨ Interactive Dashboard</h2>
+        <p>Try clicking the toggle switches below to see how easy it is to configure your server.</p>
         
         <div class="dashboard-container">
             <div class="db-sidebar">
+                <div class="sidebar-profile">
+                    <div class="avatar">U</div>
+                    <div>
+                        <div style="font-weight: bold; font-size: 0.95rem;">Admin User</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Owner</div>
+                    </div>
+                </div>
                 <div class="db-menu-item active">⚙️ General Settings</div>
                 <div class="db-menu-item">🛡️ Moderation</div>
                 <div class="db-menu-item">👋 Welcome Logs</div>
@@ -233,38 +323,47 @@
             </div>
             
             <div class="db-content">
-                <div class="db-header">Server Management</div>
+                <div class="db-header">
+                    <span>Server Management</span>
+                    <span class="server-badge">● Connected</span>
+                </div>
                 
                 <div class="toggle-box">
                     <div>
-                        <div class="toggle-title">Enable Anti-Spam</div>
-                        <div class="toggle-desc">Automatically mutes members who spam links or messages.</div>
+                        <div class="toggle-title">Enable Anti-Spam System</div>
+                        <div class="toggle-desc">Automatically mutes members who spam links or fast messages.</div>
                     </div>
-                    <div class="switch"></div>
+                    <div class="switch" onclick="toggleSwitch(this)"></div>
                 </div>
 
                 <div class="toggle-box">
                     <div>
-                        <div class="toggle-title">Welcome Message</div>
-                        <div class="toggle-desc">Send a custom DM or channel message to new members.</div>
+                        <div class="toggle-title">Welcome & Goodbye Logs</div>
+                        <div class="toggle-desc">Send beautiful greeting messages when someone joins your server.</div>
                     </div>
-                    <div class="switch"></div>
+                    <div class="switch" onclick="toggleSwitch(this)"></div>
                 </div>
 
                 <div class="toggle-box">
                     <div>
-                        <div class="toggle-title">Leveling System</div>
-                        <div class="toggle-desc">Give XP and roles to active members in text channels.</div>
+                        <div class="toggle-title">Leveling & XP System</div>
+                        <div class="toggle-desc">Give points and auto-roles to your active community members.</div>
                     </div>
-                    <div class="switch off"></div>
+                    <div class="switch off" onclick="toggleSwitch(this)"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2026 My Discord Bot. Dashboard Interface Edition.</p>
+        <p>&copy; 2026 SuperBot. Built with love for Discord communities.</p>
     </footer>
+
+    <script>
+        function toggleSwitch(element) {
+            element.classList.toggle('off');
+        }
+    </script>
 
 </body>
 </html>
