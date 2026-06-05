@@ -21,7 +21,7 @@
         }
         .navbar {
             background-color: var(--bg-nav); padding: 15px 5%;
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex justify-content: space-between; align-items: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
         .nav-logo { font-size: 1.4rem; font-weight: 800; }
@@ -57,7 +57,6 @@
             width: 95%; padding: 10px; background-color: var(--card-bg); border: 1px solid rgba(255,255,255,0.1);
             border-radius: 8px; color: white; font-size: 0.95rem; outline: none;
         }
-        .form-control:focus { border-color: var(--accent); }
         .color-picker-box { display: flex; align-items: center; gap: 10px; }
         .color-input { width: 60px; height: 40px; background: none; border: none; cursor: pointer; }
         .switch { width: 50px; height: 26px; background-color: var(--accent); border-radius: 50px; position: relative; cursor: pointer; }
@@ -66,17 +65,13 @@
         .switch.off::after { right: calc(100% - 23px); }
         .back-btn { background-color: transparent; color: var(--text-muted); border: 1px solid #3f4248; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
         .save-btn { background-color: var(--accent); color: white; border: none; padding: 12px 30px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; margin-top: 10px; }
-        .fix-notice { color: #faa61a; background-color: rgba(250, 166, 26, 0.1); padding: 10px; border-radius: 6px; display: none; margin: 15px; border: 1px dashed #faa61a; }
+        .placeholder-guide { background: rgba(88, 101, 242, 0.05); border: 1px solid rgba(88, 101, 242, 0.2); padding: 10px; border-radius: 6px; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
     <div class="navbar">
         <div class="nav-logo" id="main-bot-name">🤖 Bot Dashboard</div>
-    </div>
-
-    <div class="fix-notice" id="browser-shield-notice">
-        ⚠️ Connection Blocked. Click Lock/Tune icon, go to Site Settings, set "Insecure Content" to ALLOW, then refresh.
     </div>
 
     <div class="server-selection-screen" id="server-select-area">
@@ -99,9 +94,10 @@
                     <div id="sidebar-bot-name" style="font-weight: bold;">Loading...</div>
                 </div>
                 <div class="db-menu-item active" onclick="switchTab('general', this)">⚙️ General</div>
-                <div class="db-menu-item" onclick="switchTab('moderation', this)">🛡️ Moderation</div>
                 <div class="db-menu-item" onclick="switchTab('welcome', this)">👋 Welcome Logs</div>
+                <div class="db-menu-item" onclick="switchTab('goodbye', this)">🏃 Goodbye Logs</div>
             </div>
+            
             <div class="db-content">
                 <div id="panel-general" class="db-panel active">
                     <h3>General Settings</h3>
@@ -109,10 +105,6 @@
                         <div><b>Leveling & XP System</b></div>
                         <div class="switch off" id="sw-leveling_system" onclick="sendToggleRequest('leveling_system')"></div>
                     </div>
-                </div>
-                
-                <div id="panel-moderation" class="db-panel">
-                    <h3>Moderation Tools</h3>
                     <div class="toggle-box">
                         <div><b>Enable Anti-Spam System</b></div>
                         <div class="switch" id="sw-anti_spam" onclick="sendToggleRequest('anti_spam')"></div>
@@ -120,41 +112,71 @@
                 </div>
                 
                 <div id="panel-welcome" class="db-panel">
-                    <h3>Advanced Greeting Embed Configuration</h3>
+                    <h3>Advanced Greeting Embed</h3>
                     <div class="toggle-box">
                         <div><b>Enable Welcome Messages</b></div>
                         <div class="switch" id="sw-welcome_logs" onclick="sendToggleRequest('welcome_logs')"></div>
                     </div>
-                    
+                    <div class="placeholder-guide">
+                        <b>Variables:</b> {user} = Mention User | {server} = Server Name | {count} = Member Count
+                    </div>
                     <div class="form-group">
                         <label>Target Channel</label>
                         <select class="form-control" id="welcome-channel-dropdown"></select>
                     </div>
-
                     <div class="form-group">
                         <label>Embed Title</label>
                         <input type="text" class="form-control" id="embed-title-input">
                     </div>
-                    
                     <div class="form-group">
                         <label>Embed Description</label>
                         <textarea class="form-control" id="embed-desc-text" rows="3"></textarea>
                     </div>
-
                     <div class="form-group">
                         <label>Embed Theme Color</label>
                         <div class="color-picker-box">
-                            <input type="color" class="color-input" id="embed-color-picker">
-                            <span style="font-size:0.9rem; color:var(--text-muted);">Pick a color for the sidebar trim</span>
+                            <input type="color" class="color-input" id="welcome-color-picker">
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <label>Embed Thumbnail URL</label>
-                        <input type="text" class="form-control" id="embed-thumb-input" placeholder="https://link-to-image.png">
+                        <label>Thumbnail URL (Type <b>{avatar}</b> to show user's profile image)</label>
+                        <input type="text" class="form-control" id="embed-thumb-input">
                     </div>
-                    
-                    <button class="save-btn" onclick="saveWelcomeEmbedConfiguration()">Save Advanced Embed</button>
+                    <button class="save-btn" onclick="saveWelcomeEmbedConfiguration()">Save Welcome Embed</button>
+                </div>
+
+                <div id="panel-goodbye" class="db-panel">
+                    <h3>Advanced Goodbye Embed</h3>
+                    <div class="toggle-box">
+                        <div><b>Enable Goodbye Messages</b></div>
+                        <div class="switch" id="sw-goodbye_logs" onclick="sendToggleRequest('goodbye_logs')"></div>
+                    </div>
+                    <div class="placeholder-guide">
+                        <b>Variables:</b> {user} = Username | {server} = Server Name | {count} = Remaining Members
+                    </div>
+                    <div class="form-group">
+                        <label>Target Channel</label>
+                        <select class="form-control" id="goodbye-channel-dropdown"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Embed Title</label>
+                        <input type="text" class="form-control" id="goodbye-title-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Embed Description</label>
+                        <textarea class="form-control" id="goodbye-desc-text" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Embed Theme Color</label>
+                        <div class="color-picker-box">
+                            <input type="color" class="color-input" id="goodbye-color-picker">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Thumbnail URL (Type <b>{avatar}</b> to show user's profile image)</label>
+                        <input type="text" class="form-control" id="goodbye-thumb-input">
+                    </div>
+                    <button class="save-btn" onclick="saveGoodbyeEmbedConfiguration()">Save Goodbye Embed</button>
                 </div>
             </div>
         </div>
@@ -170,12 +192,17 @@
             document.getElementById('active-panel-title').innerText = "✨ " + guildName;
             
             const activeGuild = cacheGuildsData.find(g => g.id === guildId);
-            const dropdown = document.getElementById("welcome-channel-dropdown");
-            dropdown.innerHTML = '<option value="None">Disable Channel</option>';
+            const wDropdown = document.getElementById("welcome-channel-dropdown");
+            const gDropdown = document.getElementById("goodbye-channel-dropdown");
+            
+            wDropdown.innerHTML = '<option value="None">Disable Channel</option>';
+            gDropdown.innerHTML = '<option value="None">Disable Channel</option>';
             
             if(activeGuild && activeGuild.channels) {
                 activeGuild.channels.forEach(ch => {
-                    dropdown.innerHTML += `<option value="${ch.id}"># ${ch.name}</option>`;
+                    const opt = `<option value="${ch.id}"># ${ch.name}</option>`;
+                    wDropdown.innerHTML += opt;
+                    gDropdown.innerHTML += opt;
                 });
             }
         }
@@ -195,7 +222,6 @@
         async function fetchLiveBotData() {
             try {
                 const response = await fetch(PTERO_URL);
-                if (!response.ok) throw new Error("API Failure");
                 const data = await response.json();
                 
                 cacheGuildsData = data.guilds;
@@ -220,18 +246,23 @@
                 
                 updateSwitchUI("anti_spam", data.features.anti_spam);
                 updateSwitchUI("welcome_logs", data.features.welcome_logs);
+                updateSwitchUI("goodbye_logs", data.features.goodbye_logs);
                 updateSwitchUI("leveling_system", data.features.leveling_system);
                 
                 document.getElementById("welcome-channel-dropdown").value = data.features.welcome_channel_id;
                 document.getElementById("embed-title-input").value = data.features.embed_title;
                 document.getElementById("embed-desc-text").value = data.features.embed_description;
-                document.getElementById("embed-color-picker").value = data.features.embed_color;
+                document.getElementById("welcome-color-picker").value = data.features.embed_color;
                 document.getElementById("embed-thumb-input").value = data.features.embed_thumbnail;
+
+                document.getElementById("goodbye-channel-dropdown").value = data.features.goodbye_channel_id;
+                document.getElementById("goodbye-title-input").value = data.features.goodbye_title;
+                document.getElementById("goodbye-desc-text").value = data.features.goodbye_description;
+                document.getElementById("goodbye-color-picker").value = data.features.goodbye_color;
+                document.getElementById("goodbye-thumb-input").value = data.features.goodbye_thumbnail;
                 
-                document.getElementById("browser-shield-notice").style.display = "none";
             } catch (error) {
                 console.error(error);
-                document.getElementById("browser-shield-notice").style.display = "block";
             }
         }
 
@@ -253,30 +284,37 @@
         }
 
         async function saveWelcomeEmbedConfiguration() {
-            const channelId = document.getElementById("welcome-channel-dropdown").value;
-            const titleText = document.getElementById("embed-title-input").value;
-            const descText = document.getElementById("embed-desc-text").value;
-            const colorHex = document.getElementById("embed-color-picker").value;
-            const thumbUrl = document.getElementById("embed-thumb-input").value;
-            
             try {
-                const response = await fetch(PTERO_URL + "api/save_welcome_embed", {
+                await fetch(PTERO_URL + "api/save_welcome_embed", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ 
-                        channel_id: channelId, 
-                        title: titleText, 
-                        description: descText, 
-                        color: colorHex, 
-                        thumbnail: thumbUrl 
+                        channel_id: document.getElementById("welcome-channel-dropdown").value, 
+                        title: document.getElementById("embed-title-input").value, 
+                        description: document.getElementById("embed-desc-text").value, 
+                        color: document.getElementById("welcome-color-picker").value, 
+                        thumbnail: document.getElementById("embed-thumb-input").value 
                     })
                 });
-                const result = await response.json();
-                if(result.success) { alert("Advanced Embed configurations pushed successfully!"); }
-            } catch (err) {
-                console.error(err);
-                alert("Pushed failed, check backend endpoint connectivity.");
-            }
+                alert("Welcome settings saved!");
+            } catch (err) { console.error(err); }
+        }
+
+        async function saveGoodbyeEmbedConfiguration() {
+            try {
+                await fetch(PTERO_URL + "api/save_goodbye_embed", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ 
+                        channel_id: document.getElementById("goodbye-channel-dropdown").value, 
+                        title: document.getElementById("goodbye-title-input").value, 
+                        description: document.getElementById("goodbye-desc-text").value, 
+                        color: document.getElementById("goodbye-color-picker").value, 
+                        thumbnail: document.getElementById("goodbye-thumb-input").value 
+                    })
+                });
+                alert("Goodbye settings saved!");
+            } catch (err) { console.error(err); }
         }
 
         window.addEventListener('load', fetchLiveBotData);
