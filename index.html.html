@@ -71,12 +71,7 @@
             cursor: pointer;
         }
 
-        .nav-btn:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-2px);
-        }
-
-        /* SERVER SELECTION SCREEN (Visible First) */
+        /* SERVER SELECTION SCREEN */
         .server-selection-screen {
             display: block;
             padding: 80px 20px;
@@ -106,7 +101,7 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 12px;
             padding: 25px;
-            width: 220px;
+            width: 240px;
             cursor: pointer;
             transition: 0.3s;
             text-align: center;
@@ -118,25 +113,23 @@
             box-shadow: 0 10px 20px rgba(88, 101, 242, 0.2);
         }
 
-        .server-icon {
-            width: 70px;
-            height: 70px;
-            background-color: var(--card-bg);
+        .server-icon-img {
+            width: 75px;
+            height: 75px;
             border-radius: 50%;
             margin: 0 auto 15px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--accent);
-            border: 2px solid rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--accent);
+            object-fit: cover;
+            display: block;
         }
 
         .server-name {
             font-weight: 700;
             font-size: 1.1rem;
             margin-bottom: 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .server-status {
@@ -145,7 +138,7 @@
             font-weight: 600;
         }
 
-        /* MAIN DASHBOARD SECTION (Hidden Initially) */
+        /* MAIN DASHBOARD SECTION */
         .dashboard-section {
             display: none;
             max-width: 1100px;
@@ -171,7 +164,7 @@
 
         /* Sidebar */
         .db-sidebar {
-            width: 240px;
+            width: 250px;
             background-color: var(--sidebar-bg);
             padding: 25px 15px;
             border-right: 1px solid rgba(255, 255, 255, 0.05);
@@ -185,15 +178,12 @@
             padding: 0 10px;
         }
 
-        .avatar {
-            width: 40px;
-            height: 40px;
-            background-color: var(--accent);
+        .avatar-img {
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .db-menu-item {
@@ -312,12 +302,6 @@
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .back-btn:hover {
-            color: white;
-            border-color: white;
         }
 
         footer {
@@ -345,10 +329,9 @@
     <div class="navbar">
         <div class="nav-logo" id="main-bot-name">🤖 Loading Bot...</div>
         <div class="nav-links">
-            <a href="#" class="active" id="nav-home" onclick="showServerSelection()">Home</a>
+            <a href="#" class="active" onclick="showServerSelection()">Home</a>
             <a href="#">Commands</a>
             <a href="#">Premium</a>
-            <a href="https://discord.com/oauth2/authorize?client_id=1499880240640692465" class="nav-btn">Login</a>
         </div>
     </div>
 
@@ -358,12 +341,12 @@
 
     <div class="server-selection-screen" id="server-select-area">
         <h1>Select a Server</h1>
-        <p>Please choose a server below to manage its configurations and monitoring systems.</p>
+        <p>Choose a discord community below to begin configuring live bot structures.</p>
         
-        <div class="server-grid" id="servers-list-container">
-            <div class="server-card" onclick="enterDashboard('Server 1')">
-                <div class="server-icon">S1</div>
-                <div class="server-name" id="guild-name-display">Active Server</div>
+        <div class="server-grid">
+            <div class="server-card" onclick="enterDashboard()">
+                <img src="https://cdn.discordapp.com/embed/avatars/0.png" class="server-icon-img" id="guild-avatar-display" alt="Server Icon">
+                <div class="server-name" id="guild-name-display">Active Guild</div>
                 <div class="server-status">● Connected</div>
             </div>
         </div>
@@ -378,10 +361,10 @@
         <div class="dashboard-container">
             <div class="db-sidebar">
                 <div class="sidebar-profile">
-                    <div class="avatar">U</div>
+                    <img src="https://cdn.discordapp.com/embed/avatars/1.png" class="avatar-img" id="bot-profile-avatar" alt="Bot Profile">
                     <div>
-                        <div style="font-weight: bold; font-size: 0.95rem;">Admin User</div>
-                        <div style="font-size: 0.8rem; color: var(--text-muted);">Owner</div>
+                        <div id="sidebar-bot-name" style="font-weight: bold; font-size: 0.95rem;">Loading...</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Verified Bot</div>
                     </div>
                 </div>
                 <div class="db-menu-item active" onclick="switchTab('general', this)">⚙️ General Settings</div>
@@ -397,7 +380,6 @@
                         <span>General Server Management</span>
                         <span class="server-badge">● Online</span>
                     </div>
-                    
                     <div class="toggle-box">
                         <div>
                             <div class="toggle-title">Leveling & XP System</div>
@@ -412,7 +394,6 @@
                         <span>Automated Security Tools</span>
                         <span class="server-badge">● Secured</span>
                     </div>
-                    
                     <div class="toggle-box">
                         <div>
                             <div class="toggle-title">Enable Anti-Spam System</div>
@@ -427,7 +408,6 @@
                         <span>Greeting Announcements</span>
                         <span class="server-badge">● Active</span>
                     </div>
-                    
                     <div class="toggle-box">
                         <div>
                             <div class="toggle-title">Welcome & Goodbye Logs</div>
@@ -455,12 +435,12 @@
 
     <script>
         const PTERO_URL = "http://87.232.72.111:15378/"; 
+        let globalGuildName = "Server";
 
-        // Screen Routing Functions
-        function enterDashboard(serverName) {
+        function enterDashboard() {
             document.getElementById('server-select-area').style.display = 'none';
             document.getElementById('main-dashboard-area').style.display = 'block';
-            document.getElementById('active-panel-title').innerText = "✨ " + serverName + " Control Panel";
+            document.getElementById('active-panel-title').innerText = "✨ " + globalGuildName + " Panel";
         }
 
         function showServerSelection() {
@@ -476,16 +456,22 @@
             element.classList.add('active');
         }
 
-        // Fetch running configuration
         async function fetchLiveBotData() {
             try {
                 const response = await fetch(PTERO_URL);
                 if (!response.ok) throw new Error("API Failure");
                 
                 const data = await response.json();
+                globalGuildName = data.guild_name;
                 
+                // Set text names
                 document.getElementById("main-bot-name").innerText = "🤖 " + data.name;
-                document.getElementById("guild-name-display").innerText = data.name + " Server (" + data.users + " Users)";
+                document.getElementById("sidebar-bot-name").innerText = data.name;
+                document.getElementById("guild-name-display").innerText = data.guild_name;
+                
+                // Injecting live server icon and bot avatar images
+                document.getElementById("guild-avatar-display").src = data.guild_icon;
+                document.getElementById("bot-profile-avatar").src = data.avatar;
                 
                 updateSwitchUI("anti_spam", data.features.anti_spam);
                 updateSwitchUI("welcome_logs", data.features.welcome_logs);
