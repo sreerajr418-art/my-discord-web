@@ -16,7 +16,6 @@
             color: var(--text-main); font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; padding: 0; 
             overflow-x: hidden; position: relative;
         }
-        /* ANIMATED BACKGROUND CANVAS */
         #bg-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;
         }
@@ -42,7 +41,6 @@
         .server-icon-img { width: 90px; height: 90px; border-radius: 50%; margin-bottom: 15px; border: 3px solid var(--accent); box-shadow: 0 0 15px var(--accent-glow); }
         .server-name { font-weight: 800; font-size: 1.2rem; color: #fff; }
         
-        /* LIVE COUNTER METRICS */
         .live-metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
         .metric-mini-card { background: rgba(5,7,15,0.6); border: 1px solid rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; text-align: center; }
         .metric-mini-card h4 { margin: 0; font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; }
@@ -85,7 +83,7 @@
         }
         .save-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 28px var(--accent-glow); }
         .grid-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    </relative>
+    </style>
 </head>
 <body>
 
@@ -257,7 +255,6 @@
         const PTERO_URL = "http://87.232.72.111:15378/"; 
         let cacheGuildsData = [];
 
-        // BACKGROUND ANIMATION ENGINE CODE
         const canvas = document.getElementById("bg-canvas");
         const ctx = canvas.getContext("2d");
         let particles = [];
@@ -305,7 +302,6 @@
         }
         animate();
 
-        // ROUTING LOGICS
         function enterDashboard(guildId, guildName) {
             document.getElementById('server-select-area').style.display = 'none';
             document.getElementById('main-dashboard-area').style.display = 'block';
