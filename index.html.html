@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VELORA | Neural Management System</title>
+    <title>VELORA | Premium Control Panel</title>
     <style>
         :root {
             --bg-main: #020306; --bg-nav: #060913; --card-bg: rgba(9, 14, 26, 0.75);
@@ -28,7 +28,6 @@
         .nav-links button { background: transparent; border: 1px solid var(--secondary); color: var(--secondary); padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s; box-shadow: 0 0 10px var(--secondary-glow); }
         .nav-links button:hover { background: var(--secondary); color: #000; box-shadow: 0 0 20px var(--secondary); }
 
-        /* HERO WELCOME LANDING SECTION (Keeping VELORA here only) */
         .hero-section {
             height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
             text-align: center; padding: 0 20px; position: relative; z-index: 10;
@@ -39,7 +38,6 @@
         .hero-btn { background: linear-gradient(135deg, var(--accent), #9e0032); color: white; border: none; padding: 16px 45px; border-radius: 14px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 8px 25px var(--accent-glow); transition: 0.3s; text-transform: uppercase; letter-spacing: 2px; }
         .hero-btn:hover { transform: translateY(-4px); box-shadow: 0 12px 35px var(--accent-glow); }
 
-        /* SERVER SELECTION AREA */
         .server-selection-screen { padding: 100px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.02); background: rgba(4, 6, 12, 0.5); position: relative; z-index: 20; }
         .server-selection-screen h2 { font-size: 2.8rem; text-shadow: 0 0 25px var(--secondary-glow); color: var(--secondary); font-weight: 900; margin-bottom: 10px; }
         .server-grid { display: flex; gap: 35px; justify-content: center; flex-wrap: wrap; margin-top: 50px; }
@@ -52,18 +50,15 @@
         .server-icon-img { width: 95px; height: 95px; border-radius: 50%; margin-bottom: 15px; border: 3px solid var(--accent); box-shadow: 0 0 18px var(--accent-glow); pointer-events: none; }
         .server-name { font-weight: 800; font-size: 1.3rem; color: #fff; pointer-events: none; }
         
-        /* DYNAMIC PANEL AREA */
         .dashboard-section { display: none; max-width: 1250px; margin: 40px auto; padding: 0 20px; animation: fadeIn 0.5s ease-in-out; position: relative; z-index: 40; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .dashboard-container { 
             background: rgba(6, 9, 18, 0.9); border-radius: 28px; border: 1px solid rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(30px); display: flex; height: 720px; overflow: hidden; box-shadow: 0 30px 70px rgba(0,0,0,0.8);
+            backdrop-filter: blur(30px); display: flex; height: 740px; overflow: hidden; box-shadow: 0 30px 70px rgba(0,0,0,0.8);
         }
         .db-sidebar { width: 250px; background-color: var(--sidebar-bg); padding: 35px 20px; border-right: 1px solid rgba(255,255,255,0.03); }
         .sidebar-profile { display: flex; align-items: center; gap: 15px; margin-bottom: 35px; background: rgba(255,255,255,0.01); padding: 14px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.04); }
         .avatar-img { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--secondary); box-shadow: 0 0 10px var(--secondary-glow); }
-        
-        /* Dynamic Server Title inside Dashboard instead of Bot Brand Name */
         #sidebar-server-name { font-weight: 800; font-size: 1.05rem; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; }
 
         .db-menu-item { padding: 14px 18px; color: var(--text-muted); border-radius: 14px; margin-bottom: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 12px; font-size: 0.95rem; }
@@ -72,7 +67,6 @@
         .db-panel { display: none; }
         .db-panel.active { display: block; }
         
-        /* PREVIEW DISPLAY PANEL */
         .live-preview-window {
             background: #090e1a; border: 1px dashed var(--secondary); border-radius: 16px; padding: 20px; margin-bottom: 25px;
             display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;
@@ -141,6 +135,7 @@
                 <div class="db-menu-item" onclick="switchTab('tag_role', this)">💎 Name Tag Roles</div>
                 <div class="db-menu-item" onclick="switchTab('welcome', this)">👋 Welcome Banners</div>
                 <div class="db-menu-item" onclick="switchTab('goodbye', this)">🏃 Goodbye Banners</div>
+                <div class="db-menu-item" onclick="switchTab('adv_modules', this)">💎 Advanced Modules</div>
             </div>
             
             <div class="db-content">
@@ -219,7 +214,6 @@
                 
                 <div id="panel-welcome" class="db-panel">
                     <div class="panel-header-title">Dynamic Welcome Canvas</div>
-                    
                     <div class="live-preview-window">
                         <div class="mock-banner" id="w-preview-box">
                             <img src="https://cdn.discordapp.com/embed/avatars/0.png" class="mock-avatar" alt="Avatar">
@@ -227,7 +221,6 @@
                             <p class="mock-subtitle" id="lbl-preview-subtitle">Welcome to our community server!</p>
                         </div>
                     </div>
-
                     <div class="toggle-box">
                         <div><b>Enable Welcome Cards</b></div>
                         <div class="switch" id="sw-welcome_logs" onclick="sendToggleRequest('welcome_logs')"></div>
@@ -242,7 +235,7 @@
                             <input type="text" class="form-control" id="welcome-title-input" oninput="updateLivePreview()">
                         </div>
                         <div class="form-group">
-                            <label>Subtitle Text ({count} = Members)</label>
+                            <label>Subtitle Text</label>
                             <input type="text" class="form-control" id="welcome-subtitle-input" oninput="updateLivePreview()">
                         </div>
                     </div>
@@ -279,6 +272,23 @@
                     </div>
                     <button class="save-btn" onclick="saveGoodbyeBannerConfig()">Push Layout</button>
                 </div>
+
+                <div id="panel-adv_modules" class="db-panel">
+                    <div class="panel-header-title">Advanced Matrix Systems</div>
+                    <div class="toggle-box">
+                        <div><b>Simulate Virtual Economy Ledger System</b></div>
+                        <div class="switch" id="sw-economy_enabled" onclick="sendToggleRequest('economy_enabled')"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Custom Currency Token Asset Name</label>
+                        <input type="text" class="form-control" id="adv-currency-input" placeholder="e.g. Credits">
+                    </div>
+                    <div class="form-group">
+                        <label>Global Server Logs Channel Destination</label>
+                        <select class="form-control" id="adv-log-channel-dropdown"></select>
+                    </div>
+                    <button class="save-btn" onclick="saveAdvancedModulesConfig()">Commit Advanced Modules</button>
+                </div>
             </div>
         </div>
     </div>
@@ -287,7 +297,6 @@
         const PTERO_URL = "http://87.232.72.111:15378/"; 
         let cacheGuildsData = [];
 
-        // BACKGROUND VECTOR ANIMATION ENGINE
         const canvas = document.getElementById("bg-canvas");
         const ctx = canvas.getContext("2d");
         let particles = [];
@@ -313,9 +322,7 @@
         function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
         animate();
 
-        function scrollToServers() {
-            document.getElementById("server-select-area").scrollIntoView({ behavior: 'smooth' });
-        }
+        function scrollToServers() { document.getElementById("server-select-area").scrollIntoView({ behavior: 'smooth' }); }
 
         function updateLivePreview() {
             const heading = document.getElementById("welcome-title-input").value || "WELCOME";
@@ -324,12 +331,9 @@
 
             document.getElementById("lbl-preview-title").innerText = heading + " DISCORD_USER";
             document.getElementById("lbl-preview-subtitle").innerText = sub.replace("{count}", "154");
-            
             if(bg && bg.startsWith("http")) {
                 document.getElementById("w-preview-box").style.background = `linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('${bg}') center/cover`;
-            } else {
-                document.getElementById("w-preview-box").style.background = "#161b29";
-            }
+            } else { document.getElementById("w-preview-box").style.background = "#161b29"; }
         }
 
         function enterDashboard(guildId, guildName) {
@@ -338,24 +342,23 @@
             document.getElementById('main-dashboard-area').style.display = 'block';
             window.scrollTo(0,0);
             
-            // Dynamic Header Text & Avatar update based on Server Selection info
             document.getElementById('active-panel-title').innerText = "✨ " + guildName.toUpperCase() + " INTERFACE MATRIX";
             document.getElementById('sidebar-server-name').innerText = guildName;
 
             const activeGuild = cacheGuildsData.find(g => g.id === guildId);
             document.getElementById("live-metric-members").innerText = activeGuild ? activeGuild.users : 0;
-            if(activeGuild && activeGuild.icon) {
-                document.getElementById("bot-profile-avatar").src = activeGuild.icon;
-            }
+            if(activeGuild && activeGuild.icon) { document.getElementById("bot-profile-avatar").src = activeGuild.icon; }
 
             const wDropdown = document.getElementById("welcome-channel-dropdown");
             const gDropdown = document.getElementById("goodbye-channel-dropdown");
             const rDropdown = document.getElementById("autorole-dropdown");
             const brDropdown = document.getElementById("bot-autorole-dropdown");
             const tgDropdown = document.getElementById("tag-reward-dropdown");
+            const logDropdown = document.getElementById("adv-log-channel-dropdown");
             
             wDropdown.innerHTML = '<option value="None">Disable Channel</option>';
             gDropdown.innerHTML = '<option value="None">Disable Channel</option>';
+            logDropdown.innerHTML = '<option value="None">Disable Channel</option>';
             rDropdown.innerHTML = '<option value="None">No Role Selected</option>';
             brDropdown.innerHTML = '<option value="None">No Role Selected</option>';
             tgDropdown.innerHTML = '<option value="None">No Role Selected</option>';
@@ -364,7 +367,7 @@
                 if(activeGuild.channels) {
                     activeGuild.channels.forEach(ch => {
                         const row = `<option value="${ch.id}"># ${ch.name}</option>`;
-                        wDropdown.innerHTML += row; gDropdown.innerHTML += row;
+                        wDropdown.innerHTML += row; gDropdown.innerHTML += row; logDropdown.innerHTML += row;
                     });
                 }
                 if(activeGuild.roles) {
@@ -413,6 +416,7 @@
                 updateSwitchUI("tag_role_enabled", data.features.tag_role_enabled);
                 updateSwitchUI("welcome_logs", data.features.welcome_logs);
                 updateSwitchUI("goodbye_logs", data.features.goodbye_logs);
+                updateSwitchUI("economy_enabled", data.features.economy_enabled);
                 
                 document.getElementById("welcome-channel-dropdown").value = data.features.welcome_channel_id;
                 document.getElementById("welcome-title-input").value = data.features.banner_title;
@@ -431,6 +435,9 @@
                 
                 document.getElementById("core-prefix-input").value = data.features.custom_prefix;
                 document.getElementById("core-footer-input").value = data.features.embed_footer_text;
+                
+                document.getElementById("adv-currency-input").value = data.features.currency_name;
+                document.getElementById("adv-log-channel-dropdown").value = data.features.log_channel_id;
             } catch (error) { console.error(error); }
         }
 
@@ -497,6 +504,16 @@
                     body: JSON.stringify({ prefix: document.getElementById("core-prefix-input").value, footer: document.getElementById("core-footer-input").value })
                 });
                 alert("Global parameters updated!");
+            } catch (err) { console.error(err); }
+        }
+
+        async function saveAdvancedModulesConfig() {
+            try {
+                await fetch(PTERO_URL + "api/save_advanced_modules", {
+                    method: "POST", headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ currency: document.getElementById("adv-currency-input").value, log_channel: document.getElementById("adv-log-channel-dropdown").value })
+                });
+                alert("Advanced matrix parameters synchronized successfully!");
             } catch (err) { console.error(err); }
         }
 
