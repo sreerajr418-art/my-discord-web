@@ -16,25 +16,19 @@
             --success: #23a55a;
         }
         body { 
-            background-color: var(--bg-main); 
-            color: var(--text-main); 
-            font-family: system-ui, sans-serif; 
-            margin: 0; padding: 0; text-align: center;
+            background-color: var(--bg-main); color: var(--text-main); 
+            font-family: system-ui, sans-serif; margin: 0; padding: 0; text-align: center;
         }
         .navbar {
-            background-color: var(--bg-nav);
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background-color: var(--bg-nav); padding: 15px 5%;
+            display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
         .nav-logo { font-size: 1.4rem; font-weight: 800; }
         .server-selection-screen { display: block; padding: 60px 20px; }
         .server-grid { display: flex; gap: 25px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
         .server-card {
-            background-color: var(--bg-nav);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background-color: var(--bg-nav); border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 12px; padding: 25px; width: 220px; cursor: pointer; transition: 0.3s;
         }
         .server-card:hover { border-color: var(--accent); transform: translateY(-3px); }
@@ -43,7 +37,7 @@
         .dashboard-section { display: none; max-width: 1100px; margin: 40px auto; padding: 0 20px; }
         .dashboard-container {
             background-color: var(--bg-nav); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.08);
-            display: flex; height: 450px; overflow: hidden; text-align: left;
+            display: flex; height: 500px; overflow: hidden; text-align: left;
         }
         .db-sidebar { width: 220px; background-color: var(--sidebar-bg); padding: 25px 15px; }
         .sidebar-profile { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; }
@@ -57,11 +51,20 @@
             background-color: var(--card-bg); padding: 20px; border-radius: 12px;
             display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;
         }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-muted); }
+        .form-control {
+            width: 95%; padding: 12px; background-color: var(--card-bg); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px; color: white; font-size: 1rem; outline: none;
+        }
+        .form-control:focus { border-color: var(--accent); }
         .switch { width: 50px; height: 26px; background-color: var(--accent); border-radius: 50px; position: relative; cursor: pointer; }
         .switch::after { content: ''; position: absolute; width: 20px; height: 20px; background-color: white; border-radius: 50px; top: 3px; right: 3px; transition: 0.3s; }
         .switch.off { background-color: #3f4248; }
         .switch.off::after { right: calc(100% - 23px); }
         .back-btn { background-color: transparent; color: var(--text-muted); border: 1px solid #3f4248; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+        .save-btn { background-color: var(--accent); color: white; border: none; padding: 12px 30px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; margin-top: 10px; }
+        .save-btn:hover { background-color: #4752C4; }
         .fix-notice { color: #faa61a; background-color: rgba(250, 166, 26, 0.1); padding: 10px; border-radius: 6px; display: none; margin: 15px; border: 1px dashed #faa61a; }
     </style>
 </head>
@@ -72,7 +75,7 @@
     </div>
 
     <div class="fix-notice" id="browser-shield-notice">
-        ⚠️ Connection Blocked. Click the Lock/Tune icon near URL, go to Site Settings, set "Insecure Content" to ALLOW, then refresh.
+        ⚠️ Connection Blocked. Click Lock/Tune icon, go to Site Settings, set "Insecure Content" to ALLOW, then refresh.
     </div>
 
     <div class="server-selection-screen" id="server-select-area">
@@ -96,7 +99,7 @@
                 </div>
                 <div class="db-menu-item active" onclick="switchTab('general', this)">⚙️ General</div>
                 <div class="db-menu-item" onclick="switchTab('moderation', this)">🛡️ Moderation</div>
-                <div class="db-menu-item" onclick="switchTab('welcome', this)">👋 Welcome</div>
+                <div class="db-menu-item" onclick="switchTab('welcome', this)">👋 Welcome Logs</div>
             </div>
             <div class="db-content">
                 <div id="panel-general" class="db-panel active">
@@ -106,6 +109,7 @@
                         <div class="switch off" id="sw-leveling_system" onclick="sendToggleRequest('leveling_system')"></div>
                     </div>
                 </div>
+                
                 <div id="panel-moderation" class="db-panel">
                     <h3>Moderation Tools</h3>
                     <div class="toggle-box">
@@ -113,12 +117,26 @@
                         <div class="switch" id="sw-anti_spam" onclick="sendToggleRequest('anti_spam')"></div>
                     </div>
                 </div>
+                
                 <div id="panel-welcome" class="db-panel">
-                    <h3>Greeting Logs</h3>
+                    <h3>Greeting Logs & Configuration</h3>
                     <div class="toggle-box">
-                        <div><b>Welcome & Goodbye Logs</b></div>
+                        <div><b>Enable Welcome Messages</b></div>
                         <div class="switch" id="sw-welcome_logs" onclick="sendToggleRequest('welcome_logs')"></div>
                     </div>
+                    
+                    <div class="form-group">
+                        <label>Select Welcome Channel</label>
+                        <select class="form-control" id="welcome-channel-dropdown">
+                            </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Custom Welcome Message</label>
+                        <textarea class="form-control" id="welcome-msg-text" rows="4" placeholder="Use {user} to mention the joining member..."></textarea>
+                    </div>
+                    
+                    <button class="save-btn" onclick="saveWelcomeConfiguration()">Save Welcome Settings</button>
                 </div>
             </div>
         </div>
@@ -126,11 +144,23 @@
 
     <script>
         const PTERO_URL = "http://87.232.72.111:15378/"; 
+        let cacheGuildsData = [];
 
-        function enterDashboard(guildName) {
+        function enterDashboard(guildId, guildName) {
             document.getElementById('server-select-area').style.display = 'none';
             document.getElementById('main-dashboard-area').style.display = 'block';
             document.getElementById('active-panel-title').innerText = "✨ " + guildName;
+            
+            // Find the selected guild from cached server array
+            const activeGuild = cacheGuildsData.find(g => g.id === guildId);
+            const dropdown = document.getElementById("welcome-channel-dropdown");
+            dropdown.innerHTML = '<option value="None">Disable Channel</option>';
+            
+            if(activeGuild && activeGuild.channels) {
+                activeGuild.channels.forEach(ch => {
+                    dropdown.innerHTML += `<option value="${ch.id}"># ${ch.name}</option>`;
+                });
+            }
         }
 
         function showServerSelection() {
@@ -151,6 +181,7 @@
                 if (!response.ok) throw new Error("API Failure");
                 const data = await response.json();
                 
+                cacheGuildsData = data.guilds;
                 document.getElementById("main-bot-name").innerText = "🤖 " + data.name;
                 document.getElementById("sidebar-bot-name").innerText = data.name;
                 document.getElementById("bot-profile-avatar").src = data.avatar;
@@ -161,7 +192,7 @@
                 data.guilds.forEach(guild => {
                     const card = document.createElement("div");
                     card.className = "server-card";
-                    card.onclick = () => enterDashboard(guild.name);
+                    card.onclick = () => enterDashboard(guild.id, guild.name);
                     card.innerHTML = `
                         <img src="${guild.icon}" class="server-icon-img" alt="Icon">
                         <div class="server-name">${guild.name}</div>
@@ -173,6 +204,10 @@
                 updateSwitchUI("anti_spam", data.features.anti_spam);
                 updateSwitchUI("welcome_logs", data.features.welcome_logs);
                 updateSwitchUI("leveling_system", data.features.leveling_system);
+                
+                document.getElementById("welcome-channel-dropdown").value = data.features.welcome_channel_id;
+                document.getElementById("welcome-msg-text").value = data.features.welcome_message;
+                
                 document.getElementById("browser-shield-notice").style.display = "none";
             } catch (error) {
                 console.error(error);
@@ -195,6 +230,24 @@
                 const resData = await response.json();
                 if (resData.success) { updateSwitchUI(featureName, resData.current_state); }
             } catch (err) { console.error(err); }
+        }
+
+        async function saveWelcomeConfiguration() {
+            const channelId = document.getElementById("welcome-channel-dropdown").value;
+            const msgText = document.getElementById("welcome-msg-text").value;
+            
+            try {
+                const response = await fetch(PTERO_URL + "api/save_welcome", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ channel_id: channelId, message: msgText })
+                });
+                const result = await response.json();
+                if(result.success) { alert("Welcome settings saved successfully!"); }
+            } catch (err) {
+                console.error(err);
+                alert("Failed to save welcome configurations.");
+            }
         }
 
         window.addEventListener('load', fetchLiveBotData);
