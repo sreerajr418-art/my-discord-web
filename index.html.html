@@ -5,115 +5,137 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VELORA | Premium Control Panel</title>
     <style>
-        :root { --bg: #020306; --accent: #ff0055; --secondary: #00f0ff; --premium: #ffaa00; }
-        body { background: var(--bg); color: #fff; font-family: sans-serif; margin: 0; padding: 0; }
-        .navbar { background: #060913; padding: 20px 50px; display: flex; justify-content: space-between; border-bottom: 2px solid var(--accent); }
-        .content { max-width: 900px; margin: 50px auto; padding: 20px; text-align: center; }
-        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .card { background: #090e1a; padding: 25px; border-radius: 15px; border: 1px solid #222; }
-        .dropzone { border: 2px dashed var(--secondary); padding: 40px; margin: 20px 0; border-radius: 15px; cursor: pointer; transition: 0.3s; }
-        .dropzone:hover { background: rgba(0, 240, 255, 0.1); }
-        .premium-gate { border: 2px solid var(--premium); padding: 30px; margin: 20px 0; border-radius: 15px; background: rgba(255, 170, 0, 0.05); }
-        button { padding: 12px 25px; background: var(--accent); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .premium-btn { background: var(--premium); color: #000; }
-        .preview-box { background: #111; padding: 20px; border-radius: 10px; margin-top: 20px; }
+        :root { --bg-main: #020306; --accent: #ff0055; --secondary: #00f0ff; --premium-color: #ffaa00; --premium-glow: rgba(255, 170, 0, 0.4); }
+        body { background-color: var(--bg-main); color: #ffffff; font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; padding: 0; }
+        .navbar { background: rgba(6, 9, 19, 0.85); padding: 20px 6%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--accent); position: sticky; top: 0; z-index: 50; }
+        .nav-logo { font-size: 1.8rem; font-weight: 900; color: var(--accent); cursor: pointer; }
+        .login-btn { background: #5865F2; color: #fff; border: none; padding: 12px 28px; border-radius: 10px; font-weight: 700; cursor: pointer; }
+        .dashboard-section { display: none; max-width: 1250px; margin: 40px auto; padding: 20px; }
+        .db-sidebar { width: 260px; background-color: #04060d; padding: 35px 20px; border-radius: 20px; }
+        .db-menu-item { padding: 14px; cursor: pointer; color: #7485a5; margin-bottom: 10px; border-radius: 10px; }
+        .db-menu-item.active { background: rgba(255,0,85,0.1); color: #fff; border-left: 4px solid var(--accent); }
+        .db-panel { display: none; }
+        .db-panel.active { display: block; }
+        .dropzone-area { border: 2px dashed var(--secondary); padding: 40px; text-align: center; cursor: pointer; margin-bottom: 20px; border-radius: 15px; }
+        .premium-lock-screen { border: 2px dashed var(--premium-color); padding: 50px; text-align: center; border-radius: 20px; }
+        .premium-buy-btn { background: var(--premium-color); color: #000; border: none; padding: 15px 30px; border-radius: 10px; font-weight: 800; cursor: pointer; }
+        .toggle-box { background: rgba(9, 14, 26, 0.75); padding: 20px; margin-bottom: 15px; display: flex; justify-content: space-between; border-radius: 15px; }
+        .save-btn { background: var(--accent); color: white; border: none; padding: 15px 30px; border-radius: 10px; font-weight: 800; cursor: pointer; }
+        .form-control { width: 95%; padding: 14px; background: #04050a; border: 1px solid #333; border-radius: 10px; color: #fff; margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
     <div class="navbar">
-        <div style="font-size: 24px; font-weight: 900; color: var(--accent);">VELORA</div>
-        <button id="login-btn" onclick="login()">Login with Discord</button>
+        <div class="nav-logo">VELORA</div>
+        <div id="nav-auth-box"><button class="login-btn" onclick="redirectToDiscordOAuth()">Login with Discord</button></div>
     </div>
 
-    <div class="content" id="home-view">
-        <h1>Welcome to Velora Node</h1>
-        <p>Login to manage your premium server automation.</p>
+    <div id="home-view" style="padding: 100px 20px; text-align: center;">
+        <h1>VELORA DASHBOARD</h1>
+        <p>Login to manage your server clusters.</p>
     </div>
 
-    <div id="main-ui" style="display:none;" class="content">
-        <h2>Dashboard</h2>
-        <div id="server-list" class="dashboard-grid"></div>
+    <div id="server-select-area" style="display: none; padding: 50px; text-align: center;">
+        <h2>Select Server</h2>
+        <div id="dynamic-server-grid" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;"></div>
+    </div>
 
-        <div class="premium-gate" id="premium-gate">
-            <h3>👑 Premium Anti-Nuke (20 Rs)</h3>
-            <p>Get full security features for your server.</p>
-            <button class="premium-btn" onclick="pay()">Unlock Premium</button>
-        </div>
-
-        <div class="card" id="premium-features" style="display:none; color: var(--premium);">
-            <h3>✅ Premium Anti-Nuke Active</h3>
-        </div>
-
-        <div class="card">
-            <h3>🎨 Bot Identity</h3>
-            <div class="dropzone" ondrop="handleDrop(event, 'bot-url')" ondragover="event.preventDefault()">
-                Drag & Drop Avatar
+    <div id="main-dashboard-area" class="dashboard-section">
+        <div class="dashboard-container" style="display: flex; gap: 20px;">
+            <div class="db-sidebar">
+                <div class="db-menu-item active" onclick="switchTab('panel-welcome', this)">👋 Welcome Banners</div>
+                <div class="db-menu-item" onclick="switchTab('panel-goodbye', this)">🏃 Goodbye Banners</div>
+                <div class="db-menu-item" onclick="switchTab('panel-bot_identity', this)">🎨 Bot Customizer</div>
+                <div class="db-menu-item" onclick="switchTab('panel-anti_nuke', this)">👑 Premium Anti-Nuke</div>
             </div>
-            <input type="text" id="bot-url" placeholder="Image URL">
-            <button onclick="updateAvatar()">Update Avatar</button>
-        </div>
+            
+            <div class="db-content" style="flex: 1;">
+                <div id="panel-welcome" class="db-panel active">
+                    <h2>Welcome Banner</h2>
+                    <div class="dropzone-area" ondrop="handleDrop(event, 'welcome-bg-input')" ondragover="event.preventDefault()">Drag & Drop Banner</div>
+                    <input type="text" id="welcome-bg-input" class="form-control" placeholder="Image URL">
+                    <button class="save-btn" onclick="alert('Saved!')">Push Layout</button>
+                </div>
 
-        <div class="card">
-            <h3>👋 Welcome Banner Preview</h3>
-            <div class="dropzone" ondrop="handleDrop(event, 'welcome-url')" ondragover="event.preventDefault()">
-                Drag & Drop Banner
-            </div>
-            <input type="text" id="welcome-url" placeholder="Banner URL">
-            <div class="preview-box">
-                <img id="banner-preview" src="" style="width: 100%; border-radius: 5px;">
+                <div id="panel-goodbye" class="db-panel">
+                    <h2>Goodbye Banner</h2>
+                    <div class="dropzone-area" ondrop="handleDrop(event, 'goodbye-bg-input')" ondragover="event.preventDefault()">Drag & Drop Banner</div>
+                    <input type="text" id="goodbye-bg-input" class="form-control" placeholder="Image URL">
+                    <button class="save-btn" onclick="alert('Saved!')">Push Layout</button>
+                </div>
+
+                <div id="panel-bot_identity" class="db-panel">
+                    <h2>Bot Avatar</h2>
+                    <div class="dropzone-area" ondrop="handleDrop(event, 'bot-avatar-url-input')" ondragover="event.preventDefault()">Drag Avatar</div>
+                    <input type="text" id="bot-avatar-url-input" class="form-control" placeholder="Image URL">
+                    <button class="save-btn" onclick="alert('Updated!')">Update Avatar</button>
+                </div>
+
+                <div id="panel-anti_nuke" class="db-panel">
+                    <h2 style="color:var(--premium-color);">Premium Anti-Nuke</h2>
+                    <div id="premium-locked-gate" class="premium-lock-screen">
+                        <h2>SYSTEM LOCKED</h2>
+                        <button class="premium-buy-btn" onclick="simulatePremiumPurchase()">Pay 20 Rs to Unlock</button>
+                    </div>
+                    <div id="premium-unlocked-panel" style="display:none;">
+                        <div class="toggle-box"><b>Anti-Nuke Active</b></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        const API = "http://87.232.72.111:15378/";
-        const CLIENT_ID = "1499880240640692465";
+        const WRITE_URL = "http://87.232.72.111:15378/";
+        const CLIENT_ID = "1499880240640692465"; 
         const REDIRECT_URI = encodeURIComponent("https://my-discord-web-five.vercel.app/");
         const IMG_KEY = "f86e3f5ec2029be469c45ef8df462e70";
 
-        function login() { window.location.href = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=identify%20guilds`; }
+        function switchTab(id, el) {
+            document.querySelectorAll('.db-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.db-menu-item').forEach(i => i.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            el.classList.add('active');
+        }
 
-        async function handleDrop(e, id) {
+        function redirectToDiscordOAuth() { window.location.href = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=identify%20guilds`; }
+
+        async function handleDrop(e, inputId) {
             e.preventDefault();
             let file = e.dataTransfer.files[0];
             let formData = new FormData(); formData.append("image", file);
             let res = await fetch(`https://api.imgbb.com/1/upload?key=${IMG_KEY}`, { method: "POST", body: formData });
             let data = await res.json();
-            document.getElementById(id).value = data.data.url;
-            if(id === 'welcome-url') document.getElementById('banner-preview').src = data.data.url;
+            document.getElementById(inputId).value = data.data.url;
             alert("Upload Success!");
         }
 
-        async function pay() {
-            let res = await fetch(API + "api/unlock_premium", {
-                method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify({amount: 20})
-            });
-            if((await res.json()).success) location.reload();
+        async function simulatePremiumPurchase() {
+            let res = await fetch(WRITE_URL + "api/unlock_premium", { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({ amount: 20 }) });
+            if((await res.json()).success) { alert("Premium Unlocked!"); location.reload(); }
         }
 
-        async function init() {
+        async function checkOAuthCallback() {
             const code = new URLSearchParams(window.location.search).get('code');
             if (code) {
-                let res = await fetch(API + "api/auth", {
-                    method: "POST", headers: {"Content-Type":"application/json"},
-                    body: JSON.stringify({ code: code })
-                });
+                let res = await fetch(WRITE_URL + "api/auth", { method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({ code: code }) });
                 let data = await res.json();
                 if(data.user) {
                     document.getElementById("home-view").style.display = "none";
-                    document.getElementById("main-ui").style.display = "block";
+                    document.getElementById("server-select-area").style.display = "block";
+                    document.getElementById("main-dashboard-area").style.display = "block";
                     data.guilds.forEach(g => {
-                        document.getElementById("server-list").innerHTML += `<div class="card">${g.name}</div>`;
+                        document.getElementById("dynamic-server-grid").innerHTML += `<div class="server-card">${g.name}</div>`;
                     });
                     if(data.features.premium_unlocked) {
-                        document.getElementById("premium-gate").style.display = "none";
-                        document.getElementById("premium-features").style.display = "block";
+                        document.getElementById("premium-locked-gate").style.display = "none";
+                        document.getElementById("premium-unlocked-panel").style.display = "block";
                     }
                 }
             }
         }
-        init();
+        window.onload = checkOAuthCallback;
     </script>
 </body>
 </html>
