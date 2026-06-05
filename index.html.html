@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Matrix Control Panel</title>
+    <title>VELORA | Neural Management System</title>
     <style>
         :root {
-            --bg-main: #030407; --bg-nav: #080b14; --card-bg: rgba(12, 17, 30, 0.75);
+            --bg-main: #020306; --bg-nav: #060913; --card-bg: rgba(9, 14, 26, 0.75);
             --accent: #ff0055; --accent-glow: rgba(255, 0, 85, 0.45);
-            --secondary: #00e5ff; --secondary-glow: rgba(0, 229, 255, 0.35);
-            --text-main: #ffffff; --text-muted: #7e8da8; --sidebar-bg: #05070f; --success: #00ff77;
+            --secondary: #00f0ff; --secondary-glow: rgba(0, 240, 255, 0.35);
+            --text-main: #ffffff; --text-muted: #7485a5; --sidebar-bg: #04060d; --success: #00ff88;
         }
         body { 
             background-color: var(--bg-main); color: var(--text-main); 
@@ -18,41 +18,41 @@
         }
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         
-        /* PREMIUM NAVBAR (Fixed Z-Index & Clean Layout) */
         .navbar { 
             background: rgba(6, 9, 19, 0.85); padding: 20px 6%; 
-            display: flex; justify-content: flex-end; align-items: center; 
+            display: flex; justify-content: space-between; align-items: center; 
             border-bottom: 2px solid var(--accent); box-shadow: 0 0 30px var(--accent-glow);
             backdrop-filter: blur(15px); position: sticky; top: 0; z-index: 50;
         }
+        .nav-logo { font-size: 1.8rem; font-weight: 900; letter-spacing: 4px; color: var(--accent); text-shadow: 0 0 15px var(--accent-glow); transform: skewX(-5deg); cursor: pointer; }
         .nav-links button { background: transparent; border: 1px solid var(--secondary); color: var(--secondary); padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s; box-shadow: 0 0 10px var(--secondary-glow); }
         .nav-links button:hover { background: var(--secondary); color: #000; box-shadow: 0 0 20px var(--secondary); }
 
-        /* HERO WELCOME LANDING SECTION */
+        /* HERO WELCOME LANDING SECTION (Keeping VELORA here only) */
         .hero-section {
             height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
             text-align: center; padding: 0 20px; position: relative; z-index: 10;
         }
         .hero-badge { background: rgba(255, 0, 85, 0.1); border: 1px solid var(--accent); color: var(--accent); padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; box-shadow: 0 0 15px rgba(255,0,85,0.2); }
-        .hero-section h1 { font-size: 4.5rem; font-weight: 900; margin: 0; letter-spacing: -1px; background: linear-gradient(135deg, #fff 30%, var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 40px rgba(0,240,255,0.1); }
+        .hero-section h1 { font-size: 5rem; font-weight: 900; margin: 0; letter-spacing: 2px; background: linear-gradient(135deg, #fff 40%, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 40px rgba(255,0,85,0.1); }
         .hero-section p { color: var(--text-muted); font-size: 1.3rem; max-width: 600px; margin: 20px 0 35px 0; line-height: 1.6; }
         .hero-btn { background: linear-gradient(135deg, var(--accent), #9e0032); color: white; border: none; padding: 16px 45px; border-radius: 14px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 8px 25px var(--accent-glow); transition: 0.3s; text-transform: uppercase; letter-spacing: 2px; }
         .hero-btn:hover { transform: translateY(-4px); box-shadow: 0 12px 35px var(--accent-glow); }
 
-        /* DISCORD SERVER SELECTION AREA (Added Pointer Events Fix) */
-        .server-selection-screen { padding: 100px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.02); background: rgba(4, 6, 12, 0.5); position: relative; z-index: 20; pointer-events: auto; }
+        /* SERVER SELECTION AREA */
+        .server-selection-screen { padding: 100px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.02); background: rgba(4, 6, 12, 0.5); position: relative; z-index: 20; }
         .server-selection-screen h2 { font-size: 2.8rem; text-shadow: 0 0 25px var(--secondary-glow); color: var(--secondary); font-weight: 900; margin-bottom: 10px; }
-        .server-grid { display: flex; gap: 35px; justify-content: center; flex-wrap: wrap; margin-top: 50px; pointer-events: auto; }
+        .server-grid { display: flex; gap: 35px; justify-content: center; flex-wrap: wrap; margin-top: 50px; }
         .server-card { 
             background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px);
             border-radius: 24px; padding: 35px; width: 240px; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6); text-align: center; position: relative; z-index: 30; pointer-events: auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6); text-align: center; position: relative; z-index: 30;
         }
         .server-card:hover { border-color: var(--secondary); transform: translateY(-12px) scale(1.03); box-shadow: 0 0 40px var(--secondary-glow); }
         .server-icon-img { width: 95px; height: 95px; border-radius: 50%; margin-bottom: 15px; border: 3px solid var(--accent); box-shadow: 0 0 18px var(--accent-glow); pointer-events: none; }
         .server-name { font-weight: 800; font-size: 1.3rem; color: #fff; pointer-events: none; }
         
-        /* CONTROL DASHBOARD CORE */
+        /* DYNAMIC PANEL AREA */
         .dashboard-section { display: none; max-width: 1250px; margin: 40px auto; padding: 0 20px; animation: fadeIn 0.5s ease-in-out; position: relative; z-index: 40; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .dashboard-container { 
@@ -62,19 +62,22 @@
         .db-sidebar { width: 250px; background-color: var(--sidebar-bg); padding: 35px 20px; border-right: 1px solid rgba(255,255,255,0.03); }
         .sidebar-profile { display: flex; align-items: center; gap: 15px; margin-bottom: 35px; background: rgba(255,255,255,0.01); padding: 14px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.04); }
         .avatar-img { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--secondary); box-shadow: 0 0 10px var(--secondary-glow); }
+        
+        /* Dynamic Server Title inside Dashboard instead of Bot Brand Name */
+        #sidebar-server-name { font-weight: 800; font-size: 1.05rem; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; }
+
         .db-menu-item { padding: 14px 18px; color: var(--text-muted); border-radius: 14px; margin-bottom: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 12px; font-size: 0.95rem; }
         .db-menu-item.active, .db-menu-item:hover { background: linear-gradient(135deg, rgba(255,0,85,0.18), rgba(0,240,255,0.05)); color: #fff; border-left: 4px solid var(--accent); }
         .db-content { flex: 1; padding: 45px; overflow-y: auto; }
         .db-panel { display: none; }
         .db-panel.active { display: block; }
         
-        /* INTERACTIVE WELCOME LIVE PREVIEW CARD */
+        /* PREVIEW DISPLAY PANEL */
         .live-preview-window {
             background: #090e1a; border: 1px dashed var(--secondary); border-radius: 16px; padding: 20px; margin-bottom: 25px;
             display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;
-            box-shadow: 0 0 20px rgba(0,240,255,0.05);
         }
-        .live-preview-window::before { content: 'LIVE EMBED CARD PREVIEW'; position: absolute; top: 8px; left: 12px; font-size: 0.65rem; font-weight: 800; color: var(--secondary); letter-spacing: 1px; }
+        .live-preview-window::before { content: 'LIVE EMBED BANNERS MODIFIERS PREVIEW'; position: absolute; top: 8px; left: 12px; font-size: 0.65rem; font-weight: 800; color: var(--secondary); letter-spacing: 1px; }
         .mock-banner { width: 90%; height: 130px; background: #161b29; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); border-left: 5px solid var(--accent); }
         .mock-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #fff; margin-bottom: 8px; }
         .mock-title { font-weight: 800; font-size: 1.1rem; margin: 0; color: #fff; }
@@ -104,14 +107,15 @@
     <canvas id="bg-canvas"></canvas>
 
     <div class="navbar">
+        <div class="nav-logo" onclick="hideDashboardArea()">VELORA</div>
         <div class="nav-links"><button onclick="scrollToServers()">Control Panel</button></div>
     </div>
 
     <div class="hero-section" id="home-view">
-        <div class="hero-badge">Next-Generation Systems</div>
-        <h1>Empower Your Discord Network</h1>
+        <div class="hero-badge">Verified Secure Matrix System</div>
+        <h1>VELORA</h1>
         <p>Experience ultra-fast automated welcomes, smart secure firewalls, custom branding banners, and dynamic user name-tag token monitoring in one unified cyberspace interface.</p>
-        <button class="hero-btn" onclick="scrollToServers()">Get Started Free</button>
+        <button class="hero-btn" onclick="scrollToServers()">Establish Interface Link</button>
     </div>
 
     <div class="server-selection-screen" id="server-select-area">
@@ -122,14 +126,14 @@
 
     <div class="dashboard-section" id="main-dashboard-area">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
-            <h2 id="active-panel-title" style="color: var(--secondary);">✨ MAIN CONTROL NODE</h2>
+            <h2 id="active-panel-title" style="color: var(--secondary); text-transform: uppercase;">✨ ACTIVE CONNECTED INTERFACE</h2>
             <button class="back-btn" onclick="hideDashboardArea()">← Terminate Link</button>
         </div>
         <div class="dashboard-container">
             <div class="db-sidebar">
                 <div class="sidebar-profile">
-                    <img src="" class="avatar-img" id="bot-profile-avatar" alt="Bot">
-                    <div id="sidebar-bot-name" style="font-weight: 800; font-size: 1.05rem;">Loading...</div>
+                    <img src="" class="avatar-img" id="bot-profile-avatar" alt="Server Icon">
+                    <div id="sidebar-server-name">Loading Server...</div>
                 </div>
                 <div class="db-menu-item active" onclick="switchTab('core', this)">⚙️ Core Parameters</div>
                 <div class="db-menu-item" onclick="switchTab('general', this)">🛡️ Firewall Protocols</div>
@@ -309,12 +313,10 @@
         function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
         animate();
 
-        // SCROLL ROUTING MECHANISM
         function scrollToServers() {
             document.getElementById("server-select-area").scrollIntoView({ behavior: 'smooth' });
         }
 
-        // WYSIWYG PREVIEW HANDLER
         function updateLivePreview() {
             const heading = document.getElementById("welcome-title-input").value || "WELCOME";
             const sub = document.getElementById("welcome-subtitle-input").value || "Welcome to our community server!";
@@ -336,8 +338,15 @@
             document.getElementById('main-dashboard-area').style.display = 'block';
             window.scrollTo(0,0);
             
+            // Dynamic Header Text & Avatar update based on Server Selection info
+            document.getElementById('active-panel-title').innerText = "✨ " + guildName.toUpperCase() + " INTERFACE MATRIX";
+            document.getElementById('sidebar-server-name').innerText = guildName;
+
             const activeGuild = cacheGuildsData.find(g => g.id === guildId);
             document.getElementById("live-metric-members").innerText = activeGuild ? activeGuild.users : 0;
+            if(activeGuild && activeGuild.icon) {
+                document.getElementById("bot-profile-avatar").src = activeGuild.icon;
+            }
 
             const wDropdown = document.getElementById("welcome-channel-dropdown");
             const gDropdown = document.getElementById("goodbye-channel-dropdown");
@@ -386,9 +395,6 @@
                 const response = await fetch(PTERO_URL);
                 const data = await response.json();
                 cacheGuildsData = data.guilds;
-                
-                document.getElementById("sidebar-bot-name").innerText = data.name;
-                document.getElementById("bot-profile-avatar").src = data.avatar;
                 
                 const grid = document.getElementById("dynamic-server-grid");
                 grid.innerHTML = "";
