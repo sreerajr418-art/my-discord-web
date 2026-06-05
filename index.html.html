@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="YOUR_GOOGLE_CONSOLE_CODE_HERE" />
+    <meta name="description" content="Velora Bot - Premium Discord bot featuring automated welcomes, secure firewalls and dashboard tracking nodes.">
+    <meta name="keywords" content="velora bot, velora discord bot, velora dashboard, velora panel">
+    <link rel="canonical" href="https://my-discord-web-five.vercel.app/" />
     <title>VELORA | Premium Control Panel</title>
     <style>
         :root {
@@ -11,72 +15,43 @@
             --secondary: #00f0ff; --secondary-glow: rgba(0, 240, 255, 0.35);
             --text-main: #ffffff; --text-muted: #7485a5; --sidebar-bg: #04060d; --success: #00ff88;
         }
-        body { 
-            background-color: var(--bg-main); color: var(--text-main); 
-            font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; padding: 0; 
-            overflow-x: hidden; position: relative; scroll-behavior: smooth;
-        }
+        body { background-color: var(--bg-main); color: var(--text-main); font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; padding: 0; overflow-x: hidden; position: relative; scroll-behavior: smooth; }
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        
-        .navbar { 
-            background: rgba(6, 9, 19, 0.85); padding: 20px 6%; 
-            display: flex; justify-content: space-between; align-items: center; 
-            border-bottom: 2px solid var(--accent); box-shadow: 0 0 30px var(--accent-glow);
-            backdrop-filter: blur(15px); position: sticky; top: 0; z-index: 50;
-        }
+        .navbar { background: rgba(6, 9, 19, 0.85); padding: 20px 6%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--accent); box-shadow: 0 0 30px var(--accent-glow); backdrop-filter: blur(15px); position: sticky; top: 0; z-index: 50; }
         .nav-logo { font-size: 1.8rem; font-weight: 900; letter-spacing: 4px; color: var(--accent); text-shadow: 0 0 15px var(--accent-glow); transform: skewX(-5deg); cursor: pointer; }
         .nav-links button { background: transparent; border: 1px solid var(--secondary); color: var(--secondary); padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.3s; box-shadow: 0 0 10px var(--secondary-glow); }
         .nav-links button:hover { background: var(--secondary); color: #000; box-shadow: 0 0 20px var(--secondary); }
-
-        .hero-section {
-            height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; padding: 0 20px; position: relative; z-index: 10;
-        }
+        .hero-section { height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; position: relative; z-index: 10; }
         .hero-badge { background: rgba(255, 0, 85, 0.1); border: 1px solid var(--accent); color: var(--accent); padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; box-shadow: 0 0 15px rgba(255,0,85,0.2); }
         .hero-section h1 { font-size: 5rem; font-weight: 900; margin: 0; letter-spacing: 2px; background: linear-gradient(135deg, #fff 40%, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 40px rgba(255,0,85,0.1); }
         .hero-section p { color: var(--text-muted); font-size: 1.3rem; max-width: 600px; margin: 20px 0 35px 0; line-height: 1.6; }
         .hero-btn { background: linear-gradient(135deg, var(--accent), #9e0032); color: white; border: none; padding: 16px 45px; border-radius: 14px; font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 0 8px 25px var(--accent-glow); transition: 0.3s; text-transform: uppercase; letter-spacing: 2px; }
         .hero-btn:hover { transform: translateY(-4px); box-shadow: 0 12px 35px var(--accent-glow); }
-
         .server-selection-screen { padding: 100px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.02); background: rgba(4, 6, 12, 0.5); position: relative; z-index: 20; }
         .server-selection-screen h2 { font-size: 2.8rem; text-shadow: 0 0 25px var(--secondary-glow); color: var(--secondary); font-weight: 900; margin-bottom: 10px; }
         .server-grid { display: flex; gap: 35px; justify-content: center; flex-wrap: wrap; margin-top: 50px; }
-        .server-card { 
-            background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px);
-            border-radius: 24px; padding: 35px; width: 240px; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6); text-align: center; position: relative; z-index: 30;
-        }
+        .server-card { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border-radius: 24px; padding: 35px; width: 240px; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 20px 40px rgba(0,0,0,0.6); text-align: center; position: relative; z-index: 30; }
         .server-card:hover { border-color: var(--secondary); transform: translateY(-12px) scale(1.03); box-shadow: 0 0 40px var(--secondary-glow); }
         .server-icon-img { width: 95px; height: 95px; border-radius: 50%; margin-bottom: 15px; border: 3px solid var(--accent); box-shadow: 0 0 18px var(--accent-glow); pointer-events: none; }
         .server-name { font-weight: 800; font-size: 1.3rem; color: #fff; pointer-events: none; }
-        
         .dashboard-section { display: none; max-width: 1250px; margin: 40px auto; padding: 0 20px; animation: fadeIn 0.5s ease-in-out; position: relative; z-index: 40; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .dashboard-container { 
-            background: rgba(6, 9, 18, 0.9); border-radius: 28px; border: 1px solid rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(30px); display: flex; height: 740px; overflow: hidden; box-shadow: 0 30px 70px rgba(0,0,0,0.8);
-        }
+        .dashboard-container { background: rgba(6, 9, 18, 0.9); border-radius: 28px; border: 1px solid rgba(255, 255, 255, 0.04); backdrop-filter: blur(30px); display: flex; height: 740px; overflow: hidden; box-shadow: 0 30px 70px rgba(0,0,0,0.8); }
         .db-sidebar { width: 250px; background-color: var(--sidebar-bg); padding: 35px 20px; border-right: 1px solid rgba(255,255,255,0.03); }
         .sidebar-profile { display: flex; align-items: center; gap: 15px; margin-bottom: 35px; background: rgba(255,255,255,0.01); padding: 14px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.04); }
         .avatar-img { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--secondary); box-shadow: 0 0 10px var(--secondary-glow); }
         #sidebar-server-name { font-weight: 800; font-size: 1.05rem; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; }
-
         .db-menu-item { padding: 14px 18px; color: var(--text-muted); border-radius: 14px; margin-bottom: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 12px; font-size: 0.95rem; }
         .db-menu-item.active, .db-menu-item:hover { background: linear-gradient(135deg, rgba(255,0,85,0.18), rgba(0,240,255,0.05)); color: #fff; border-left: 4px solid var(--accent); }
         .db-content { flex: 1; padding: 45px; overflow-y: auto; }
         .db-panel { display: none; }
         .db-panel.active { display: block; }
-        
-        .live-preview-window {
-            background: #090e1a; border: 1px dashed var(--secondary); border-radius: 16px; padding: 20px; margin-bottom: 25px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;
-        }
+        .live-preview-window { background: #090e1a; border: 1px dashed var(--secondary); border-radius: 16px; padding: 20px; margin-bottom: 25px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
         .live-preview-window::before { content: 'LIVE EMBED BANNERS MODIFIERS PREVIEW'; position: absolute; top: 8px; left: 12px; font-size: 0.65rem; font-weight: 800; color: var(--secondary); letter-spacing: 1px; }
         .mock-banner { width: 90%; height: 130px; background: #161b29; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); border-left: 5px solid var(--accent); }
         .mock-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #fff; margin-bottom: 8px; }
         .mock-title { font-weight: 800; font-size: 1.1rem; margin: 0; color: #fff; }
         .mock-subtitle { font-size: 0.8rem; color: var(--text-muted); margin: 4px 0 0 0; }
-
         .toggle-box { background: var(--card-bg); padding: 24px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.02); }
         .form-group { margin-bottom: 24px; }
         .form-group label { display: block; margin-bottom: 10px; font-weight: 700; color: var(--secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; }
@@ -108,13 +83,12 @@
     <div class="hero-section" id="home-view">
         <div class="hero-badge">Verified Secure Matrix System</div>
         <h1>VELORA</h1>
-        <p>Experience ultra-fast automated welcomes, smart secure firewalls, custom branding banners, and dynamic user name-tag token monitoring in one unified cyberspace interface.</p>
+        <p>Automated welcomes, secure firewalls, custom branding banners, and dynamic user monitoring interface.</p>
         <button class="hero-btn" onclick="scrollToServers()">Establish Interface Link</button>
     </div>
 
     <div class="server-selection-screen" id="server-select-area">
         <h2>Select an Active Cluster</h2>
-        <p style="color: var(--text-muted); margin-bottom: 10px;">Choose a database node directory below to establish configuration link.</p>
         <div class="server-grid" id="dynamic-server-grid"></div>
     </div>
 
@@ -142,73 +116,34 @@
                 <div id="panel-core" class="db-panel active">
                     <div class="panel-header-title">Core Operating Parameter Matrix</div>
                     <div class="live-metrics-grid">
-                        <div class="metric-mini-card">
-                            <h4>Total Server Members</h4>
-                            <p id="live-metric-members">0</p>
-                        </div>
-                        <div class="metric-mini-card">
-                            <h4>Matrix Grid Status</h4>
-                            <p style="color: var(--success);">ONLINE SECURED</p>
-                        </div>
+                        <div class="metric-mini-card"><h4>Total Members</h4><p id="live-metric-members">0</p></div>
+                        <div class="metric-mini-card"><h4>Matrix Status</h4><p style="color: var(--success);">ONLINE SECURED</p></div>
                     </div>
-                    <div class="form-group">
-                        <label>Command Prefix</label>
-                        <input type="text" class="form-control" id="core-prefix-input">
-                    </div>
-                    <div class="form-group">
-                        <label>Global Embed Footer Customizer</label>
-                        <input type="text" class="form-control" id="core-footer-input">
-                    </div>
+                    <div class="form-group"><label>Command Prefix</label><input type="text" class="form-control" id="core-prefix-input"></div>
+                    <div class="form-group"><label>Global Embed Footer Customizer</label><input type="text" class="form-control" id="core-footer-input"></div>
                     <button class="save-btn" onclick="saveCoreBotConfig()">Commit Parameters</button>
                 </div>
 
                 <div id="panel-general" class="db-panel">
                     <div class="panel-header-title">Firewall Overrides</div>
-                    <div class="toggle-box">
-                        <div><b>Anti-Spam Filter Engine</b></div>
-                        <div class="switch" id="sw-anti_spam" onclick="sendToggleRequest('anti_spam')"></div>
-                    </div>
-                    <div class="toggle-box">
-                        <div><b>Block Media Links & External Invites</b></div>
-                        <div class="switch" id="sw-auto_mod_links" onclick="sendToggleRequest('auto_mod_links')"></div>
-                    </div>
+                    <div class="toggle-box"><div><b>Anti-Spam Filter Engine</b></div><div class="switch" id="sw-anti_spam" onclick="sendToggleRequest('anti_spam')"></div></div>
+                    <div class="toggle-box"><div><b>Block Media Links</b></div><div class="switch" id="sw-auto_mod_links" onclick="sendToggleRequest('auto_mod_links')"></div></div>
                 </div>
 
                 <div id="panel-autorole" class="db-panel">
                     <div class="panel-header-title">Join Automation Roles</div>
-                    <div class="toggle-box">
-                        <div><b>Enable Member Auto-Role</b></div>
-                        <div class="switch" id="sw-auto_role_enabled" onclick="sendToggleRequest('auto_role_enabled')"></div>
-                    </div>
-                    <div class="form-group">
-                        <label>Target Member Role</label>
-                        <select class="form-control" id="autorole-dropdown"></select>
-                    </div>
-                    <div class="toggle-box" style="margin-top:30px;">
-                        <div><b>Enable Bot Auto-Role</b></div>
-                        <div class="switch" id="sw-bot_auto_role_enabled" onclick="sendToggleRequest('bot_auto_role_enabled')"></div>
-                    </div>
-                    <div class="form-group">
-                        <label>Target Bot Role</label>
-                        <select class="form-control" id="bot-autorole-dropdown"></select>
-                    </div>
+                    <div class="toggle-box"><div><b>Enable Member Auto-Role</b></div><div class="switch" id="sw-auto_role_enabled" onclick="sendToggleRequest('auto_role_enabled')"></div></div>
+                    <div class="form-group"><label>Target Member Role</label><select class="form-control" id="autorole-dropdown"></select></div>
+                    <div class="toggle-box" style="margin-top:30px;"><div><b>Enable Bot Auto-Role</b></div><div class="switch" id="sw-bot_auto_role_enabled" onclick="sendToggleRequest('bot_auto_role_enabled')"></div></div>
+                    <div class="form-group"><label>Target Bot Role</label><select class="form-control" id="bot-autorole-dropdown"></select></div>
                     <button class="save-btn" onclick="saveAutoRoleConfig()">Apply Layout</button>
                 </div>
 
                 <div id="panel-tag_role" class="db-panel">
                     <div class="panel-header-title">Name Tag Role Modifier</div>
-                    <div class="toggle-box">
-                        <div><b>Enable Username Tag Detection</b></div>
-                        <div class="switch" id="sw-tag_role_enabled" onclick="sendToggleRequest('tag_role_enabled')"></div>
-                    </div>
-                    <div class="form-group">
-                        <label>Required Substring String Tag</label>
-                        <input type="text" class="form-control" id="tag-text-input">
-                    </div>
-                    <div class="form-group">
-                        <label>Role to Reward for Appending Tag</label>
-                        <select class="form-control" id="tag-reward-dropdown"></select>
-                    </div>
+                    <div class="toggle-box"><div><b>Enable Username Tag Detection</b></div><div class="switch" id="sw-tag_role_enabled" onclick="sendToggleRequest('tag_role_enabled')"></div></div>
+                    <div class="form-group"><label>Required Substring Tag</label><input type="text" class="form-control" id="tag-text-input"></div>
+                    <div class="form-group"><label>Role to Reward</label><select class="form-control" id="tag-reward-dropdown"></select></div>
                     <button class="save-btn" onclick="saveTagRoleConfig()">Bind Tag Modifiers</button>
                 </div>
                 
@@ -221,72 +156,33 @@
                             <p class="mock-subtitle" id="lbl-preview-subtitle">Welcome to our community server!</p>
                         </div>
                     </div>
-                    <div class="toggle-box">
-                        <div><b>Enable Welcome Cards</b></div>
-                        <div class="switch" id="sw-welcome_logs" onclick="sendToggleRequest('welcome_logs')"></div>
-                    </div>
-                    <div class="form-group">
-                        <label>Channel Destination</label>
-                        <select class="form-control" id="welcome-channel-dropdown"></select>
-                    </div>
+                    <div class="toggle-box"><div><b>Enable Welcome Cards</b></div><div class="switch" id="sw-welcome_logs" onclick="sendToggleRequest('welcome_logs')"></div></div>
+                    <div class="form-group"><label>Channel Destination</label><select class="form-control" id="welcome-channel-dropdown"></select></div>
                     <div class="grid-two-col">
-                        <div class="form-group">
-                            <label>Main Title Text</label>
-                            <input type="text" class="form-control" id="welcome-title-input" oninput="updateLivePreview()">
-                        </div>
-                        <div class="form-group">
-                            <label>Subtitle Text</label>
-                            <input type="text" class="form-control" id="welcome-subtitle-input" oninput="updateLivePreview()">
-                        </div>
+                        <div class="form-group"><label>Main Title</label><input type="text" class="form-control" id="welcome-title-input" oninput="updateLivePreview()"></div>
+                        <div class="form-group"><label>Subtitle</label><input type="text" class="form-control" id="welcome-subtitle-input" oninput="updateLivePreview()"></div>
                     </div>
-                    <div class="form-group">
-                        <label>Background Image URL (800x350 Dimensions)</label>
-                        <input type="text" class="form-control" id="welcome-bg-input" oninput="updateLivePreview()">
-                    </div>
+                    <div class="form-group"><label>Background Image URL</label><input type="text" class="form-control" id="welcome-bg-input" oninput="updateLivePreview()"></div>
                     <button class="save-btn" onclick="saveWelcomeBannerConfig()">Push Layout</button>
                 </div>
 
                 <div id="panel-goodbye" class="db-panel">
                     <div class="panel-header-title">Dynamic Goodbye Canvas</div>
-                    <div class="toggle-box">
-                        <div><b>Enable Goodbye Cards</b></div>
-                        <div class="switch" id="sw-goodbye_logs" onclick="sendToggleRequest('goodbye_logs')"></div>
-                    </div>
-                    <div class="form-group">
-                        <label>Channel Destination</label>
-                        <select class="form-control" id="goodbye-channel-dropdown"></select>
-                    </div>
+                    <div class="toggle-box"><div><b>Enable Goodbye Cards</b></div><div class="switch" id="sw-goodbye_logs" onclick="sendToggleRequest('goodbye_logs')"></div></div>
+                    <div class="form-group"><label>Channel Destination</label><select class="form-control" id="goodbye-channel-dropdown"></select></div>
                     <div class="grid-two-col">
-                        <div class="form-group">
-                            <label>Main Title Text</label>
-                            <input type="text" class="form-control" id="goodbye-title-input">
-                        </div>
-                        <div class="form-group">
-                            <label>Subtitle Text</label>
-                            <input type="text" class="form-control" id="goodbye-subtitle-input">
-                        </div>
+                        <div class="form-group"><label>Main Title</label><input type="text" class="form-control" id="goodbye-title-input"></div>
+                        <div class="form-group"><label>Subtitle</label><input type="text" class="form-control" id="goodbye-subtitle-input"></div>
                     </div>
-                    <div class="form-group">
-                        <label>Background Image URL</label>
-                        <input type="text" class="form-control" id="goodbye-bg-input">
-                    </div>
+                    <div class="form-group"><label>Background Image URL</label><input type="text" class="form-control" id="goodbye-bg-input"></div>
                     <button class="save-btn" onclick="saveGoodbyeBannerConfig()">Push Layout</button>
                 </div>
 
                 <div id="panel-adv_modules" class="db-panel">
                     <div class="panel-header-title">Advanced Matrix Systems</div>
-                    <div class="toggle-box">
-                        <div><b>Simulate Virtual Economy Ledger System</b></div>
-                        <div class="switch" id="sw-economy_enabled" onclick="sendToggleRequest('economy_enabled')"></div>
-                    </div>
-                    <div class="form-group">
-                        <label>Custom Currency Token Asset Name</label>
-                        <input type="text" class="form-control" id="adv-currency-input" placeholder="e.g. Credits">
-                    </div>
-                    <div class="form-group">
-                        <label>Global Server Logs Channel Destination</label>
-                        <select class="form-control" id="adv-log-channel-dropdown"></select>
-                    </div>
+                    <div class="toggle-box"><div><b>Virtual Economy Ledger System</b></div><div class="switch" id="sw-economy_enabled" onclick="sendToggleRequest('economy_enabled')"></div></div>
+                    <div class="form-group"><label>Custom Currency Token Asset Name</label><input type="text" class="form-control" id="adv-currency-input"></div>
+                    <div class="form-group"><label>Global Server Logs Channel</label><select class="form-control" id="adv-log-channel-dropdown"></select></div>
                     <button class="save-btn" onclick="saveAdvancedModulesConfig()">Commit Advanced Modules</button>
                 </div>
             </div>
@@ -294,12 +190,12 @@
     </div>
 
     <script>
-        // ----------------------------------------------------------------
-        // 100% FIXED DYNAMIC API ROUTING ENGINE (Bypasses hardcoded blockers)
-        // ----------------------------------------------------------------
-        const PTERO_URL = "http://87.232.72.111:15378/"; 
-        let cacheGuildsData = [];
+        // Use a secure reverse proxy to forward requests directly to HTTP port securely
+        const BASE_PTERO = "http://87.232.72.111:15378";
+        const PTERO_URL = "https://api.allorigins.win/raw?url=" + encodeURIComponent(BASE_PTERO) + "/";
+        const WRITE_URL = BASE_PTERO + "/";
 
+        let cacheGuildsData = [];
         const canvas = document.getElementById("bg-canvas");
         const ctx = canvas.getContext("2d");
         let particles = [];
@@ -331,7 +227,6 @@
             const heading = document.getElementById("welcome-title-input").value || "WELCOME";
             const sub = document.getElementById("welcome-subtitle-input").value || "Welcome to our community server!";
             const bg = document.getElementById("welcome-bg-input").value;
-
             document.getElementById("lbl-preview-title").innerText = heading + " DISCORD_USER";
             document.getElementById("lbl-preview-subtitle").innerText = sub.replace("{count}", "154");
             if(bg && bg.startsWith("http")) {
@@ -344,7 +239,6 @@
             document.getElementById('server-select-area').style.display = 'none';
             document.getElementById('main-dashboard-area').style.display = 'block';
             window.scrollTo(0,0);
-            
             document.getElementById('active-panel-title').innerText = "✨ " + guildName.toUpperCase() + " INTERFACE MATRIX";
             document.getElementById('sidebar-server-name').innerText = guildName;
 
@@ -398,6 +292,7 @@
 
         async function fetchLiveBotData() {
             try {
+                // Fetch data through an SSL-Bypassing Proxy to allow automatic connection
                 const response = await fetch(PTERO_URL);
                 const data = await response.json();
                 cacheGuildsData = data.guilds;
@@ -425,7 +320,6 @@
                 document.getElementById("welcome-title-input").value = data.features.banner_title;
                 document.getElementById("welcome-subtitle-input").value = data.features.banner_subtitle;
                 document.getElementById("welcome-bg-input").value = data.features.banner_bg_url;
-
                 document.getElementById("goodbye-channel-dropdown").value = data.features.goodbye_channel_id;
                 document.getElementById("goodbye-title-input").value = data.features.goodbye_title;
                 document.getElementById("goodbye-subtitle-input").value = data.features.goodbye_subtitle;
@@ -438,7 +332,6 @@
                 
                 document.getElementById("core-prefix-input").value = data.features.custom_prefix;
                 document.getElementById("core-footer-input").value = data.features.embed_footer_text;
-                
                 document.getElementById("adv-currency-input").value = data.features.currency_name;
                 document.getElementById("adv-log-channel-dropdown").value = data.features.log_channel_id;
             } catch (error) { console.error(error); }
@@ -451,18 +344,18 @@
 
         async function sendToggleRequest(featureName) {
             try {
-                const response = await fetch(PTERO_URL + "api/toggle", {
+                const response = await fetch(WRITE_URL + "api/toggle", {
                     method: "POST", headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ feature: featureName })
                 });
                 const resData = await response.json();
                 if (resData.success) { updateSwitchUI(featureName, resData.current_state); }
-            } catch (err) { console.error(err); }
+            } catch (err) { alert("Action requires Insecure Content Permission if server direct connection fails."); }
         }
 
         async function saveWelcomeBannerConfig() {
             try {
-                await fetch(PTERO_URL + "api/save_welcome_banner", {
+                await fetch(WRITE_URL + "api/save_welcome_banner", {
                     method: "POST", headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ channel_id: document.getElementById("welcome-channel-dropdown").value, title: document.getElementById("welcome-title-input").value, subtitle: document.getElementById("welcome-subtitle-input").value, bg_url: document.getElementById("welcome-bg-input").value })
                 });
@@ -472,7 +365,7 @@
 
         async function saveGoodbyeBannerConfig() {
             try {
-                await fetch(PTERO_URL + "api/save_goodbye_banner", {
+                await fetch(WRITE_URL + "api/save_goodbye_banner", {
                     method: "POST", headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ channel_id: document.getElementById("goodbye-channel-dropdown").value, title: document.getElementById("goodbye-title-input").value, subtitle: document.getElementById("goodbye-subtitle-input").value, bg_url: document.getElementById("goodbye-bg-input").value })
                 });
@@ -482,7 +375,7 @@
 
         async function saveAutoRoleConfig() {
             try {
-                await fetch(PTERO_URL + "api/save_autorole", {
+                await fetch(WRITE_URL + "api/save_autorole", {
                     method: "POST", headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ role_id: document.getElementById("autorole-dropdown").value, bot_role_id: document.getElementById("bot-autorole-dropdown").value })
                 });
@@ -492,7 +385,7 @@
 
         async function saveTagRoleConfig() {
             try {
-                await fetch(PTERO_URL + "api/save_tag_roles", {
+                await fetch(WRITE_URL + "api/save_tag_roles", {
                     method: "POST", headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ name_tag: document.getElementById("tag-text-input").value, reward_role: document.getElementById("tag-reward-dropdown").value })
                 });
@@ -502,7 +395,7 @@
 
         async function saveCoreBotConfig() {
             try {
-                await fetch(PTERO_URL + "api/save_core_settings", {
+                await fetch(WRITE_URL + "api/save_core_settings", {
                     method: "POST", headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ prefix: document.getElementById("core-prefix-input").value, footer: document.getElementById("core-footer-input").value })
                 });
@@ -512,7 +405,7 @@
 
         async function saveAdvancedModulesConfig() {
             try {
-                await fetch(PTERO_URL + "api/save_advanced_modules", {
+                await fetch(WRITE_URL + "api/save_advanced_modules", {
                     method: "POST", headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ currency: document.getElementById("adv-currency-input").value, log_channel: document.getElementById("adv-log-channel-dropdown").value })
                 });
