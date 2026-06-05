@@ -3,156 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Discord Bot | Premium Website</title>
+    <title>My Discord Bot | Premium Dashboard</title>
     <style>
         :root {
-            --bg-color: #0f1115;
-            --card-bg: #181c25;
-            --accent-color: #5865F2;
+            --bg-main: #0b0c10;
+            --bg-nav: #12141c;
+            --card-bg: #1a1d26;
+            --accent: #5865F2;
             --accent-hover: #4752C4;
             --text-main: #ffffff;
             --text-muted: #949ba4;
+            --sidebar-bg: #15171e;
         }
 
         body { 
-            background-color: var(--bg-color); 
+            background-color: var(--bg-main); 
             color: var(--text-main); 
             font-family: 'Inter', system-ui, -apple-system, sans-serif; 
-            text-align: center; 
-            padding: 0;
             margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        /* NAVIGATION BAR */
+        .navbar {
+            background-color: var(--bg-nav);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text-main);
+        }
+
+        .nav-btn {
+            background-color: var(--accent);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .nav-btn:hover {
+            background-color: var(--accent-hover);
         }
 
         /* HERO SECTION */
         .hero {
-            padding: 120px 20px;
-            background: radial-gradient(circle at top, rgba(88, 101, 242, 0.15) 0%, transparent 60%);
-        }
-
-        .bot-logo {
-            font-size: 4.5rem;
-            margin-bottom: 20px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+            padding: 80px 20px 40px 20px;
+            background: radial-gradient(circle at top, rgba(88, 101, 242, 0.12) 0%, transparent 50%);
         }
 
         h1 {
-            font-size: 3.5rem;
-            margin: 0 0 15px 0;
+            font-size: 3rem;
             font-weight: 800;
-            letter-spacing: -1px;
-        }
-
-        .subtitle {
-            font-size: 1.3rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto 40px auto;
-            line-height: 1.6;
-        }
-
-        .btn { 
-            background-color: var(--accent-color); 
-            color: white; 
-            padding: 16px 40px; 
-            text-decoration: none; 
-            border-radius: 50px; 
-            font-weight: bold; 
-            font-size: 1.1rem;
-            display: inline-block; 
-            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover { 
-            background-color: var(--accent-hover); 
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.6);
-        }
-
-        /* FEATURES SECTION */
-        .section-title {
-            font-size: 2rem;
-            margin-top: 60px;
-            font-weight: 700;
-        }
-
-        .features {
-            padding: 30px 20px 60px 20px;
-            max-width: 1100px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            padding: 35px 25px;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            text-align: left;
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(88, 101, 242, 0.3);
-        }
-
-        .card-icon {
-            font-size: 2rem;
             margin-bottom: 15px;
         }
 
-        .card h3 {
-            margin: 0 0 10px 0;
-            font-size: 1.4rem;
-        }
-
-        .card p {
+        .subtitle {
             color: var(--text-muted);
-            font-size: 1rem;
-            line-height: 1.6;
-            margin: 0;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 30px auto;
         }
 
-        /* COMMANDS SECTION */
-        .commands-box {
-            max-width: 700px;
-            margin: 0 auto 80px auto;
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
+        /* DASHBOARD PREVIEW SECTION */
+        .dashboard-section {
+            max-width: 1000px;
+            margin: 50px auto 80px auto;
+            padding: 0 20px;
+        }
+
+        .dashboard-container {
+            background-color: var(--bg-nav);
+            border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            display: flex;
+            height: 450px;
+            overflow: hidden;
             text-align: left;
         }
 
-        .command-item {
-            padding: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        /* Dashboard Sidebar Mockup */
+        .db-sidebar {
+            width: 220px;
+            background-color: var(--sidebar-bg);
+            padding: 20px;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .command-item:last-child {
-            border-bottom: none;
-        }
-
-        .cmd-name {
-            color: var(--accent-color);
-            font-family: monospace;
-            font-size: 1.1rem;
-            font-weight: bold;
-        }
-
-        .cmd-desc {
+        .db-menu-item {
+            padding: 12px;
             color: var(--text-muted);
-            margin-top: 5px;
-            font-size: 0.95rem;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .db-menu-item.active {
+            background-color: rgba(88, 101, 242, 0.15);
+            color: var(--accent);
+        }
+
+        /* Dashboard Main Content Mockup */
+        .db-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .db-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 10px;
+        }
+
+        .toggle-box {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .toggle-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .toggle-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Fake Toggle Switch */
+        .switch {
+            width: 50px;
+            height: 26px;
+            background-color: var(--accent);
+            border-radius: 50px;
+            position: relative;
+        }
+
+        .switch::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50px;
+            top: 3px;
+            right: 3px;
+        }
+
+        .switch.off {
+            background-color: #3f4248;
+        }
+        .switch.off::after {
+            right: auto;
+            left: 3px;
         }
 
         footer {
@@ -165,50 +205,65 @@
 </head>
 <body>
 
+    <div class="navbar">
+        <div class="nav-logo">🤖 SuperBot</div>
+        <div class="nav-links">
+            <a href="#" class="active">Home</a>
+            <a href="#">Commands</a>
+            <a href="#">Support</a>
+            <a href="https://discord.com/oauth2/authorize?client_id=1499880240640692465" class="nav-btn">Dashboard</a>
+        </div>
+    </div>
+
     <div class="hero">
-        <div class="bot-logo">🤖</div>
-        <h1>Meet My Discord Bot</h1>
-        <p class="subtitle">The multi-purpose Discord bot designed to elevate your server experience with advanced features and absolute reliability.</p>
-        <a href="https://discord.com/oauth2/authorize?client_id=1499880240640692465" class="btn">Add to Discord</a> 
+        <h1>Control Everything from the Dashboard</h1>
+        <p class="subtitle">Customize your server moderation, welcome messages, and music logs with our powerful web dashboard.</p>
+        <a href="https://discord.com/oauth2/authorize?client_id=1499880240640692465" class="nav-btn" style="padding: 15px 35px; font-size: 1.1rem; border-radius: 8px;">Invite Bot & Login</a> 
     </div>
 
-    <h2 class="section-title">🚀 Core Features</h2>
-    <div class="features">
-        <div class="card">
-            <div class="card-icon">🛡️</div>
-            <h3>Advanced Moderation</h3>
-            <p>Automate your server security. Keep spammers and rule-breakers away with robust mod tools.</p>
-        </div>
-        <div class="card">
-            <div class="card-icon">⚙️</div>
-            <h3>Easy Configuration</h3>
-            <p>Setting up the bot is seamless. Get everything ready for your server in less than 2 minutes.</p>
-        </div>
-        <div class="card">
-            <div class="card-icon">🎮</div>
-            <h3>Fun & Games</h3>
-            <p>Engage your community with interactive mini-games, currency systems, and fun commands.</p>
-        </div>
-    </div>
+    <div class="dashboard-section">
+        <h2 style="font-size: 2rem; margin-bottom: 30px;">✨ Live Dashboard Preview</h2>
+        
+        <div class="dashboard-container">
+            <div class="db-sidebar">
+                <div class="db-menu-item active">⚙️ General Settings</div>
+                <div class="db-menu-item">🛡️ Moderation</div>
+                <div class="db-menu-item">👋 Welcome Logs</div>
+                <div class="db-menu-item">🎵 Music Player</div>
+            </div>
+            
+            <div class="db-content">
+                <div class="db-header">Server Management</div>
+                
+                <div class="toggle-box">
+                    <div>
+                        <div class="toggle-title">Enable Anti-Spam</div>
+                        <div class="toggle-desc">Automatically mutes members who spam links or messages.</div>
+                    </div>
+                    <div class="switch"></div>
+                </div>
 
-    <h2 class="section-title">💻 Popular Commands</h2>
-    <div class="commands-box">
-        <div class="command-item">
-            <div class="cmd-name">!help</div>
-            <div class="cmd-desc">Displays the full list of available commands and categories.</div>
-        </div>
-        <div class="command-item">
-            <div class="cmd-name">!ban [user] [reason]</div>
-            <div class="cmd-desc">Bans a malicious user from the server instantly.</div>
-        </div>
-        <div class="command-item">
-            <div class="cmd-name">!play [song]</div>
-            <div class="cmd-desc">Plays high-quality audio in your current voice channel.</div>
+                <div class="toggle-box">
+                    <div>
+                        <div class="toggle-title">Welcome Message</div>
+                        <div class="toggle-desc">Send a custom DM or channel message to new members.</div>
+                    </div>
+                    <div class="switch"></div>
+                </div>
+
+                <div class="toggle-box">
+                    <div>
+                        <div class="toggle-title">Leveling System</div>
+                        <div class="toggle-desc">Give XP and roles to active members in text channels.</div>
+                    </div>
+                    <div class="switch off"></div>
+                </div>
+            </div>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2026 My Discord Bot. Built with passion.</p>
+        <p>&copy; 2026 My Discord Bot. Dashboard Interface Edition.</p>
     </footer>
 
 </body>
