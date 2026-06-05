@@ -6,90 +6,110 @@
     <title>VELORA | Premium Control Panel</title>
     <style>
         :root { --bg: #020306; --accent: #ff0055; --secondary: #00f0ff; --premium: #ffaa00; }
-        body { background: var(--bg); color: #fff; font-family: sans-serif; margin: 0; text-align: center; }
-        .navbar { padding: 20px; background: #060913; display: flex; justify-content: space-between; align-items: center; }
-        .dropzone { border: 2px dashed var(--secondary); padding: 40px; margin: 20px; border-radius: 15px; cursor: pointer; }
-        .premium-gate { border: 2px solid var(--premium); padding: 30px; margin: 20px; border-radius: 15px; }
-        .panel { display: none; padding: 20px; }
-        .active { display: block; }
-        button { padding: 12px 25px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; background: var(--accent); color: white; }
+        body { background: var(--bg); color: #fff; font-family: sans-serif; margin: 0; padding: 0; }
+        .navbar { background: #060913; padding: 20px 50px; display: flex; justify-content: space-between; border-bottom: 2px solid var(--accent); }
+        .content { max-width: 900px; margin: 50px auto; padding: 20px; text-align: center; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .card { background: #090e1a; padding: 25px; border-radius: 15px; border: 1px solid #222; }
+        .dropzone { border: 2px dashed var(--secondary); padding: 40px; margin: 20px 0; border-radius: 15px; cursor: pointer; transition: 0.3s; }
+        .dropzone:hover { background: rgba(0, 240, 255, 0.1); }
+        .premium-gate { border: 2px solid var(--premium); padding: 30px; margin: 20px 0; border-radius: 15px; background: rgba(255, 170, 0, 0.05); }
+        button { padding: 12px 25px; background: var(--accent); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .premium-btn { background: var(--premium); color: #000; }
+        .preview-box { background: #111; padding: 20px; border-radius: 10px; margin-top: 20px; }
     </style>
 </head>
 <body>
 
     <div class="navbar">
-        <div class="logo">VELORA</div>
+        <div style="font-size: 24px; font-weight: 900; color: var(--accent);">VELORA</div>
         <button id="login-btn" onclick="login()">Login with Discord</button>
     </div>
 
-    <div id="main-ui">
-        <h1>Velora Premium Dashboard</h1>
-        
-        <div id="premium-gate" class="premium-gate">
-            <h3>Premium Anti-Nuke (20 Rs)</h3>
-            <button onclick="pay()">Unlock Premium Features</button>
+    <div class="content" id="home-view">
+        <h1>Welcome to Velora Node</h1>
+        <p>Login to manage your premium server automation.</p>
+    </div>
+
+    <div id="main-ui" style="display:none;" class="content">
+        <h2>Dashboard</h2>
+        <div id="server-list" class="dashboard-grid"></div>
+
+        <div class="premium-gate" id="premium-gate">
+            <h3>👑 Premium Anti-Nuke (20 Rs)</h3>
+            <p>Get full security features for your server.</p>
+            <button class="premium-btn" onclick="pay()">Unlock Premium</button>
         </div>
 
-        <div class="dropzone" id="drop-zone" ondrop="handleDrop(event)" ondragover="event.preventDefault()">
-            Drag & Drop Banner Image Here
+        <div class="card" id="premium-features" style="display:none; color: var(--premium);">
+            <h3>✅ Premium Anti-Nuke Active</h3>
         </div>
 
-        <div id="dashboard-content" class="panel">
-            <h3>Connected Servers</h3>
-            <div id="guild-list"></div>
+        <div class="card">
+            <h3>🎨 Bot Identity</h3>
+            <div class="dropzone" ondrop="handleDrop(event, 'bot-url')" ondragover="event.preventDefault()">
+                Drag & Drop Avatar
+            </div>
+            <input type="text" id="bot-url" placeholder="Image URL">
+            <button onclick="updateAvatar()">Update Avatar</button>
+        </div>
+
+        <div class="card">
+            <h3>👋 Welcome Banner Preview</h3>
+            <div class="dropzone" ondrop="handleDrop(event, 'welcome-url')" ondragover="event.preventDefault()">
+                Drag & Drop Banner
+            </div>
+            <input type="text" id="welcome-url" placeholder="Banner URL">
+            <div class="preview-box">
+                <img id="banner-preview" src="" style="width: 100%; border-radius: 5px;">
+            </div>
         </div>
     </div>
 
     <script>
-        const API_URL = "http://87.232.72.111:15378/";
+        const API = "http://87.232.72.111:15378/";
         const CLIENT_ID = "1499880240640692465";
         const REDIRECT_URI = encodeURIComponent("https://my-discord-web-five.vercel.app/");
+        const IMG_KEY = "f86e3f5ec2029be469c45ef8df462e70";
 
         function login() { window.location.href = `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=identify%20guilds`; }
 
-        async function handleDrop(e) {
+        async function handleDrop(e, id) {
             e.preventDefault();
             let file = e.dataTransfer.files[0];
-            let formData = new FormData();
-            formData.append("image", file);
-            let res = await fetch("https://api.imgbb.com/1/upload?key=f86e3f5ec2029be469c45ef8df462e70", { method: "POST", body: formData });
+            let formData = new FormData(); formData.append("image", file);
+            let res = await fetch(`https://api.imgbb.com/1/upload?key=${IMG_KEY}`, { method: "POST", body: formData });
             let data = await res.json();
-            alert("Upload Success! URL: " + data.data.url);
+            document.getElementById(id).value = data.data.url;
+            if(id === 'welcome-url') document.getElementById('banner-preview').src = data.data.url;
+            alert("Upload Success!");
         }
 
         async function pay() {
-            let res = await fetch(API_URL + "api/unlock_premium", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({ amount: 20 })
+            let res = await fetch(API + "api/unlock_premium", {
+                method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify({amount: 20})
             });
-            if((await res.json()).success) {
-                alert("Premium Features Unlocked!");
-                location.reload();
-            } else {
-                alert("Payment Failed.");
-            }
+            if((await res.json()).success) location.reload();
         }
 
         async function init() {
             const code = new URLSearchParams(window.location.search).get('code');
             if (code) {
-                try {
-                    let res = await fetch(API_URL + "api/auth", {
-                        method: "POST",
-                        headers: {"Content-Type": "application/json"},
-                        body: JSON.stringify({ code: code })
+                let res = await fetch(API + "api/auth", {
+                    method: "POST", headers: {"Content-Type":"application/json"},
+                    body: JSON.stringify({ code: code })
+                });
+                let data = await res.json();
+                if(data.user) {
+                    document.getElementById("home-view").style.display = "none";
+                    document.getElementById("main-ui").style.display = "block";
+                    data.guilds.forEach(g => {
+                        document.getElementById("server-list").innerHTML += `<div class="card">${g.name}</div>`;
                     });
-                    let data = await res.json();
-                    if(data.user) {
-                        document.getElementById("login-btn").style.display = "none";
-                        document.getElementById("dashboard-content").classList.add("active");
-                        data.guilds.forEach(g => {
-                            document.getElementById("guild-list").innerHTML += `<div class="box">${g.name}</div>`;
-                        });
+                    if(data.features.premium_unlocked) {
+                        document.getElementById("premium-gate").style.display = "none";
+                        document.getElementById("premium-features").style.display = "block";
                     }
-                } catch(e) {
-                    alert("Auth Failed. Check redirect URI in Developer Portal.");
                 }
             }
         }
