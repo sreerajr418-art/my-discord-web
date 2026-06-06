@@ -27,10 +27,8 @@
         body { background-color: var(--bg-main); color: var(--text-main); font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; padding: 0; overflow-x: hidden; position: relative; scroll-behavior: smooth; }
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         
-        /* Animated Glowing Navbar */
         .navbar { background: rgba(4, 6, 15, 0.9); padding: 20px 6%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--accent); box-shadow: 0 0 35px var(--accent-glow); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 50; }
         
-        /* Animated Velora Title Text */
         .nav-logo { font-size: 2.2rem; font-weight: 900; letter-spacing: 5px; background: linear-gradient(90deg, var(--accent), var(--secondary), var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradientShift 4s linear infinite; cursor: pointer; text-shadow: 0 0 20px rgba(0,240,255,0.2); }
         
         @keyframes gradientShift {
@@ -44,7 +42,6 @@
         .user-nav-badge { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.05); padding: 6px 18px; border-radius: 30px; border: 1px solid var(--secondary); box-shadow: 0 0 15px var(--secondary-glow); }
         .user-nav-av { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--secondary); }
 
-        /* Colorful Hero Node */
         .hero-section { height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; position: relative; z-index: 10; }
         .hero-badge { background: rgba(255, 0, 85, 0.15); border: 1px solid var(--accent); color: var(--text-main); padding: 6px 20px; border-radius: 50px; font-size: 0.9rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 25px; box-shadow: 0 0 25px var(--accent-glow); animation: pulse 2s infinite; }
         
@@ -59,7 +56,6 @@
         .hero-btn { background: linear-gradient(135deg, var(--secondary), var(--neon-purple)); color: white; border: none; padding: 18px 50px; border-radius: 16px; font-weight: 800; font-size: 1.2rem; cursor: pointer; box-shadow: 0 8px 30px var(--secondary-glow); transition: 0.3s; text-transform: uppercase; letter-spacing: 2px; }
         .hero-btn:hover { transform: scale(1.05); box-shadow: 0 0 40px var(--secondary); }
 
-        /* Server Grid Enhancement */
         .server-selection-screen { display: none; padding: 100px 20px; text-align: center; background: rgba(3, 5, 11, 0.7); }
         .server-selection-screen h2 { font-size: 3rem; text-shadow: 0 0 30px var(--secondary-glow); color: var(--secondary); font-weight: 900; margin-bottom: 30px; }
         .server-grid { display: flex; gap: 35px; justify-content: center; flex-wrap: wrap; }
@@ -67,7 +63,6 @@
         .server-card:hover { border-color: var(--secondary); transform: translateY(-15px) scale(1.05); box-shadow: 0 0 45px var(--secondary-glow); }
         .server-icon-img { width: 100px; height: 100px; border-radius: 50%; margin-bottom: 15px; border: 3px solid var(--accent); box-shadow: 0 0 20px var(--accent-glow); }
 
-        /* Dashboard Colorful Framework */
         .dashboard-section { display: none; max-width: 1300px; margin: 40px auto; padding: 0 20px; }
         .dashboard-container { background: rgba(4, 6, 12, 0.95); border-radius: 32px; border: 1px solid rgba(0, 240, 255, 0.1); backdrop-filter: blur(35px); display: flex; height: 850px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,0.9); }
         .db-sidebar { width: 270px; background-color: var(--sidebar-bg); padding: 35px 20px; border-right: 1px solid rgba(255,255,255,0.04); }
@@ -84,25 +79,21 @@
         .db-panel { display: none; }
         .db-panel.active { display: block; }
 
-        /* Colorful Controls & Mini Cards */
         .toggle-box { background: rgba(12, 19, 36, 0.6); padding: 26px; border-radius: 22px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; border: 1px solid rgba(255,255,255,0.04); transition: 0.3s; }
         .toggle-box:hover { border-color: var(--secondary); background: rgba(12,19,36,0.8); }
         .form-control { width: 95%; padding: 16px 20px; background-color: #030408; border: 1px solid rgba(0,240,255,0.15); border-radius: 16px; color: white; font-size: 1rem; outline: none; transition: 0.3s; }
         .form-control:focus { border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); }
         
-        /* Neon Switch Engine */
         .switch { width: 62px; height: 32px; background-color: var(--success); border-radius: 50px; position: relative; cursor: pointer; box-shadow: 0 0 20px rgba(0,255,170,0.4); transition: 0.3s; }
         .switch::after { content: ''; position: absolute; width: 26px; height: 26px; background-color: white; border-radius: 50px; top: 3px; right: 3px; transition: 0.3s; }
         .switch.off { background-color: #1e2538; box-shadow: none; }
         .switch.off::after { right: calc(100% - 29px); }
         
-        /* NEW SUB-FEATURE: MUSIC HUB CONTROLS */
         .music-player-card { background: linear-gradient(135deg, #091124, #050811); border: 1px solid var(--secondary); border-radius: 24px; padding: 30px; text-align: center; box-shadow: 0 15px 35px var(--secondary-glow); margin-top: 25px; }
         .music-buttons-group { display: flex; justify-content: center; gap: 20px; margin-top: 20px; }
         .m-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 12px 24px; border-radius: 14px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .m-btn:hover { background: var(--secondary); color: #000; box-shadow: 0 0 15px var(--secondary-glow); }
         
-        /* NEW SUB-FEATURE: LEVELING PROGRESS DISPLAY */
         .xp-bar-container { background: #151b2d; border-radius: 30px; width: 100%; height: 20px; margin-top: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
         .xp-bar-fill { background: linear-gradient(90deg, var(--accent), var(--neon-purple)); width: 65%; height: 100%; box-shadow: 0 0 15px var(--accent-glow); }
 
@@ -157,7 +148,7 @@
                 <div class="db-menu-item" onclick="switchTab('welcome', this)">👋 Welcome Banner</div>
                 <div class="db-menu-item" onclick="switchTab('goodbye', this)">🏃 Goodbye Banner</div>
                 <div class="db-menu-item" onclick="switchTab('adv_modules', this)">💎 Advanced Levels</div>
-                <div class="db-menu-item" onclick="switchTab('bot_identity', this)">🎨 Bot Customizer</div>
+                <div class="db-menu-item premium-tab" id="tab-branding" onclick="switchTab('bot_identity', this)">🎨 Bot Customizer</div>
                 <div class="db-menu-item premium-tab" onclick="switchTab('anti_nuke', this)">👑 Premium Anti-Nuke</div>
             </div>
             
@@ -213,6 +204,15 @@
                     </div>
                     <div class="toggle-box"><div><b>Enable Welcome Cards</b></div><div class="switch" id="sw-welcome_logs" onclick="sendToggleRequest('welcome_logs')"></div></div>
                     <div class="form-group"><label>Channel Destination</label><select class="form-control" id="welcome-channel-dropdown"></select></div>
+                    
+                    <div class="form-group">
+                        <label>Upload Welcome Canvas Background File</label>
+                        <div class="dropzone-area" id="welcome-dropzone" ondragover="handleDragOver(event, this)" ondragleave="handleDragLeave(this)" ondrop="handleFileDrop(event, this, 'welcome-bg-input')">
+                            📥 Drag & Drop your Background Image here or Click to upload
+                        </div>
+                        <input type="file" id="welcome-file-hidden" style="display:none;" onchange="handleFileSelect(event, 'welcome-bg-input', 'welcome-dropzone')">
+                    </div>
+
                     <div class="grid-two-col">
                         <div class="form-group"><label>Main Title</label><input type="text" class="form-control" id="welcome-title-input" oninput="updateLivePreview()"></div>
                         <div class="form-group"><label>Subtitle</label><input type="text" class="form-control" id="welcome-subtitle-input" oninput="updateLivePreview()"></div>
@@ -228,6 +228,15 @@
                     <div class="panel-header-title">Dynamic Goodbye Canvas</div>
                     <div class="toggle-box"><div><b>Enable Goodbye Cards</b></div><div class="switch" id="sw-goodbye_logs" onclick="sendToggleRequest('goodbye_logs')"></div></div>
                     <div class="form-group"><label>Channel Destination</label><select class="form-control" id="goodbye-channel-dropdown"></select></div>
+                    
+                    <div class="form-group">
+                        <label>Upload Goodbye Canvas File</label>
+                        <div class="dropzone-area" id="goodbye-dropzone" ondragover="handleDragOver(event, this)" ondragleave="handleDragLeave(this)" ondrop="handleFileDrop(event, this, 'goodbye-bg-input')">
+                            📥 Drag & Drop your Goodbye Image here or Click to upload
+                        </div>
+                        <input type="file" id="goodbye-file-hidden" style="display:none;" onchange="handleFileSelect(event, 'goodbye-bg-input', 'goodbye-dropzone')">
+                    </div>
+
                     <div class="grid-two-col">
                         <div class="form-group"><label>Main Title</label><input type="text" class="form-control" id="goodbye-title-input"></div>
                         <div class="form-group"><label>Subtitle</label><input type="text" class="form-control" id="goodbye-subtitle-input"></div>
@@ -251,10 +260,35 @@
                 </div>
 
                 <div id="panel-bot_identity" class="db-panel">
-                    <div class="panel-header-title">Server Custom Identity (White-Label)</div>
-                    <div class="form-group"><label>Custom Server Bot Profile Name</label><input type="text" class="form-control" id="custom-server-bot-name"></div>
-                    <div class="form-group"><label>Custom Server Bot Profile Avatar URL</label><input type="text" class="form-control" id="custom-server-bot-avatar"></div>
-                    <button class="save-btn" onclick="saveCustomServerIdentity()">Deploy Identity Configuration</button>
+                    <div class="panel-header-title" style="color: var(--premium-color);">🎨 Custom Server Identity (White-Label Config)</div>
+                    
+                    <div id="branding-locked-gate" class="premium-lock-screen">
+                        <h2 style="margin:0; color:var(--premium-color);">⚡ WHITE-LABEL SUITE LOCKED</h2>
+                        <p style="color:var(--text-muted); font-size:0.95rem; margin-top:10px;">Modifying server custom profile identities requires an active validation node cluster license.</p>
+                        <h3 style="color:#fff; margin-bottom: 5px;">License Rate: $4.99 / Monthly</h3>
+                        <button class="premium-buy-btn" onclick="simulatePremiumPurchase()">Unlock Identity Engine</button>
+                    </div>
+
+                    <div id="branding-unlocked-panel" style="display:none;">
+                        <div class="form-group">
+                            <label>Custom Server Bot Profile Name</label>
+                            <input type="text" class="form-control" id="custom-server-bot-name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Upload Custom Bot Avatar File</label>
+                            <div class="dropzone-area" id="avatar-dropzone" ondragover="handleDragOver(event, this)" ondragleave="handleDragLeave(this)" ondrop="handleFileDrop(event, this, 'custom-server-bot-avatar')">
+                                🖼️ Drag & Drop New Profile Avatar Picture here or Click to upload
+                            </div>
+                            <input type="file" id="avatar-file-hidden" style="display:none;" onchange="handleFileSelect(event, 'custom-server-bot-avatar', 'avatar-dropzone')">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Custom Server Bot Profile Avatar URL</label>
+                            <input type="text" class="form-control" id="custom-server-bot-avatar">
+                        </div>
+                        <button class="save-btn" onclick="saveCustomServerIdentity()">Deploy Identity Configuration</button>
+                    </div>
                 </div>
 
                 <div id="panel-anti_nuke" class="db-panel">
@@ -281,12 +315,56 @@
         const WRITE_URL = "http://87.232.72.111:15378/";
         const DISCORD_CLIENT_ID = "1499880240640692465"; 
         const REDIRECT_URI = encodeURIComponent("https://my-discord-web-five.vercel.app/");
+        const IMGBB_API_KEY = "f86e3f5ec2029be469c45ef8df462e70"; 
 
         let cacheGuildsData = [];
         let activeGuildId = null;
 
         function redirectToDiscordOAuth() {
             window.location.href = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=identify%20guilds`;
+        }
+
+        // --- DRAG & DROP AND CLICK TO UPLOAD SYSTEM ARRAY ---
+        function handleDragOver(e, element) { e.preventDefault(); element.classList.add("dragover"); }
+        function handleDragLeave(element) { element.classList.remove("dragover"); }
+        
+        async function handleFileDrop(e, element, inputTargetId) {
+            e.preventDefault();
+            element.classList.remove("dragover");
+            const files = e.dataTransfer.files;
+            if(files.length > 0) { await uploadFileToRelay(files[0], element, inputTargetId); }
+        }
+
+        // Element click listeners linked to hidden system asset triggers
+        document.getElementById("welcome-dropzone").addEventListener("click", () => document.getElementById("welcome-file-hidden").click());
+        document.getElementById("goodbye-dropzone").addEventListener("click", () => document.getElementById("goodbye-file-hidden").click());
+        
+        // Dynamic receptor assignment once premium gates clear
+        function initBrandingUploadTrigger() {
+            const az = document.getElementById("avatar-dropzone");
+            if(az) az.addEventListener("click", () => document.getElementById("avatar-file-hidden").click());
+        }
+
+        function handleFileSelect(e, inputTargetId, dropzoneId) {
+            const files = e.target.files;
+            if(files.length > 0) { uploadFileToRelay(files[0], document.getElementById(dropzoneId), inputTargetId); }
+        }
+
+        async function uploadFileToRelay(file, element, inputTargetId) {
+            element.innerText = "⚡ Uploading asset array to pipeline...";
+            let formData = new FormData();
+            formData.append("image", file);
+            
+            try {
+                const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: "POST", body: formData });
+                const json = await res.json();
+                if(json.success) {
+                    const finalUrl = json.data.url;
+                    document.getElementById(inputTargetId).value = finalUrl;
+                    element.innerText = "✅ Asset linked successfully!";
+                    updateLivePreview();
+                } else { element.innerText = "❌ File link package rejected."; }
+            } catch(err) { element.innerText = "❌ Network transaction failure."; }
         }
 
         async function simulatePremiumPurchase() {
@@ -296,9 +374,15 @@
                     const res = await fetch(WRITE_URL + "api/unlock_premium", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ guild_id: activeGuildId }) });
                     const data = await res.json();
                     if(data.premium_unlocked) {
-                        alert("🎉 Payment secure! Premium anti-nuke matrix layers unlocked.");
+                        alert("🎉 Payment secure! Premium layer metrics unlocked.");
+                        
+                        // Clear gates across both layouts instantly
                         document.getElementById("premium-locked-gate").style.display = "none";
                         document.getElementById("premium-unlocked-panel").style.display = "block";
+                        document.getElementById("branding-locked-gate").style.display = "none";
+                        document.getElementById("branding-unlocked-panel").style.display = "block";
+                        
+                        initBrandingUploadTrigger();
                         updateSwitchUI("anti_nuke_enabled", true);
                     }
                 } catch(e) { alert("Ledger sync failure."); }
@@ -406,12 +490,18 @@
                 updateSwitchUI("anti_channel_purge", config.anti_channel_purge);
                 updateSwitchUI("anti_member_mass_kick", config.anti_member_mass_kick);
 
+                // Handle system validation gates uniformly across tabs
                 if(config.premium_unlocked) {
                     document.getElementById("premium-locked-gate").style.display = "none";
                     document.getElementById("premium-unlocked-panel").style.display = "block";
+                    document.getElementById("branding-locked-gate").style.display = "none";
+                    document.getElementById("branding-unlocked-panel").style.display = "block";
+                    initBrandingUploadTrigger();
                 } else {
                     document.getElementById("premium-locked-gate").style.display = "block";
                     document.getElementById("premium-unlocked-panel").style.display = "none";
+                    document.getElementById("branding-locked-gate").style.display = "block";
+                    document.getElementById("branding-unlocked-panel").style.display = "none";
                 }
 
             } catch (err) { console.error("Error connecting structural cluster layout nodes", err); }
