@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="YOUR_GOOGLE_CONSOLE_CODE_HERE" />
     <meta name="description" content="Velora Bot - Premium Discord bot dashboard with secure OAuth2 login.">
     <link rel="canonical" href="https://my-discord-web-five.vercel.app/" />
     <title>VELORA | Premium Control Panel</title>
@@ -54,7 +53,6 @@
         .db-panel { display: none; }
         .db-panel.active { display: block; }
         
-        /* FILE DRAG AND DROP ZONE WORKSPACE CSS */
         .dropzone-area {
             border: 2px dashed rgba(0, 240, 255, 0.4); background: rgba(4,6,12,0.8);
             border-radius: 16px; padding: 30px; text-align: center; cursor: pointer;
@@ -62,7 +60,6 @@
         }
         .dropzone-area:hover, .dropzone-area.dragover { border-color: var(--secondary); background: rgba(0,240,255,0.03); color: #fff; }
         
-        /* PREMIUM CORE UI OVERLAY BLOCKERS */
         .premium-lock-screen {
             background: linear-gradient(135deg, rgba(15,10,5,0.95), rgba(4,5,10,0.98));
             border: 1px solid var(--premium-color); box-shadow: 0 0 40px var(--premium-glow);
@@ -229,20 +226,16 @@
                 </div>
 
                 <div id="panel-bot_identity" class="db-panel">
-                    <div class="panel-header-title">Bot Mainframe Identity Customizer</div>
-                    
+                    <div class="panel-header-title">Custom Server Identity (White-Label)</div>
                     <div class="form-group">
-                        <label>Drag & Drop New Profile Avatar</label>
-                        <div class="dropzone-area" id="avatar-dropzone" ondragover="handleDragOver(event, this)" ondragleave="handleDragLeave(this)" ondrop="handleFileDrop(event, this, 'bot-avatar-url-input')">
-                            🖼️ Drag New Profile Picture file here
-                        </div>
+                        <label>Custom Server Bot Name</label>
+                        <input type="text" class="form-control" id="custom-server-bot-name" placeholder="Enter Bot Name for this server">
                     </div>
-
                     <div class="form-group">
-                        <label>New Bot Profile Picture Image URL</label>
-                        <input type="text" class="form-control" id="bot-avatar-url-input" placeholder="https://i.imgur.com/your-image.png">
+                        <label>Custom Server Bot Avatar URL</label>
+                        <input type="text" class="form-control" id="custom-server-bot-avatar" placeholder="https://i.imgur.com/your-image.png">
                     </div>
-                    <button class="save-btn" onclick="triggerBotAvatarChange()">Flash Avatar Identity</button>
+                    <button class="save-btn" onclick="saveCustomServerIdentity()">Apply Server Identity</button>
                 </div>
 
                 <div id="panel-anti_nuke" class="db-panel">
@@ -283,15 +276,15 @@
         const WRITE_URL = "http://87.232.72.111:15378/";
         const DISCORD_CLIENT_ID = "1499880240640692465"; 
         const REDIRECT_URI = encodeURIComponent("https://my-discord-web-five.vercel.app/");
-        const IMGBB_API_KEY = "f86e3f5ec2029be469c45ef8df462e70"; // Integrated Free Secure Upload Relay Token
+        const IMGBB_API_KEY = "f86e3f5ec2029be469c45ef8df462e70"; 
 
         let cacheGuildsData = [];
+        let activeGuildId = null;
 
         function redirectToDiscordOAuth() {
             window.location.href = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=identify%20guilds`;
         }
 
-        // --- NEW COMPONENT LOGIC: FILE UPLOAD DRAG DROP LAYER RECEPTORS ---
         function handleDragOver(e, element) { e.preventDefault(); element.classList.add("dragover"); }
         function handleDragLeave(element) { element.classList.remove("dragover"); }
         
@@ -328,7 +321,6 @@
             } catch(err) { element.innerText = "❌ Network transaction failure."; }
         }
 
-        // --- PREMIUM OPERATION GATE LICENSE SIMULATOR ---
         async function simulatePremiumPurchase() {
             const accept = confirm("Confirm premium payment matrix processing for $4.99?");
             if(accept) {
@@ -360,7 +352,10 @@
                         window.history.replaceState({}, document.title, window.location.pathname);
                         loadAuthenticatedDashboard(data);
                     }
-                } catch(e) { document.getElementById("nav-auth-box").innerHTML = "<span style='color:var(--accent);'>Auth Error</span>"; }
+                } catch(e) { 
+                    console.error(e);
+                    document.getElementById("nav-auth-box").innerHTML = "<span style='color:var(--accent);'>Auth Error</span>"; 
+                }
             }
         }
 
@@ -383,44 +378,41 @@
                 grid.appendChild(card);
             });
 
-            if(data.features.premium_unlocked) {
+            if(data.features && data.features.premium_unlocked) {
                 document.getElementById("premium-locked-gate").style.display = "none";
                 document.getElementById("premium-unlocked-panel").style.display = "block";
             }
 
-            updateSwitchUI("anti_spam", data.features.anti_spam);
-            updateSwitchUI("auto_mod_links", data.features.auto_mod_links);
-            updateSwitchUI("auto_role_enabled", data.features.auto_role_enabled);
-            updateSwitchUI("bot_auto_role_enabled", data.features.bot_auto_role_enabled);
-            updateSwitchUI("tag_role_enabled", data.features.tag_role_enabled);
-            updateSwitchUI("welcome_logs", data.features.welcome_logs);
-            updateSwitchUI("goodbye_logs", data.features.goodbye_logs);
-            updateSwitchUI("economy_enabled", data.features.economy_enabled);
-            updateSwitchUI("leveling_system", data.features.leveling_system);
-            
-            updateSwitchUI("anti_nuke_enabled", data.features.anti_nuke_enabled);
-            updateSwitchUI("anti_bot_join", data.features.anti_bot_join);
-            updateSwitchUI("anti_channel_purge", data.features.anti_channel_purge);
-            updateSwitchUI("anti_member_mass_kick", data.features.anti_member_mass_kick);
-            
-            document.getElementById("welcome-channel-dropdown").value = data.features.welcome_channel_id;
-            document.getElementById("welcome-title-input").value = data.features.banner_title;
-            document.getElementById("welcome-subtitle-input").value = data.features.banner_subtitle;
-            document.getElementById("welcome-bg-input").value = data.features.banner_bg_url;
-            document.getElementById("welcome-color-input").value = data.features.banner_text_color || "#FFFFFF";
-            
-            document.getElementById("goodbye-channel-dropdown").value = data.features.goodbye_channel_id;
-            document.getElementById("goodbye-title-input").value = data.features.goodbye_title;
-            document.getElementById("goodbye-subtitle-input").value = data.features.goodbye_subtitle;
-            document.getElementById("goodbye-bg-input").value = data.features.goodbye_bg_url;
-            document.getElementById("autorole-dropdown").value = data.features.auto_role_id;
-            document.getElementById("bot-autorole-dropdown").value = data.features.bot_auto_role_id;
-            document.getElementById("tag-text-input").value = data.features.required_name_tag;
-            document.getElementById("tag-reward-dropdown").value = data.features.tag_reward_role_id;
-            document.getElementById("core-prefix-input").value = data.features.custom_prefix;
-            document.getElementById("core-footer-input").value = data.features.embed_footer_text;
-            document.getElementById("adv-currency-input").value = data.features.currency_name;
-            document.getElementById("adv-log-channel-dropdown").value = data.features.log_channel_id;
+            if(data.features) {
+                updateSwitchUI("anti_spam", data.features.anti_spam);
+                updateSwitchUI("auto_mod_links", data.features.auto_mod_links);
+                updateSwitchUI("auto_role_enabled", data.features.auto_role_enabled);
+                updateSwitchUI("bot_auto_role_enabled", data.features.bot_auto_role_enabled);
+                updateSwitchUI("tag_role_enabled", data.features.tag_role_enabled);
+                updateSwitchUI("welcome_logs", data.features.welcome_logs);
+                updateSwitchUI("goodbye_logs", data.features.goodbye_logs);
+                updateSwitchUI("economy_enabled", data.features.economy_enabled);
+                updateSwitchUI("leveling_system", data.features.leveling_system);
+                
+                updateSwitchUI("anti_nuke_enabled", data.features.anti_nuke_enabled);
+                updateSwitchUI("anti_bot_join", data.features.anti_bot_join);
+                updateSwitchUI("anti_channel_purge", data.features.anti_channel_purge);
+                updateSwitchUI("anti_member_mass_kick", data.features.anti_member_mass_kick);
+                
+                document.getElementById("welcome-channel-dropdown").value = data.features.welcome_channel_id || "None";
+                document.getElementById("welcome-title-input").value = data.features.banner_title || "";
+                document.getElementById("welcome-subtitle-input").value = data.features.banner_subtitle || "";
+                document.getElementById("welcome-bg-input").value = data.features.banner_bg_url || "";
+                document.getElementById("welcome-color-input").value = data.features.banner_text_color || "#FFFFFF";
+                
+                document.getElementById("goodbye-channel-dropdown").value = data.features.goodbye_channel_id || "None";
+                document.getElementById("goodbye-title-input").value = data.features.goodbye_title || "";
+                document.getElementById("goodbye-subtitle-input").value = data.features.goodbye_subtitle || "";
+                document.getElementById("goodbye-bg-input").value = data.features.goodbye_bg_url || "";
+                document.getElementById("core-prefix-input").value = data.features.custom_prefix || "!";
+                document.getElementById("core-footer-input").value = data.features.embed_footer_text || "";
+                document.getElementById("adv-currency-input").value = data.features.currency_name || "";
+            }
             updateLivePreview();
         }
 
@@ -441,7 +433,8 @@
             } else { document.getElementById("w-preview-box").style.background = "#161b29"; }
         }
 
-        function enterDashboard(guildId, guildName) {
+        async function enterDashboard(guildId, guildName) {
+            activeGuildId = guildId;
             document.getElementById('home-view').style.display = 'none';
             document.getElementById('server-select-area').style.display = 'none';
             document.getElementById('main-dashboard-area').style.display = 'block';
@@ -452,6 +445,14 @@
             const activeGuild = cacheGuildsData.find(g => g.id === guildId);
             document.getElementById("live-metric-members").innerText = activeGuild ? activeGuild.users : 0;
             if(activeGuild && activeGuild.icon) { document.getElementById("bot-profile-avatar").src = activeGuild.icon; }
+
+            // Fetch server specific configuration
+            try {
+                const response = await fetch(`${WRITE_URL}api/guild_branding/${guildId}`);
+                const config = await response.json();
+                document.getElementById("custom-server-bot-name").value = config.name || "";
+                document.getElementById("custom-server-bot-avatar").value = config.avatar || "";
+            } catch (err) { console.error("Error loading server config", err); }
 
             const wDropdown = document.getElementById("welcome-channel-dropdown");
             const gDropdown = document.getElementById("goodbye-channel-dropdown");
@@ -484,6 +485,21 @@
             updateLivePreview();
         }
 
+        async function saveCustomServerIdentity() {
+            const customName = document.getElementById("custom-server-bot-name").value;
+            const customAvatar = document.getElementById("custom-server-bot-avatar").value;
+            
+            try {
+                const response = await fetch(WRITE_URL + "api/save_branding", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ guild_id: activeGuildId, custom_name: customName, custom_avatar: customAvatar })
+                });
+                const result = await response.json();
+                if(result.success) alert("Custom server identity successfully deployed!");
+            } catch(e) { alert("Matrix error syncing branding config."); }
+        }
+
         function hideDashboardArea() {
             document.getElementById('main-dashboard-area').style.display = 'none';
             document.getElementById('home-view').style.display = 'flex';
@@ -501,7 +517,7 @@
             try {
                 const response = await fetch(WRITE_URL + "api/toggle", {
                     method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ feature: featureName })
+                    body: JSON.stringify({ feature: featureName, guild_id: activeGuildId })
                 });
                 const resData = await response.json();
                 if (resData.success) { updateSwitchUI(featureName, resData.current_state); }
@@ -513,7 +529,7 @@
             try {
                 await fetch(WRITE_URL + "api/save_welcome_banner", {
                     method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ channel_id: document.getElementById("welcome-channel-dropdown").value, title: document.getElementById("welcome-title-input").value, subtitle: document.getElementById("welcome-subtitle-input").value, bg_url: document.getElementById("welcome-bg-input").value, text_color: document.getElementById("welcome-color-input").value })
+                    body: JSON.stringify({ guild_id: activeGuildId, channel_id: document.getElementById("welcome-channel-dropdown").value, title: document.getElementById("welcome-title-input").value, subtitle: document.getElementById("welcome-subtitle-input").value, bg_url: document.getElementById("welcome-bg-input").value, text_color: document.getElementById("welcome-color-input").value })
                 });
                 alert("Welcome canvas layout pushed!");
             } catch (err) { console.error(err); }
@@ -523,7 +539,7 @@
             try {
                 await fetch(WRITE_URL + "api/save_goodbye_banner", {
                     method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ channel_id: document.getElementById("goodbye-channel-dropdown").value, title: document.getElementById("goodbye-title-input").value, subtitle: document.getElementById("goodbye-subtitle-input").value, bg_url: document.getElementById("goodbye-bg-input").value })
+                    body: JSON.stringify({ guild_id: activeGuildId, channel_id: document.getElementById("goodbye-channel-dropdown").value, title: document.getElementById("goodbye-title-input").value, subtitle: document.getElementById("goodbye-subtitle-input").value, bg_url: document.getElementById("goodbye-bg-input").value })
                 });
                 alert("Goodbye canvas layout pushed!");
             } catch (err) { console.error(err); }
@@ -533,7 +549,7 @@
             try {
                 await fetch(WRITE_URL + "api/save_autorole", {
                     method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ role_id: document.getElementById("autorole-dropdown").value, bot_role_id: document.getElementById("bot-autorole-dropdown").value })
+                    body: JSON.stringify({ guild_id: activeGuildId, role_id: document.getElementById("autorole-dropdown").value, bot_role_id: document.getElementById("bot-autorole-dropdown").value })
                 });
                 alert("Automation roles loaded!");
             } catch (err) { console.error(err); }
@@ -543,7 +559,7 @@
             try {
                 await fetch(WRITE_URL + "api/save_tag_roles", {
                     method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ name_tag: document.getElementById("tag-text-input").value, reward_role: document.getElementById("tag-reward-dropdown").value })
+                    body: JSON.stringify({ guild_id: activeGuildId, name_tag: document.getElementById("tag-text-input").value, reward_role: document.getElementById("tag-reward-dropdown").value })
                 });
                 alert("Name tag systems verified!");
             } catch (err) { console.error(err); }
@@ -553,7 +569,7 @@
             try {
                 await fetch(WRITE_URL + "api/save_core_settings", {
                     method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ prefix: document.getElementById("core-prefix-input").value, footer: document.getElementById("core-footer-input").value })
+                    body: JSON.stringify({ guild_id: activeGuildId, prefix: document.getElementById("core-prefix-input").value, footer: document.getElementById("core-footer-input").value })
                 });
                 alert("Global parameters updated!");
             } catch (err) { console.error(err); }
@@ -563,7 +579,7 @@
             try {
                 await fetch(WRITE_URL + "api/save_advanced_modules", {
                     method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ currency: document.getElementById("adv-currency-input").value, log_channel: document.getElementById("adv-log-channel-dropdown").value })
+                    body: JSON.stringify({ guild_id: activeGuildId, currency: document.getElementById("adv-currency-input").value, log_channel: document.getElementById("adv-log-channel-dropdown").value })
                 });
                 alert("Advanced settings synchronized!");
             } catch (err) { console.error(err); }
@@ -583,7 +599,6 @@
             } catch(e) { alert("Mainframe block. Retry later."); }
         }
 
-        // Vector node particle asset generator
         const canvas = document.getElementById("bg-canvas"); const ctx = canvas.getContext("2d"); let particles = [];
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener("resize", resizeCanvas); resizeCanvas();
