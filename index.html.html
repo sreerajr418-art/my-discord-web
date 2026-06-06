@@ -348,13 +348,15 @@
                         body: JSON.stringify({ code: code })
                     });
                     const data = await res.json();
-                    if (data.guilds) {
+                    if (data && data.guilds) {
                         window.history.replaceState({}, document.title, window.location.pathname);
                         loadAuthenticatedDashboard(data);
+                    } else {
+                        document.getElementById("nav-auth-box").innerHTML = "<span style='color:var(--accent);'>Auth Failed: Response Error</span>";
                     }
                 } catch(e) { 
                     console.error(e);
-                    document.getElementById("nav-auth-box").innerHTML = "<span style='color:var(--accent);'>Auth Error</span>"; 
+                    document.getElementById("nav-auth-box").innerHTML = "<span style='color:var(--accent);'>Auth Failed: Server Block</span>"; 
                 }
             }
         }
@@ -446,7 +448,6 @@
             document.getElementById("live-metric-members").innerText = activeGuild ? activeGuild.users : 0;
             if(activeGuild && activeGuild.icon) { document.getElementById("bot-profile-avatar").src = activeGuild.icon; }
 
-            // Fetch server specific configuration
             try {
                 const response = await fetch(`${WRITE_URL}api/guild_branding/${guildId}`);
                 const config = await response.json();
@@ -511,6 +512,14 @@
             document.querySelectorAll('.db-menu-item').forEach(i => i.classList.remove('active'));
             document.getElementById('panel-' + tabId).classList.add('active');
             element.classList.add('active');
+        }
+
+        function updateSwitchUI(id, state) {
+            let el = document.getElementById("sw-" + id);
+            if(el) {
+                if(state) el.classList.remove("off");
+                else el.classList.add("off");
+            }
         }
 
         async function sendToggleRequest(featureName) {
