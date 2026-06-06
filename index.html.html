@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Velora Advanced Master Dashboard</title>
+    <title>Velora Premium Infrastructure Dashboard</title>
     <style>
         :root {
             --bg-color: #0a0512;
@@ -32,9 +32,6 @@
             padding: 20px 0;
             border-bottom: 2px solid var(--text-muted);
             margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
         header h1 {
@@ -44,20 +41,10 @@
             letter-spacing: 2px;
         }
 
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #1a0f33;
-            padding: 8px 15px;
-            border-radius: 20px;
-            border: 1px solid var(--text-muted);
-        }
-
-        .user-profile img {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+        header p {
+            color: #c084fc;
+            margin: 5px 0 0 0;
+            font-size: 0.9rem;
         }
 
         .grid-layout {
@@ -82,27 +69,7 @@
             font-size: 1.3rem;
         }
 
-        .form-group {
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .form-group label {
-            font-size: 0.85rem;
-            color: #c084fc;
-        }
-
-        .form-group input, .form-group select {
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid var(--text-muted);
-            background: #0a0512;
-            color: white;
-        }
-
-        /* Music Controller Style */
+        /* Enhanced Music Controller Layout */
         .music-player {
             display: flex;
             flex-direction: column;
@@ -125,6 +92,13 @@
             border: 1px solid var(--text-muted);
             background: #0a0512;
             color: white;
+            font-size: 0.9rem;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+            box-shadow: var(--neon-glow);
         }
 
         .btn {
@@ -141,6 +115,7 @@
         .btn:hover {
             background-color: var(--accent-purple);
             box-shadow: var(--neon-glow);
+            transform: translateY(-1px);
         }
 
         .player-buttons {
@@ -154,27 +129,41 @@
             padding: 12px 24px;
             background-color: #24143e;
             border: 1px solid rgba(168, 85, 247, 0.3);
-            border-radius: 8px;
-            color: white;
-            cursor: pointer;
         }
 
-        /* Modern Toggle Switches */
+        .volume-container {
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .volume-container label {
+            font-size: 0.85rem;
+            color: #c084fc;
+        }
+
+        /* Modern Toggle Switches UI */
         .switch-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            padding: 12px;
+            padding: 10px;
             background: rgba(36, 20, 62, 0.4);
             border-radius: 8px;
+        }
+
+        .switch-container span {
+            font-size: 0.95rem;
         }
 
         .switch {
             position: relative;
             display: inline-block;
-            width: 50px;
-            height: 26px;
+            width: 54px;
+            height: 28px;
         }
 
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -185,14 +174,14 @@
             top: 0; left: 0; right: 0; bottom: 0;
             background-color: #2a1b4e;
             transition: .4s;
-            border-radius: 26px;
+            border-radius: 28px;
             border: 1px solid rgba(168, 85, 247, 0.3);
         }
 
         .slider:before {
             position: absolute;
             content: "";
-            height: 18px; width: 18px;
+            height: 20px; width: 20px;
             left: 3px; bottom: 3px;
             background-color: #f3e8ff;
             transition: .4s;
@@ -200,21 +189,15 @@
         }
 
         input:checked + .slider { background-color: var(--accent-purple); box-shadow: var(--neon-glow); }
-        input:checked + .slider:before { transform: translateX(24px); }
+        input:checked + .slider:before { transform: translateX(26px); }
     </style>
 </head>
 <body>
 
 <div class="dashboard-container">
     <header>
-        <div>
-            <h1>VELORA MASTER NODE</h1>
-            <p style="color:#c084fc; margin:0;">Complete Server Orchestration System</p>
-        </div>
-        <div class="user-profile" id="userProfile" style="display:none;">
-            <img id="userAvatar" src="" alt="Avatar">
-            <span id="userName">Loading Node...</span>
-        </div>
+        <h1>VELORA ENGINE CORE</h1>
+        <p>Operational Web Mapping & Infrastructure Framework</p>
     </header>
 
     <div class="grid-layout">
@@ -227,14 +210,14 @@
                 </div>
                 
                 <div class="player-buttons">
-                    <button class="btn btn-player" onclick="triggerMusicAction('pause')">⏸️</button>
-                    <button class="btn btn-player" onclick="triggerMusicAction('resume')">▶️</button>
-                    <button class="btn btn-player" onclick="triggerMusicAction('skip')">⏭️</button>
-                    <button class="btn btn-player" onclick="triggerMusicAction('stop')">⏹️</button>
+                    <button class="btn btn-player" onclick="triggerMusicAction('pause')" title="Pause Frame">⏸️</button>
+                    <button class="btn btn-player" onclick="triggerMusicAction('resume')" title="Resume Stream">▶️</button>
+                    <button class="btn btn-player" onclick="triggerMusicAction('skip')" title="Skip Sequence">⏭️</button>
+                    <button class="btn btn-player" onclick="triggerMusicAction('stop')" title="Terminate Audio">⏹️</button>
                 </div>
 
-                <div class="volume-container" style="text-align: center; display: flex; flex-direction: column; gap: 5px;">
-                    <label style="font-size:0.85rem; color:#c084fc;">Volume Output Metric</label>
+                <div class="volume-container">
+                    <label>Volume Output Metric</label>
                     <input type="range" min="0" max="150" value="100" style="width: 100%; accent-color: var(--accent-purple);" onchange="adjustVolume(this.value)">
                 </div>
             </div>
@@ -257,89 +240,31 @@
                 </label>
             </div>
         </div>
-
-        <div class="panel">
-            <h2>⚙️ Core Settings</h2>
-            <div class="form-group">
-                <label>Custom Prefix</label>
-                <input type="text" id="botPrefix" value="!">
-            </div>
-            <div class="form-group">
-                <label>Embed Footer Text</label>
-                <input type="text" id="botFooter" value="Velora Bot">
-            </div>
-            <button class="btn" onclick="saveCoreSettings()">Save Core Matrix</button>
-        </div>
-
-        <div class="panel">
-            <h2>🖼️ Welcome Logs Framework</h2>
-            <div class="form-group">
-                <label>Target Log Channel ID</label>
-                <input type="text" id="welcomeChannel">
-            </div>
-            <div class="form-group">
-                <label>Banner Title</label>
-                <input type="text" id="bannerTitle" value="WELCOME DISCORD_USER">
-            </div>
-            <div class="form-group">
-                <label>Background URL</label>
-                <input type="text" id="bannerBg">
-            </div>
-            <button class="btn" onclick="saveWelcomeBanner()">Push Layout</button>
-        </div>
     </div>
 </div>
 
 <script>
-    const API_BASE = "http://87.232.72.111:15378"; 
-    const CURRENT_GUILD = "1350118248934408233"; 
+    // Link Configuration Arrays (Remember to update your Live Server IP details)
+    const API_BASE = "http://YOUR_BOT_PANEL_IP:15378"; 
+    const CURRENT_GUILD = "1350118248934408233"; // Your active discord server tracking node ID
 
-    // Auto OAuth2 User Data Loader (Restored)
-    window.onload = async function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get('code');
-        
-        if (code) {
-            try {
-                const response = await fetch(`${API_BASE}/api/auth`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ code: code })
-                });
-                const data = await response.json();
-                if (data.user) {
-                    document.getElementById('userProfile').style.display = 'flex';
-                    document.getElementById('userAvatar').src = data.user.avatar;
-                    document.getElementById('userName').innerText = data.user.username;
-                }
-            } catch (e) { console.error("OAuth Node Connection Error", e); }
-        }
-        loadGuildBranding();
-    };
-
-    async function loadGuildBranding() {
-        try {
-            const r = await fetch(`${API_BASE}/api/guild_branding/${CURRENT_GUILD}`);
-            const data = await r.json();
-            if(data) {
-                document.getElementById('botPrefix').value = data.custom_prefix || '!';
-                document.getElementById('botFooter').value = data.embed_footer_text || 'Velora Bot';
-                document.getElementById('auto_mod_links').checked = data.auto_mod_links || false;
-                document.getElementById('anti_spam').checked = data.anti_spam || false;
-            }
-        } catch(e) {}
-    }
-
-    // --- MUSIC CONTROLS ENGINE ---
     async function triggerMusicAction(action) {
         const queryVal = document.getElementById('songQuery').value;
         try {
-            await fetch(`${API_BASE}/api/music_control`, {
+            const response = await fetch(`${API_BASE}/api/music_control`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ guild_id: CURRENT_GUILD, action: action, query: queryVal })
+                body: JSON.stringify({
+                    guild_id: CURRENT_GUILD,
+                    action: action,
+                    query: queryVal
+                })
             });
-        } catch (error) {}
+            const data = await response.json();
+            if(data.success) console.log(`Pipeline array structural trigger deployed: ${action}`);
+        } catch (error) {
+            console.error("Pipeline node communication failure:", error);
+        }
     }
 
     async function adjustVolume(vol) {
@@ -347,9 +272,15 @@
             await fetch(`${API_BASE}/api/music_control`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ guild_id: CURRENT_GUILD, action: 'volume', volume: vol })
+                body: JSON.stringify({
+                    guild_id: CURRENT_GUILD,
+                    action: 'volume',
+                    volume: vol
+                })
             });
-        } catch (error) {}
+        } catch (error) {
+            console.error("Volume adjustment packet loss:", error);
+        }
     }
 
     async function toggleFeature(featureName) {
@@ -357,33 +288,14 @@
             await fetch(`${API_BASE}/api/toggle`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ guild_id: CURRENT_GUILD, feature: featureName })
+                body: JSON.stringify({
+                    guild_id: CURRENT_GUILD,
+                    feature: featureName
+                })
             });
-        } catch (error) {}
-    }
-
-    // --- CORE SAVE ENGINES (RESTORED) ---
-    async function saveCoreSettings() {
-        const p = document.getElementById('botPrefix').value;
-        const f = document.getElementById('botFooter').value;
-        await fetch(`${API_BASE}/api/save_core_settings`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ guild_id: CURRENT_GUILD, prefix: p, footer: f })
-        });
-        alert("Core Node Saved!");
-    }
-
-    async function saveWelcomeBanner() {
-        const ch = document.getElementById('welcomeChannel').value;
-        const t = document.getElementById('bannerTitle').value;
-        const bg = document.getElementById('bannerBg').value;
-        await fetch(`${API_BASE}/api/save_welcome_banner`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ guild_id: CURRENT_GUILD, channel_id: ch, title: t, bg_url: bg, subtitle: "Welcome!", text_color: "#FFFFFF" })
-        });
-        alert("Welcome Banner Configuration Synchronized!");
+        } catch (error) {
+            console.error("Feature toggle system fault:", error);
+        }
     }
 </script>
 
