@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Velora Premium Management Hub</title>
+    <title>Velora Advanced Master Dashboard</title>
     <style>
         :root {
             --bg-color: #0a0512;
@@ -32,6 +32,9 @@
             padding: 20px 0;
             border-bottom: 2px solid var(--text-muted);
             margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         header h1 {
@@ -41,10 +44,20 @@
             letter-spacing: 2px;
         }
 
-        header p {
-            color: #c084fc;
-            margin: 5px 0 0 0;
-            font-size: 0.9rem;
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #1a0f33;
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--text-muted);
+        }
+
+        .user-profile img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
         }
 
         .grid-layout {
@@ -69,7 +82,27 @@
             font-size: 1.3rem;
         }
 
-        /* Enhanced Music Controller Layout */
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            color: #c084fc;
+        }
+
+        .form-group input, .form-group select {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--text-muted);
+            background: #0a0512;
+            color: white;
+        }
+
+        /* Music Controller Style */
         .music-player {
             display: flex;
             flex-direction: column;
@@ -92,13 +125,6 @@
             border: 1px solid var(--text-muted);
             background: #0a0512;
             color: white;
-            font-size: 0.9rem;
-        }
-
-        .search-box input:focus {
-            outline: none;
-            border-color: var(--accent-purple);
-            box-shadow: var(--neon-glow);
         }
 
         .btn {
@@ -115,7 +141,6 @@
         .btn:hover {
             background-color: var(--accent-purple);
             box-shadow: var(--neon-glow);
-            transform: translateY(-1px);
         }
 
         .player-buttons {
@@ -132,28 +157,9 @@
             border-radius: 8px;
             color: white;
             cursor: pointer;
-            transition: all 0.2s ease;
         }
 
-        .btn-player:hover {
-            background-color: var(--accent-purple);
-            box-shadow: var(--neon-glow);
-        }
-
-        .volume-container {
-            width: 100%;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .volume-container label {
-            font-size: 0.85rem;
-            color: #c084fc;
-        }
-
-        /* Modern Toggle Switches UI */
+        /* Modern Toggle Switches */
         .switch-container {
             display: flex;
             justify-content: space-between;
@@ -164,11 +170,6 @@
             border-radius: 8px;
         }
 
-        .switch-container span {
-            font-size: 0.95rem;
-        }
-
-        /* HTML Toggle Switches Design */
         .switch {
             position: relative;
             display: inline-block;
@@ -206,8 +207,14 @@
 
 <div class="dashboard-container">
     <header>
-        <h1>VELORA ENGINE CORE</h1>
-        <p>Operational Web Mapping & Infrastructure Framework</p>
+        <div>
+            <h1>VELORA MASTER NODE</h1>
+            <p style="color:#c084fc; margin:0;">Complete Server Orchestration System</p>
+        </div>
+        <div class="user-profile" id="userProfile" style="display:none;">
+            <img id="userAvatar" src="" alt="Avatar">
+            <span id="userName">Loading Node...</span>
+        </div>
     </header>
 
     <div class="grid-layout">
@@ -220,14 +227,14 @@
                 </div>
                 
                 <div class="player-buttons">
-                    <button class="btn btn-player" onclick="triggerMusicAction('pause')" title="Pause Stream">⏸️</button>
-                    <button class="btn btn-player" onclick="triggerMusicAction('resume')" title="Resume Stream">▶️</button>
-                    <button class="btn btn-player" onclick="triggerMusicAction('skip')" title="Skip Track">⏭️</button>
-                    <button class="btn btn-player" onclick="triggerMusicAction('stop')" title="Terminate Audio">⏹️</button>
+                    <button class="btn btn-player" onclick="triggerMusicAction('pause')">⏸️</button>
+                    <button class="btn btn-player" onclick="triggerMusicAction('resume')">▶️</button>
+                    <button class="btn btn-player" onclick="triggerMusicAction('skip')">⏭️</button>
+                    <button class="btn btn-player" onclick="triggerMusicAction('stop')">⏹️</button>
                 </div>
 
-                <div class="volume-container">
-                    <label>Volume Output Metric</label>
+                <div class="volume-container" style="text-align: center; display: flex; flex-direction: column; gap: 5px;">
+                    <label style="font-size:0.85rem; color:#c084fc;">Volume Output Metric</label>
                     <input type="range" min="0" max="150" value="100" style="width: 100%; accent-color: var(--accent-purple);" onchange="adjustVolume(this.value)">
                 </div>
             </div>
@@ -250,31 +257,89 @@
                 </label>
             </div>
         </div>
+
+        <div class="panel">
+            <h2>⚙️ Core Settings</h2>
+            <div class="form-group">
+                <label>Custom Prefix</label>
+                <input type="text" id="botPrefix" value="!">
+            </div>
+            <div class="form-group">
+                <label>Embed Footer Text</label>
+                <input type="text" id="botFooter" value="Velora Bot">
+            </div>
+            <button class="btn" onclick="saveCoreSettings()">Save Core Matrix</button>
+        </div>
+
+        <div class="panel">
+            <h2>🖼️ Welcome Logs Framework</h2>
+            <div class="form-group">
+                <label>Target Log Channel ID</label>
+                <input type="text" id="welcomeChannel">
+            </div>
+            <div class="form-group">
+                <label>Banner Title</label>
+                <input type="text" id="bannerTitle" value="WELCOME DISCORD_USER">
+            </div>
+            <div class="form-group">
+                <label>Background URL</label>
+                <input type="text" id="bannerBg">
+            </div>
+            <button class="btn" onclick="saveWelcomeBanner()">Push Layout</button>
+        </div>
     </div>
 </div>
 
 <script>
-    // System Configurations Linked directly to your active panel IP node
     const API_BASE = "http://87.232.72.111:15378"; 
     const CURRENT_GUILD = "1350118248934408233"; 
 
+    // Auto OAuth2 User Data Loader (Restored)
+    window.onload = async function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        
+        if (code) {
+            try {
+                const response = await fetch(`${API_BASE}/api/auth`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ code: code })
+                });
+                const data = await response.json();
+                if (data.user) {
+                    document.getElementById('userProfile').style.display = 'flex';
+                    document.getElementById('userAvatar').src = data.user.avatar;
+                    document.getElementById('userName').innerText = data.user.username;
+                }
+            } catch (e) { console.error("OAuth Node Connection Error", e); }
+        }
+        loadGuildBranding();
+    };
+
+    async function loadGuildBranding() {
+        try {
+            const r = await fetch(`${API_BASE}/api/guild_branding/${CURRENT_GUILD}`);
+            const data = await r.json();
+            if(data) {
+                document.getElementById('botPrefix').value = data.custom_prefix || '!';
+                document.getElementById('botFooter').value = data.embed_footer_text || 'Velora Bot';
+                document.getElementById('auto_mod_links').checked = data.auto_mod_links || false;
+                document.getElementById('anti_spam').checked = data.anti_spam || false;
+            }
+        } catch(e) {}
+    }
+
+    // --- MUSIC CONTROLS ENGINE ---
     async function triggerMusicAction(action) {
         const queryVal = document.getElementById('songQuery').value;
         try {
-            const response = await fetch(`${API_BASE}/api/music_control`, {
+            await fetch(`${API_BASE}/api/music_control`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    guild_id: CURRENT_GUILD,
-                    action: action,
-                    query: queryVal
-                })
+                body: JSON.stringify({ guild_id: CURRENT_GUILD, action: action, query: queryVal })
             });
-            const data = await response.json();
-            if(data.success) console.log(`Music control successfully executed: ${action}`);
-        } catch (error) {
-            console.error("Communication breakdown with backend pipeline:", error);
-        }
+        } catch (error) {}
     }
 
     async function adjustVolume(vol) {
@@ -282,15 +347,9 @@
             await fetch(`${API_BASE}/api/music_control`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    guild_id: CURRENT_GUILD,
-                    action: 'volume',
-                    volume: vol
-                })
+                body: JSON.stringify({ guild_id: CURRENT_GUILD, action: 'volume', volume: vol })
             });
-        } catch (error) {
-            console.error("Volume sync error packet loss:", error);
-        }
+        } catch (error) {}
     }
 
     async function toggleFeature(featureName) {
@@ -298,14 +357,33 @@
             await fetch(`${API_BASE}/api/toggle`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    guild_id: CURRENT_GUILD,
-                    feature: featureName
-                })
+                body: JSON.stringify({ guild_id: CURRENT_GUILD, feature: featureName })
             });
-        } catch (error) {
-            console.error("Security module toggle failure:", error);
-        }
+        } catch (error) {}
+    }
+
+    // --- CORE SAVE ENGINES (RESTORED) ---
+    async function saveCoreSettings() {
+        const p = document.getElementById('botPrefix').value;
+        const f = document.getElementById('botFooter').value;
+        await fetch(`${API_BASE}/api/save_core_settings`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ guild_id: CURRENT_GUILD, prefix: p, footer: f })
+        });
+        alert("Core Node Saved!");
+    }
+
+    async function saveWelcomeBanner() {
+        const ch = document.getElementById('welcomeChannel').value;
+        const t = document.getElementById('bannerTitle').value;
+        const bg = document.getElementById('bannerBg').value;
+        await fetch(`${API_BASE}/api/save_welcome_banner`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ guild_id: CURRENT_GUILD, channel_id: ch, title: t, bg_url: bg, subtitle: "Welcome!", text_color: "#FFFFFF" })
+        });
+        alert("Welcome Banner Configuration Synchronized!");
     }
 </script>
 
