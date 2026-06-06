@@ -28,7 +28,6 @@
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         
         .navbar { background: rgba(4, 6, 15, 0.9); padding: 20px 6%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--accent); box-shadow: 0 0 35px var(--accent-glow); backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 50; }
-        
         .nav-logo { font-size: 2.2rem; font-weight: 900; letter-spacing: 5px; background: linear-gradient(90deg, var(--accent), var(--secondary), var(--neon-purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradientShift 4s linear infinite; cursor: pointer; text-shadow: 0 0 20px rgba(0,240,255,0.2); }
         
         @keyframes gradientShift {
@@ -96,22 +95,11 @@
         .m-btn-img:hover { background: rgba(0, 240, 255, 0.1); border-color: var(--secondary); box-shadow: 0 0 15px var(--secondary-glow); transform: scale(1.08); }
         .m-btn-img img { width: 32px; height: 32px; object-fit: contain; }
 
-        .xp-bar-container { background: #151b2d; border-radius: 30px; width: 100%; height: 20px; margin-top: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
-        .xp-bar-fill { background: linear-gradient(90deg, var(--accent), var(--neon-purple)); width: 65%; height: 100%; box-shadow: 0 0 15px var(--accent-glow); }
-
-        .live-metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 35px; }
-        .metric-mini-card { background: rgba(9, 15, 30, 0.8); border: 1px solid rgba(0,240,255,0.08); padding: 22px; border-radius: 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
-        .metric-mini-card p { margin: 8px 0 0 0; font-size: 1.8rem; font-weight: 900; color: var(--secondary); text-shadow: 0 0 10px var(--secondary-glow); }
-        .live-preview-window { background: #050813; border: 1px solid rgba(255,0,85,0.15); padding: 25px; border-radius: 24px; margin-bottom: 35px; box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
-        .mock-banner { width: 100%; height: 200px; border-radius: 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #0e1322; border: 1px solid rgba(255,255,255,0.02); }
-        .mock-avatar { width: 70px; height: 70px; border-radius: 50%; margin-bottom: 12px; border: 2px solid var(--secondary); }
-        .save-btn { background: linear-gradient(135deg, var(--accent), #b5003c); color: white; border: none; padding: 16px 45px; border-radius: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 8px 25px var(--accent-glow); text-transform: uppercase; letter-spacing: 1.5px; transition: 0.3s; }
-        .save-btn:hover { transform: scale(1.02); box-shadow: 0 0 35px var(--accent); }
-        
         .back-btn { background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-weight: bold; }
         .back-btn:hover { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 15px var(--accent-glow); }
         .m-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white; padding: 12px 24px; border-radius: 14px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .m-btn:hover { background: var(--secondary); color: #000; box-shadow: 0 0 15px var(--secondary-glow); }
+        .grid-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
     </style>
 </head>
 <body>
@@ -210,9 +198,7 @@
                             <button class="m-btn-img" style="width:42px; height:42px;" onclick="triggerMusicAction('volumedown')" title="Volume Down">
                                 <img src="https://cdn.discordapp.com/emojis/1512679550490775673.png" style="width:24px; height:24px;" alt="VolDown">
                             </button>
-                            
                             <input type="range" min="0" max="150" value="100" style="width: 50%; accent-color: var(--secondary);" onchange="adjustVolume(this.value)">
-                            
                             <button class="m-btn-img" style="width:42px; height:42px;" onclick="triggerMusicAction('volumeup')" title="Volume Up">
                                 <img src="https://cdn.discordapp.com/emojis/1512679566387445851.png" style="width:24px; height:24px;" alt="VolUp">
                             </button>
@@ -246,9 +232,7 @@
                     
                     <div class="form-group">
                         <label>Upload Welcome Canvas Background File</label>
-                        <div class="dropzone-area" id="welcome-dropzone" ondragover="handleDragOver(event, this)" ondragleave="handleDragLeave(this)" ondrop="handleFileDrop(event, this, 'welcome-bg-input')">
-                            📥 Drag & Drop your Background Image here or Click to upload
-                        </div>
+                        <div class="dropzone-area" id="welcome-dropzone">📥 Click to upload or Drag background image</div>
                         <input type="file" id="welcome-file-hidden" style="display:none;" onchange="handleFileSelect(event, 'welcome-bg-input', 'welcome-dropzone')">
                     </div>
 
@@ -258,7 +242,7 @@
                     </div>
                     <div class="grid-two-col">
                         <div class="form-group"><label>Background Image URL</label><input type="text" class="form-control" id="welcome-bg-input" oninput="updateLivePreview()"></div>
-                        <div class="form-group"><label>Text Gradient Main Color</label><input type="color" class="form-control" id="welcome-color-input" style="height:50px; padding:5px;" oninput="updateLivePreview()"></div>
+                        <div class="form-group"><label>Text Color</label><input type="color" class="form-control" id="welcome-color-input" style="height:50px; padding:5px;" oninput="updateLivePreview()"></div>
                     </div>
                     <button class="save-btn" onclick="saveWelcomeBannerConfig()">Push Layout</button>
                 </div>
@@ -270,9 +254,7 @@
                     
                     <div class="form-group">
                         <label>Upload Goodbye Canvas File</label>
-                        <div class="dropzone-area" id="goodbye-dropzone" ondragover="handleDragOver(event, this)" ondragleave="handleDragLeave(this)" ondrop="handleFileDrop(event, this, 'goodbye-bg-input')">
-                            📥 Drag & Drop your Goodbye Image here or Click to upload
-                        </div>
+                        <div class="dropzone-area" id="goodbye-dropzone">📥 Click to upload or Drag image</div>
                         <input type="file" id="goodbye-file-hidden" style="display:none;" onchange="handleFileSelect(event, 'goodbye-bg-input', 'goodbye-dropzone')">
                     </div>
 
@@ -288,57 +270,28 @@
                     <div class="panel-header-title">Experience Ledger Modules</div>
                     <div class="toggle-box"><div><b>Server XP / Leveling Module Engine</b></div><div class="switch" id="sw-leveling_system" onclick="sendToggleRequest('leveling_system')"></div></div>
                     <div class="toggle-box"><div><b>Virtual Economy Ledger Module</b></div><div class="switch" id="sw-economy_enabled" onclick="sendToggleRequest('economy_enabled')"></div></div>
-                    <div class="metric-mini-card" style="text-align: left; margin-bottom: 25px;">
-                        <h4 style="margin:0; color: var(--secondary);">Global XP Velocity Multiplier</h4>
-                        <div class="xp-bar-container"><div class="xp-bar-fill"></div></div>
-                        <p style="font-size:1rem; color: var(--text-muted); font-weight: normal; margin-top:5px;">Level Processing Active: Node Payload Load Rate 65%</p>
-                    </div>
                     <div class="form-group"><label>Custom Currency Asset Name</label><input type="text" class="form-control" id="adv-currency-input"></div>
                     <div class="form-group"><label>Global Cluster Log Destination Channel</label><select class="form-control" id="adv-log-channel-dropdown"></select></div>
                     <button class="save-btn" onclick="saveAdvancedModulesConfig()">Commit Advanced Modules</button>
                 </div>
 
                 <div id="panel-bot_identity" class="db-panel">
-                    <div class="panel-header-title" style="color: var(--premium-color);">🎨 Custom Server Identity (White-Label Config)</div>
-                    
-                    <div id="branding-locked-gate" class="premium-lock-screen">
-                        <h2 style="margin:0; color:var(--premium-color);">⚡ WHITE-LABEL SUITE LOCKED</h2>
-                        <p style="color:var(--text-muted); font-size:0.95rem; margin-top:10px;">Modifying server custom profile identities requires an active validation node cluster license.</p>
-                        <h3 style="color:#fff; margin-bottom: 5px;">License Rate: $4.99 / Monthly</h3>
-                        <button class="premium-buy-btn" onclick="simulatePremiumPurchase()">Unlock Identity Engine</button>
-                    </div>
-
-                    <div id="branding-unlocked-panel" style="display:none;">
-                        <div class="form-group">
-                            <label>Custom Server Bot Profile Name</label>
-                            <input type="text" class="form-control" id="custom-server-bot-name">
-                        </div>
-                        
+                    <div class="panel-header-title" style="color: var(--premium-color);">🎨 Custom Server Identity (White-Label Unlocked)</div>
+                    <div id="branding-unlocked-panel">
+                        <div class="form-group"><label>Custom Server Bot Profile Name</label><input type="text" class="form-control" id="custom-server-bot-name"></div>
                         <div class="form-group">
                             <label>Upload Custom Bot Avatar File</label>
-                            <div class="dropzone-area" id="avatar-dropzone" ondragover="handleDragOver(event, this)" ondragleave="handleDragLeave(this)" ondrop="handleFileDrop(event, this, 'custom-server-bot-avatar')">
-                                🖼️ Drag & Drop New Profile Avatar Picture here or Click to upload
-                            </div>
+                            <div class="dropzone-area" id="avatar-dropzone">🖼️ Click to upload or Drag new bot profile picture</div>
                             <input type="file" id="avatar-file-hidden" style="display:none;" onchange="handleFileSelect(event, 'custom-server-bot-avatar', 'avatar-dropzone')">
                         </div>
-
-                        <div class="form-group">
-                            <label>Custom Server Bot Profile Avatar URL</label>
-                            <input type="text" class="form-control" id="custom-server-bot-avatar">
-                        </div>
+                        <div class="form-group"><label>Custom Server Bot Profile Avatar URL</label><input type="text" class="form-control" id="custom-server-bot-avatar"></div>
                         <button class="save-btn" onclick="saveCustomServerIdentity()">Deploy Identity Configuration</button>
                     </div>
                 </div>
 
                 <div id="panel-anti_nuke" class="db-panel">
-                    <div class="panel-header-title" style="color:var(--premium-color);">👑 Cyber Vault Premium Anti-Nuke Defenses</div>
-                    <div id="premium-locked-gate" class="premium-lock-screen">
-                        <h2 style="margin:0; color:var(--premium-color);">⚡ PROTOCOLS LOCKED</h2>
-                        <p style="color:var(--text-muted); font-size:0.95rem; margin-top:10px;">Mass destructive payload defenses require an active configuration validator server cluster node license.</p>
-                        <h3 style="color:#fff; margin-bottom: 5px;">License Rate: $4.99 / Monthly</h3>
-                        <button class="premium-buy-btn" onclick="simulatePremiumPurchase()">Unlock Security Defenses</button>
-                    </div>
-                    <div id="premium-unlocked-panel" style="display:none;">
+                    <div class="panel-header-title" style="color:var(--premium-color);">👑 Cyber Vault Premium Anti-Nuke Defenses (Unlocked)</div>
+                    <div id="premium-unlocked-panel">
                         <div class="toggle-box"><div><b>Enable Anti-Nuke Main Firewall</b></div><div class="switch" id="sw-anti_nuke_enabled" onclick="sendToggleRequest('anti_nuke_enabled')"></div></div>
                         <div class="toggle-box"><div><b>Anti-Bot Injection Protection Node</b></div><div class="switch" id="sw-anti_bot_join" onclick="sendToggleRequest('anti_bot_join')"></div></div>
                         <div class="toggle-box"><div><b>Anti-Channel Purge Overrides Engine</b></div><div class="switch" id="sw-anti_channel_purge" onclick="sendToggleRequest('anti_channel_purge')"></div></div>
@@ -363,23 +316,9 @@
             window.location.href = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=identify%20guilds`;
         }
 
-        function handleDragOver(e, element) { e.preventDefault(); element.classList.add("dragover"); }
-        function handleDragLeave(element) { element.classList.remove("dragover"); }
-        
-        async function handleFileDrop(e, element, inputTargetId) {
-            e.preventDefault();
-            element.classList.remove("dragover");
-            const files = e.dataTransfer.files;
-            if(files.length > 0) { await uploadFileToRelay(files[0], element, inputTargetId); }
-        }
-
         document.getElementById("welcome-dropzone").addEventListener("click", () => document.getElementById("welcome-file-hidden").click());
         document.getElementById("goodbye-dropzone").addEventListener("click", () => document.getElementById("goodbye-file-hidden").click());
-        
-        function initBrandingUploadTrigger() {
-            const az = document.getElementById("avatar-dropzone");
-            if(az) az.addEventListener("click", () => document.getElementById("avatar-file-hidden").click());
-        }
+        document.getElementById("avatar-dropzone").addEventListener("click", () => document.getElementById("avatar-file-hidden").click());
 
         function handleFileSelect(e, inputTargetId, dropzoneId) {
             const files = e.target.files;
@@ -390,36 +329,15 @@
             element.innerText = "⚡ Uploading asset array to pipeline...";
             let formData = new FormData();
             formData.append("image", file);
-            
             try {
                 const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: "POST", body: formData });
                 const json = await res.json();
                 if(json.success) {
-                    const finalUrl = json.data.url;
-                    document.getElementById(inputTargetId).value = finalUrl;
+                    document.getElementById(inputTargetId).value = json.data.url;
                     element.innerText = "✅ Asset linked successfully!";
                     updateLivePreview();
                 } else { element.innerText = "❌ File link package rejected."; }
             } catch(err) { element.innerText = "❌ Network transaction failure."; }
-        }
-
-        async function simulatePremiumPurchase() {
-            const accept = confirm("Confirm verification ledger node processing array payment for $4.99?");
-            if(accept) {
-                try {
-                    const res = await fetch(WRITE_URL + "api/unlock_premium", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ guild_id: activeGuildId }) });
-                    const data = await res.json();
-                    if(data.premium_unlocked) {
-                        alert("🎉 Payment secure! Premium layer metrics unlocked.");
-                        document.getElementById("premium-locked-gate").style.display = "none";
-                        document.getElementById("premium-unlocked-panel").style.display = "block";
-                        document.getElementById("branding-locked-gate").style.display = "none";
-                        document.getElementById("branding-unlocked-panel").style.display = "block";
-                        initBrandingUploadTrigger();
-                        updateSwitchUI("anti_nuke_enabled", true);
-                    }
-                } catch(e) { alert("Ledger sync failure."); }
-            }
         }
 
         async function checkOAuthCallback() {
@@ -428,50 +346,32 @@
             if (code) {
                 document.getElementById("nav-auth-box").innerHTML = "<span style='color:var(--secondary);'>Syncing Matrix...</span>";
                 try {
-                    const res = await fetch(WRITE_URL + "api/auth", {
-                        method: "POST", headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ code: code })
-                    });
+                    const res = await fetch(WRITE_URL + "api/auth", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code: code }) });
                     const data = await res.json();
                     if (data && data.guilds) {
                         window.history.replaceState({}, document.title, window.location.pathname);
                         loadAuthenticatedDashboard(data);
                     }
-                } catch(e) { 
-                    document.getElementById("nav-auth-box").innerHTML = "<span style='color:var(--accent);'>Block Error</span>"; 
-                }
+                } catch(e) { document.getElementById("nav-auth-box").innerHTML = "<span style='color:var(--accent);'>Block Error</span>"; }
             }
         }
 
-        // --- FIXED AUTHENTICATED MAPPING GRID ---
         function loadAuthenticatedDashboard(data) {
             cacheGuildsData = data.guilds;
-            
-            // Reads from backend mapped object key directly
-            const finalAvatar = data.user.avatar_url;
             document.getElementById("nav-auth-box").innerHTML = `
                 <div class="user-nav-badge">
-                    <img src="${finalAvatar}" class="user-nav-av" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                    <img src="${data.user.avatar_url}" class="user-nav-av" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
                     <span>${data.user.username}</span>
                 </div>
             `;
-            
             document.getElementById("server-select-area").style.display = "block";
             const grid = document.getElementById("dynamic-server-grid");
             grid.innerHTML = "";
-            
             data.guilds.forEach(guild => {
                 const card = document.createElement("div");
                 card.className = "server-card";
                 card.onclick = () => enterDashboard(guild.id, guild.name);
-                
-                // Fixed server grid icon source logic
-                const finalServerIcon = guild.icon_url;
-                card.innerHTML = `
-                    <img src="${finalServerIcon}" class="server-icon-img" onerror="this.src='https://cdn.discordapp.com/embed/avatars/1.png'">
-                    <div class="server-name">${guild.name}</div>
-                    <div style="color:var(--text-muted); font-size:0.85rem; margin-top:5px;">${guild.users} Members</div>
-                `;
+                card.innerHTML = `<img src="${guild.icon_url}" class="server-icon-img" onerror="this.src='https://cdn.discordapp.com/embed/avatars/1.png'"><div class="server-name">${guild.name}</div><div style="color:var(--text-muted); font-size:0.85rem; margin-top:5px;">${guild.users} Members</div>`;
                 grid.appendChild(card);
             });
         }
@@ -483,16 +383,12 @@
             const sub = document.getElementById("welcome-subtitle-input").value || "Welcome to our community server!";
             const bg = document.getElementById("welcome-bg-input").value;
             const color = document.getElementById("welcome-color-input").value || "#FFFFFF";
-
             const tEl = document.getElementById("lbl-preview-title");
             tEl.innerText = heading + " DISCORD_USER"; tEl.style.color = color;
             document.getElementById("lbl-preview-subtitle").innerText = sub;
-            if(bg && bg.startsWith("http")) {
-                document.getElementById("w-preview-box").style.background = `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('${bg}') center/cover`;
-            } else { document.getElementById("w-preview-box").style.background = "#0e1322"; }
+            document.getElementById("w-preview-box").style.background = bg && bg.startsWith("http") ? `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('${bg}') center/cover` : "#0e1322";
         }
 
-        // --- FIXED DASHBOARD SIDEBAR AVATAR DATA BINDING ---
         async function enterDashboard(guildId, guildName) {
             activeGuildId = guildId;
             document.getElementById('home-view').style.display = 'none';
@@ -504,11 +400,7 @@
 
             const activeGuild = cacheGuildsData.find(g => g.id === guildId);
             document.getElementById("live-metric-members").innerText = activeGuild ? activeGuild.users : 0;
-            
-            // Sync active channel dashboard sidebar frame profile asset
-            if(activeGuild) { 
-                document.getElementById("bot-profile-avatar").src = activeGuild.icon_url; 
-            }
+            if(activeGuild) { document.getElementById("bot-profile-avatar").src = activeGuild.icon_url; }
 
             try {
                 const response = await fetch(`${WRITE_URL}api/guild_branding/${guildId}`);
@@ -540,21 +432,7 @@
                 updateSwitchUI("anti_bot_join", config.anti_bot_join);
                 updateSwitchUI("anti_channel_purge", config.anti_channel_purge);
                 updateSwitchUI("anti_member_mass_kick", config.anti_member_mass_kick);
-
-                if(config.premium_unlocked) {
-                    document.getElementById("premium-locked-gate").style.display = "none";
-                    document.getElementById("premium-unlocked-panel").style.display = "block";
-                    document.getElementById("branding-locked-gate").style.display = "none";
-                    document.getElementById("branding-unlocked-panel").style.display = "block";
-                    initBrandingUploadTrigger();
-                } else {
-                    document.getElementById("premium-locked-gate").style.display = "block";
-                    document.getElementById("premium-unlocked-panel").style.display = "none";
-                    document.getElementById("branding-locked-gate").style.display = "block";
-                    document.getElementById("branding-unlocked-panel").style.display = "none";
-                }
-
-            } catch (err) { console.error("Error connecting structural cluster layout nodes", err); }
+            } catch (err) {}
 
             const wDropdown = document.getElementById("welcome-channel-dropdown");
             const gDropdown = document.getElementById("goodbye-channel-dropdown");
@@ -562,25 +440,12 @@
             const brDropdown = document.getElementById("bot-autorole-dropdown");
             const logDropdown = document.getElementById("adv-log-channel-dropdown");
             
-            wDropdown.innerHTML = '<option value="None">Disable Channel</option>';
-            gDropdown.innerHTML = '<option value="None">Disable Channel</option>';
-            logDropdown.innerHTML = '<option value="None">Disable Channel</option>';
-            rDropdown.innerHTML = '<option value="None">No Role Selected</option>';
-            brDropdown.innerHTML = '<option value="None">No Role Selected</option>';
+            wDropdown.innerHTML = gDropdown.innerHTML = logDropdown.innerHTML = '<option value="None">Disable Channel</option>';
+            rDropdown.innerHTML = brDropdown.innerHTML = '<option value="None">No Role Selected</option>';
             
             if(activeGuild) {
-                if(activeGuild.channels) {
-                    activeGuild.channels.forEach(ch => {
-                        const row = `<option value="${ch.id}"># ${ch.name}</option>`;
-                        wDropdown.innerHTML += row; gDropdown.innerHTML += row; logDropdown.innerHTML += row;
-                    });
-                }
-                if(activeGuild.roles) {
-                    activeGuild.roles.forEach(role => {
-                        const row = `<option value="${role.id}">${role.name}</option>`;
-                        rDropdown.innerHTML += row; brDropdown.innerHTML += row;
-                    });
-                }
+                if(activeGuild.channels) { activeGuild.channels.forEach(ch => { const row = `<option value="${ch.id}"># ${ch.name}</option>`; wDropdown.innerHTML += row; gDropdown.innerHTML += row; logDropdown.innerHTML += row; }); }
+                if(activeGuild.roles) { activeGuild.roles.forEach(role => { const row = `<option value="${role.id}">${role.name}</option>`; rDropdown.innerHTML += row; brDropdown.innerHTML += row; }); }
             }
             updateLivePreview();
         }
@@ -588,127 +453,49 @@
         async function triggerMusicAction(actionType) {
             const queryVal = document.getElementById('songQuery').value;
             try {
-                const response = await fetch(`${WRITE_URL}api/music_control`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        guild_id: activeGuildId,
-                        action: actionType,
-                        query: queryVal
-                    })
-                });
-                const data = await response.json();
-                if(data.success) {
-                    if(actionType === 'play_web' && queryVal) {
-                        document.getElementById('mock-track-title').innerText = `🎵 Active Inject: ${queryVal}`;
-                    } else if(actionType === 'stop') {
-                        document.getElementById('mock-track-title').innerText = `🎧 System Idle - No Stream Vector Track Found`;
-                    }
-                }
-            } catch (error) {
-                console.error("Lavalink connection error:", error);
-            }
+                await fetch(`${WRITE_URL}api/music_control`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ guild_id: activeGuildId, action: actionType, query: queryVal }) });
+            } catch (error) {}
         }
 
         async function adjustVolume(vol) {
-            try {
-                await fetch(`${WRITE_URL}api/music_control`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        guild_id: activeGuildId,
-                        action: 'volume',
-                        volume: vol
-                    })
-                });
-            } catch (error) {
-                console.error("Volume sync packet lost:", error);
-            }
+            try { await fetch(`${WRITE_URL}api/music_control`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ guild_id: activeGuildId, action: 'volume', volume: vol }) }); } catch (error) {}
         }
 
-        function saveCustomServerIdentity() {
-            const customName = document.getElementById("custom-server-bot-name").value;
-            const customAvatar = document.getElementById("custom-server-bot-avatar").value;
-            syncPostData("api/save_branding", { guild_id: activeGuildId, custom_name: customName, custom_avatar: customAvatar });
-        }
+        function saveCustomServerIdentity() { syncPostData("api/save_branding", { guild_id: activeGuildId, custom_name: document.getElementById("custom-server-bot-name").value, custom_avatar: document.getElementById("custom-server-bot-avatar").value }); }
+        
+        function saveCoreBotConfig() { syncPostData("api/save_core_settings", { guild_id: activeGuildId, prefix: document.getElementById("core-prefix-input").value, footer: document.getElementById("core-footer-input").value }); }
+        
+        function saveWelcomeBannerConfig() { syncPostData("api/save_welcome_banner", { guild_id: activeGuildId, channel_id: document.getElementById("welcome-channel-dropdown").value, title: document.getElementById("welcome-title-input").value, subtitle: document.getElementById("welcome-subtitle-input").value, bg_url: document.getElementById("welcome-bg-input").value, text_color: document.getElementById("welcome-color-input").value }); }
+        
+        function saveGoodbyeBannerConfig() { syncPostData("api/save_goodbye_banner", { guild_id: activeGuildId, channel_id: document.getElementById("goodbye-channel-dropdown").value, title: document.getElementById("goodbye-title-input").value, subtitle: document.getElementById("goodbye-subtitle-input").value, bg_url: document.getElementById("goodbye-bg-input").value }); }
+        
+        function saveAutoRoleConfig() { syncPostData("api/save_autorole", { guild_id: activeGuildId, role_id: document.getElementById("autorole-dropdown").value, bot_role_id: document.getElementById("bot-autorole-dropdown").value }); }
+        
+        function saveAdvancedModulesConfig() { syncPostData("api/save_advanced_modules", { guild_id: activeGuildId, currency: document.getElementById("adv-currency-input").value, log_channel: document.getElementById("adv-log-channel-dropdown").value }); }
 
-        function saveCoreBotConfig() {
-            syncPostData("api/save_core_settings", { guild_id: activeGuildId, prefix: document.getElementById("core-prefix-input").value, footer: document.getElementById("core-footer-input").value });
-        }
+        async function syncPostData(route, payload) { try { await fetch(WRITE_URL + route, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }); alert("✅ Matrix array synchronization completed!"); } catch(e) { alert("❌ Synchronization timed out."); } }
 
-        function saveWelcomeBannerConfig() {
-            syncPostData("api/save_welcome_banner", { guild_id: activeGuildId, channel_id: document.getElementById("welcome-channel-dropdown").value, title: document.getElementById("welcome-title-input").value, subtitle: document.getElementById("welcome-subtitle-input").value, bg_url: document.getElementById("welcome-bg-input").value, text_color: document.getElementById("welcome-color-input").value });
-        }
-
-        function saveGoodbyeBannerConfig() {
-            syncPostData("api/save_goodbye_banner", { guild_id: activeGuildId, channel_id: document.getElementById("goodbye-channel-dropdown").value, title: document.getElementById("goodbye-title-input").value, subtitle: document.getElementById("goodbye-subtitle-input").value, bg_url: document.getElementById("goodbye-bg-input").value });
-        }
-
-        function saveAutoRoleConfig() {
-            syncPostData("api/save_autorole", { guild_id: activeGuildId, role_id: document.getElementById("autorole-dropdown").value, bot_role_id: document.getElementById("bot-autorole-dropdown").value });
-        }
-
-        function saveAdvancedModulesConfig() {
-            syncPostData("api/save_advanced_modules", { guild_id: activeGuildId, currency: document.getElementById("adv-currency-input").value, log_channel: document.getElementById("adv-log-channel-dropdown").value });
-        }
-
-        async function syncPostData(route, payload) {
-            try {
-                await fetch(WRITE_URL + route, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-                alert("✅ Matrix array synchronization completed successfully!");
-            } catch(e) { alert("❌ Cluster pipeline synchronization timed out."); }
-        }
-
-        function hideDashboardArea() {
-            document.getElementById('main-dashboard-area').style.display = 'none';
-            document.getElementById('home-view').style.display = 'flex';
-            document.getElementById('server-select-area').style.display = 'block';
-        }
-
-        function switchTab(tabId, element) {
-            document.querySelectorAll('.db-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.db-menu-item').forEach(i => i.classList.remove('active'));
-            document.getElementById('panel-' + tabId).classList.add('active');
-            element.classList.add('active');
-        }
-
-        function updateSwitchUI(id, state) {
-            let el = document.getElementById("sw-" + id);
-            if(el) {
-                if(state) el.classList.remove("off");
-                else el.classList.add("off");
-            }
-        }
+        function hideDashboardArea() { document.getElementById('main-dashboard-area').style.display = 'none'; document.getElementById('home-view').style.display = 'flex'; document.getElementById('server-select-area').style.display = 'block'; }
+        
+        function switchTab(tabId, element) { document.querySelectorAll('.db-panel').forEach(p => p.classList.remove('active')); document.querySelectorAll('.db-menu-item').forEach(i => i.classList.remove('active')); document.getElementById('panel-' + tabId).classList.add('active'); element.classList.add('active'); }
+        
+        function updateSwitchUI(id, state) { let el = document.getElementById("sw-" + id); if(el) { if(state) el.classList.remove("off"); else el.classList.add("off"); } }
 
         async function sendToggleRequest(featureName) {
             try {
-                const response = await fetch(WRITE_URL + "api/toggle", {
-                    method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ feature: featureName, guild_id: activeGuildId })
-                });
+                const response = await fetch(WRITE_URL + "api/toggle", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ feature: featureName, guild_id: activeGuildId }) });
                 const resData = await response.json();
                 if (response.status === 200 && resData.success) { updateSwitchUI(featureName, resData.current_state); }
-                else { alert("🔒 Security Module Blocked: Active node validation license required."); }
-            } catch (err) { console.error(err); }
+            } catch (err) {}
         }
 
         const canvas = document.getElementById("bg-canvas"); const ctx = canvas.getContext("2d"); let particles = [];
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener("resize", resizeCanvas); resizeCanvas();
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2.5 + 0.5;
-                this.speedX = Math.random() * 0.4 - 0.2; this.speedY = Math.random() * 0.4 - 0.2;
-                this.color = Math.random() > 0.4 ? "rgba(0, 240, 255, 0.25)" : "rgba(255, 0, 85, 0.2)";
-            }
-            update() { this.x += this.speedX; this.y += this.speedY; if (this.x < 0 || this.x > canvas.width) this.speedX *= -1; if (this.y < 0 || this.y > canvas.height) this.speedY *= -1; }
-            draw() { ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
-        }
+        class Particle { constructor() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.size = Math.random() * 2.5 + 0.5; this.speedX = Math.random() * 0.4 - 0.2; this.speedY = Math.random() * 0.4 - 0.2; this.color = Math.random() > 0.4 ? "rgba(0, 240, 255, 0.25)" : "rgba(255, 0, 85, 0.2)"; } update() { this.x += this.speedX; this.y += this.speedY; if (this.x < 0 || this.x > canvas.width) this.speedX *= -1; if (this.y < 0 || this.y > canvas.height) this.speedY *= -1; } draw() { ctx.fillStyle = this.color; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); } }
         for (let i = 0; i < 90; i++) { particles.push(new Particle()); }
         function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
         animate();
-
         window.addEventListener('load', checkOAuthCallback);
     </script>
 </body>
