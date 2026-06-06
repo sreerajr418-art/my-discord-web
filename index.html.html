@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Velora Premium Infrastructure Dashboard</title>
+    <title>Velora Premium Management Hub</title>
     <style>
         :root {
             --bg-color: #0a0512;
@@ -129,6 +129,15 @@
             padding: 12px 24px;
             background-color: #24143e;
             border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-player:hover {
+            background-color: var(--accent-purple);
+            box-shadow: var(--neon-glow);
         }
 
         .volume-container {
@@ -150,7 +159,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            padding: 10px;
+            padding: 12px;
             background: rgba(36, 20, 62, 0.4);
             border-radius: 8px;
         }
@@ -159,11 +168,12 @@
             font-size: 0.95rem;
         }
 
+        /* HTML Toggle Switches Design */
         .switch {
             position: relative;
             display: inline-block;
-            width: 54px;
-            height: 28px;
+            width: 50px;
+            height: 26px;
         }
 
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -174,14 +184,14 @@
             top: 0; left: 0; right: 0; bottom: 0;
             background-color: #2a1b4e;
             transition: .4s;
-            border-radius: 28px;
+            border-radius: 26px;
             border: 1px solid rgba(168, 85, 247, 0.3);
         }
 
         .slider:before {
             position: absolute;
             content: "";
-            height: 20px; width: 20px;
+            height: 18px; width: 18px;
             left: 3px; bottom: 3px;
             background-color: #f3e8ff;
             transition: .4s;
@@ -189,7 +199,7 @@
         }
 
         input:checked + .slider { background-color: var(--accent-purple); box-shadow: var(--neon-glow); }
-        input:checked + .slider:before { transform: translateX(26px); }
+        input:checked + .slider:before { transform: translateX(24px); }
     </style>
 </head>
 <body>
@@ -210,9 +220,9 @@
                 </div>
                 
                 <div class="player-buttons">
-                    <button class="btn btn-player" onclick="triggerMusicAction('pause')" title="Pause Frame">⏸️</button>
+                    <button class="btn btn-player" onclick="triggerMusicAction('pause')" title="Pause Stream">⏸️</button>
                     <button class="btn btn-player" onclick="triggerMusicAction('resume')" title="Resume Stream">▶️</button>
-                    <button class="btn btn-player" onclick="triggerMusicAction('skip')" title="Skip Sequence">⏭️</button>
+                    <button class="btn btn-player" onclick="triggerMusicAction('skip')" title="Skip Track">⏭️</button>
                     <button class="btn btn-player" onclick="triggerMusicAction('stop')" title="Terminate Audio">⏹️</button>
                 </div>
 
@@ -244,9 +254,9 @@
 </div>
 
 <script>
-    // Link Configuration Arrays (Directly linked to your live backend domain IP)
+    // System Configurations Linked directly to your active panel IP node
     const API_BASE = "http://87.232.72.111:15378"; 
-    const CURRENT_GUILD = "1350118248934408233"; // Your active discord server tracking node ID
+    const CURRENT_GUILD = "1350118248934408233"; 
 
     async function triggerMusicAction(action) {
         const queryVal = document.getElementById('songQuery').value;
@@ -261,9 +271,9 @@
                 })
             });
             const data = await response.json();
-            if(data.success) console.log(`Pipeline array structural trigger deployed: ${action}`);
+            if(data.success) console.log(`Music control successfully executed: ${action}`);
         } catch (error) {
-            console.error("Pipeline node communication failure:", error);
+            console.error("Communication breakdown with backend pipeline:", error);
         }
     }
 
@@ -279,7 +289,7 @@
                 })
             });
         } catch (error) {
-            console.error("Volume adjustment packet loss:", error);
+            console.error("Volume sync error packet loss:", error);
         }
     }
 
@@ -294,7 +304,7 @@
                 })
             });
         } catch (error) {
-            console.error("Feature toggle system fault:", error);
+            console.error("Security module toggle failure:", error);
         }
     }
 </script>
