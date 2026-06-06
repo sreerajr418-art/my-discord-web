@@ -145,7 +145,7 @@
         <div class="dashboard-container">
             <div class="db-sidebar">
                 <div class="sidebar-profile">
-                    <img src="" class="avatar-img" id="bot-profile-avatar" alt="Server">
+                    <img src="https://cdn.discordapp.com/embed/avatars/0.png" class="avatar-img" id="bot-profile-avatar" alt="Server">
                     <div id="sidebar-server-name">Syncing Matrix...</div>
                 </div>
                 <div class="db-menu-item active" onclick="switchTab('core', this)">⚙️ Core Settings</div>
@@ -196,7 +196,7 @@
                                 <img src="https://cdn.discordapp.com/emojis/1512679508094746694.png" alt="Pause">
                             </button>
                             <button class="m-btn-img" onclick="triggerMusicAction('resume')" title="Resume Playback">
-                                <img src="https://cdn.discordapp.com/emojis/1512679532694601881.png" alt="Play">
+                                <img src="https://cdn.discordapp.com/emojis/1512517228753453117.png" alt="Play">
                             </button>
                             <button class="m-btn-img" onclick="triggerMusicAction('skip')" title="Next Track">
                                 <img src="https://cdn.discordapp.com/emojis/1512679532694601881.png" alt="Next">
@@ -443,16 +443,16 @@
             }
         }
 
-        // --- FIXED USER AVATAR & LIST RENDERING FRAMEWORK ---
+        // --- FIXED AUTHENTICATED MAPPING GRID ---
         function loadAuthenticatedDashboard(data) {
             cacheGuildsData = data.guilds;
             
-            // Fixed direct injection for live avatar source URLs
-            const avatarUrl = data.user.avatar || "https://cdn.discordapp.com/embed/avatars/0.png";
+            // Reads from backend mapped object key directly
+            const finalAvatar = data.user.avatar_url;
             document.getElementById("nav-auth-box").innerHTML = `
                 <div class="user-nav-badge">
-                    <img src="${avatarUrl}" class="user-nav-av" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
-                    <span>${data.user.username || data.user.name}</span>
+                    <img src="${finalAvatar}" class="user-nav-av" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                    <span>${data.user.username}</span>
                 </div>
             `;
             
@@ -465,10 +465,10 @@
                 card.className = "server-card";
                 card.onclick = () => enterDashboard(guild.id, guild.name);
                 
-                // Fixed server icon fail-safe parameters
-                const guildIcon = guild.icon || "https://cdn.discordapp.com/embed/avatars/0.png";
+                // Fixed server grid icon source logic
+                const finalServerIcon = guild.icon_url;
                 card.innerHTML = `
-                    <img src="${guildIcon}" class="server-icon-img" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                    <img src="${finalServerIcon}" class="server-icon-img" onerror="this.src='https://cdn.discordapp.com/embed/avatars/1.png'">
                     <div class="server-name">${guild.name}</div>
                     <div style="color:var(--text-muted); font-size:0.85rem; margin-top:5px;">${guild.users} Members</div>
                 `;
@@ -492,7 +492,7 @@
             } else { document.getElementById("w-preview-box").style.background = "#0e1322"; }
         }
 
-        // --- FIXED SIDEBAR SERVER AVATAR INJECTOR ---
+        // --- FIXED DASHBOARD SIDEBAR AVATAR DATA BINDING ---
         async function enterDashboard(guildId, guildName) {
             activeGuildId = guildId;
             document.getElementById('home-view').style.display = 'none';
@@ -505,9 +505,9 @@
             const activeGuild = cacheGuildsData.find(g => g.id === guildId);
             document.getElementById("live-metric-members").innerText = activeGuild ? activeGuild.users : 0;
             
-            // Fixed direct fallback configuration logic for dashboard sidebar avatar
+            // Sync active channel dashboard sidebar frame profile asset
             if(activeGuild) { 
-                document.getElementById("bot-profile-avatar").src = activeGuild.icon || "https://cdn.discordapp.com/embed/avatars/0.png"; 
+                document.getElementById("bot-profile-avatar").src = activeGuild.icon_url; 
             }
 
             try {
