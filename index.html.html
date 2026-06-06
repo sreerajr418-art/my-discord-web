@@ -116,16 +116,15 @@
         
         .live-preview-window { background: #030107; border: 2px solid var(--accent); padding: 25px; border-radius: 24px; margin-bottom: 35px; box-shadow: 0 0 30px var(--accent-glow); }
         .mock-banner { width: 100%; height: 220px; border-radius: 18px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(135deg, #13072e, #030107); border: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
-        .mock-avatar { width: 74px; height: 74px; border-radius: 50%; margin-bottom: 12px; border: 3px solid var(--secondary); box-shadow: 0 0 20px var(--secondary-glow); position: relative; z-index: 5; }
+        .mock-avatar { width: 74px; height: 74px; border-radius: 50%; margin-bottom: 12px; border: 2px solid var(--secondary); box-shadow: 0 0 20px var(--secondary-glow); position: relative; z-index: 5; }
         .mock-title { font-size: 1.6rem; font-weight: 900; margin: 0; text-transform: uppercase; letter-spacing: 1px; z-index: 5; text-shadow: 0 0 15px rgba(255,255,255,0.4); }
         .mock-subtitle { font-size: 1rem; color: #d8b4fe; margin: 5px 0 0 0; z-index: 5; font-weight: 600; }
 
-        /* Realtime Identity Side Panel Box Matrix Elements */
         .live-identity-wrapper { display: flex; gap: 30px; align-items: flex-start; }
         .identity-form-part { flex: 1; }
         .identity-preview-part { width: 320px; background: rgba(22, 11, 44, 0.8); border: 2px solid var(--secondary); border-radius: 24px; padding: 25px; box-shadow: 0 0 25px var(--secondary-glow); text-align: center; display: flex; flex-direction: column; gap: 20px; }
         .live-box-avatar { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--accent); box-shadow: 0 0 20px var(--accent-glow); margin: 0 auto; object-fit: cover; background: #05030a; }
-        .live-box-banner { width: 100%; height: 110px; border-radius: 14px; border: 1px dashed var(--neon-purple); object-fit: cover; background: #05030a; }
+        .live-box-banner { width: 100%; height: 110px; border-radius: 14px; border: 2px dashed var(--neon-purple); object-fit: cover; background: #05030a; }
     </style>
 </head>
 <body>
@@ -265,7 +264,7 @@
                     <div class="toggle-box"><div><b>Server XP Modules</b></div><div class="switch" id="sw-leveling_system" onclick="sendToggleRequest('leveling_system')"></div></div>
                     <div class="toggle-box"><div><b>Economy Modules</b></div><div class="switch" id="sw-economy_enabled" onclick="sendToggleRequest('economy_enabled')"></div></div>
                     <div class="form-group"><label>Currency Name</label><input type="text" class="form-control" id="adv-currency-input"></div>
-                    <div class="form-group"><label>Global Cluster Log Destination Channel</label><select class="form-control" id="adv-log-channel-dropdown"></select></div>
+                    <div class="form-group"><label>Global Log Channel</label><select class="form-control" id="adv-log-channel-dropdown"></select></div>
                     <button class="save-btn" onclick="saveAdvancedModulesConfig()">Commit Modules</button>
                 </div>
 
@@ -277,15 +276,15 @@
                             <div class="form-group"><label>Custom Bot Name</label><input type="text" class="form-control" id="custom-server-bot-name" placeholder="Enter custom bot name..." oninput="syncIdentityPreview()"></div>
                             <div class="form-group">
                                 <label>Upload Custom Bot Avatar File</label>
-                                <div class="dropzone-area" id="avatar-dropzone">🖼️ Click to upload or Drag new profile picture</div>
-                                <input type="file" id="avatar-file-hidden" style="display:none;" onchange="handleFileSelect(event, 'custom-server-bot-avatar', 'avatar-dropzone')">
+                                <div class="dropzone-area" id="avatar-dropzone">🖼️ Click to upload or Drag new profile picture (.png supported)</div>
+                                <input type="file" id="avatar-file-hidden" accept="image/*" style="display:none;" onchange="handleFileSelect(event, 'custom-server-bot-avatar', 'avatar-dropzone')">
                             </div>
                             <div class="form-group"><label>Custom Server Bot Profile Avatar URL</label><input type="text" class="form-control" id="custom-server-bot-avatar" oninput="syncIdentityPreview()"></div>
                             
                             <div class="form-group" style="margin-top:25px;">
                                 <label>Upload Custom Bot Profile Background Banner File</label>
                                 <div class="dropzone-area" id="banner-dropzone" style="border-color: var(--secondary);">✨ Click to upload or Drag background profile banner</div>
-                                <input type="file" id="banner-file-hidden" style="display:none;" onchange="handleFileSelect(event, 'custom-server-bot-banner', 'banner-dropzone')">
+                                <input type="file" id="banner-file-hidden" accept="image/*" style="display:none;" onchange="handleFileSelect(event, 'custom-server-bot-banner', 'banner-dropzone')">
                             </div>
                             <div class="form-group"><label>Custom Server Bot Profile Banner URL</label><input type="text" class="form-control" id="custom-server-bot-banner" oninput="syncIdentityPreview()"></div>
                             
@@ -325,15 +324,21 @@
         const WRITE_URL = "http://87.232.72.111:15378/";
         const DISCORD_CLIENT_ID = "1499880240640692465"; 
         const REDIRECT_URI = encodeURIComponent("https://my-discord-web-five.vercel.app/");
-        
-        // FIXED: ImgBB Key configuration fail-safe fallback routing setup array
         const IMGBB_API_KEY = "f86e3f5ec2029be469c45ef8df462e70"; 
 
         let cacheGuildsData = [];
         let activeGuildId = null;
         let globalUserAvatar = "https://cdn.discordapp.com/embed/avatars/0.png";
 
-        function redirectToDiscordOAuth() { window.location.href = `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=identify%20guilds`; }
+        // 1-TIME LOGIN PERSISTENCE CHECK ON LOAD
+        window.addEventListener('load', () => {
+            const savedData = localStorage.getItem('velora_session_data');
+            if (savedData) {
+                const parsed = JSON.parse(savedData);
+                loadAuthenticatedDashboard(parsed);
+            }
+            checkOAuthCallback();
+        });
 
         document.getElementById("welcome-dropzone").addEventListener("click", () => document.getElementById("welcome-file-hidden").click());
         document.getElementById("goodbye-dropzone").addEventListener("click", () => document.getElementById("goodbye-file-hidden").click());
@@ -345,32 +350,41 @@
             if(files.length > 0) { uploadFileToRelay(files[0], document.getElementById(dropzoneId), inputTargetId); }
         }
 
-        // FIXED: Enhanced structural multi-part file layout reader to prevent package payload loss
+        // IMPROVED UPLOAD ENGINE TO HANDLE .PNG WITHOUT BLOCKING
         async function uploadFileToRelay(file, element, inputTargetId) {
-            element.innerText = "⚡ Syncing assets to cluster network...";
+            element.innerText = "⚡ Uploading asset packet architecture...";
+            
+            // Safe image file verification matrix
+            if (!file.type.match('image.*')) {
+                element.innerText = "❌ Extension block: Upload valid image files only.";
+                return;
+            }
+
             let formData = new FormData();
             formData.append("image", file);
             try {
                 const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: "POST", body: formData });
                 const json = await res.json();
                 if(json.success && json.data) {
-                    document.getElementById(inputTargetId).value = json.data.url;
+                    const uploadedUrl = json.data.url;
+                    document.getElementById(inputTargetId).value = uploadedUrl;
                     element.innerText = "✅ Asset linked successfully!";
                     syncIdentityPreview();
                     updateLivePreview();
-                } else { element.innerText = "❌ ImgBB Engine block: Try uploading an absolute image URL."; }
+                } else { 
+                    element.innerText = "⚠️ API Limit/Block. Paste absolute URL below."; 
+                }
             } catch(err) { element.innerText = "❌ Pipeline network transaction timeout."; }
         }
 
-        // NEW: Real-time side box profile preview synchronizer node matrix
         function syncIdentityPreview() {
             const name = document.getElementById("custom-server-bot-name").value || "Velora";
             const av = document.getElementById("custom-server-bot-avatar").value || "https://cdn.discordapp.com/embed/avatars/0.png";
-            const ban = document.getElementById("custom-server-bot-banner").value;
+            const ban = document.getElementById("custom-server-bot-banner").value || "https://cdn.discordapp.com/embed/avatars/1.png";
 
             document.getElementById("box-preview-name").innerText = name;
             if(av.startsWith("http")) document.getElementById("box-preview-avatar").src = av;
-            if(ban && ban.startsWith("http")) document.getElementById("box-preview-banner").src = ban;
+            if(ban.startsWith("http")) document.getElementById("box-preview-banner").src = ban;
         }
 
         async function checkOAuthCallback() {
@@ -382,6 +396,8 @@
                     const res = await fetch(WRITE_URL + "api/auth", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code: code }) });
                     const data = await res.json();
                     if (data && data.guilds) {
+                        // SAVE TO STORAGE FOR 1-TIME LOGIN LOGIC
+                        localStorage.setItem('velora_session_data', JSON.stringify(data));
                         window.history.replaceState({}, document.title, window.location.pathname);
                         loadAuthenticatedDashboard(data);
                     }
@@ -441,9 +457,12 @@
             try {
                 const response = await fetch(`${WRITE_URL}api/guild_branding/${guildId}`);
                 const config = await response.json();
-                document.getElementById("custom-server-bot-name").value = config.custom_name || "";
+                
+                // RESTORE OLD VALUES FIRST
+                document.getElementById("custom-server-bot-name").value = config.custom_name || "Velora";
                 document.getElementById("custom-server-bot-avatar").value = config.custom_avatar_url || "";
                 document.getElementById("custom-server-bot-banner").value = config.custom_banner_url || "";
+                
                 document.getElementById("core-prefix-input").value = config.custom_prefix || "!";
                 document.getElementById("core-footer-input").value = config.embed_footer_text || "";
                 document.getElementById("welcome-title-input").value = config.banner_title || "";
@@ -454,6 +473,7 @@
                 document.getElementById("goodbye-subtitle-input").value = config.goodbye_subtitle || "";
                 document.getElementById("goodbye-bg-input").value = config.goodbye_bg_url || "";
                 document.getElementById("adv-currency-input").value = config.currency_name || "";
+                
                 updateSwitchUI("anti_spam", config.anti_spam);
                 updateSwitchUI("auto_mod_links", config.auto_mod_links);
                 updateSwitchUI("auto_role_enabled", config.auto_role_enabled);
@@ -466,6 +486,8 @@
                 updateSwitchUI("anti_bot_join", config.anti_bot_join);
                 updateSwitchUI("anti_channel_purge", config.anti_channel_purge);
                 updateSwitchUI("anti_member_mass_kick", config.anti_member_mass_kick);
+                
+                // FORCE SHOW LOADED OLD VALUES IN PREVIEW BOX ON START
                 syncIdentityPreview();
             } catch (err) {}
 
@@ -520,7 +542,6 @@
         for (let i = 0; i < 120; i++) { particles.push(new Particle()); }
         function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
         animate();
-        window.addEventListener('load', checkOAuthCallback);
     </script>
 </body>
 </html>
