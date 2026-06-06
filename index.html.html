@@ -55,6 +55,8 @@
         .hero-btn-group { display: flex; gap: 25px; justify-content: center; align-items: center; margin-top: 15px; }
         .hero-btn-invite { background: linear-gradient(135deg, #5865F2, #4752c4); color: white; border: none; padding: 20px 50px; border-radius: 18px; font-weight: 900; font-size: 1.25rem; cursor: pointer; box-shadow: 0 0 30px rgba(88,101,242,0.6); transition: 0.3s; text-transform: uppercase; letter-spacing: 1.5px; text-decoration: none; }
         .hero-btn-invite:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 0 40px #5865F2; }
+        
+        /* Fixed Real-time Responsive Hero Dashboard Action Link */
         .hero-btn-dash { background: linear-gradient(135deg, var(--secondary), var(--accent)); color: white; border: none; padding: 20px 50px; border-radius: 18px; font-weight: 900; font-size: 1.25rem; cursor: pointer; box-shadow: 0 0 30px var(--accent-glow); transition: 0.3s; text-transform: uppercase; letter-spacing: 1.5px; }
         .hero-btn-dash:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 0 45px var(--secondary); }
 
@@ -116,7 +118,7 @@
         
         .live-preview-window { background: #030107; border: 2px solid var(--accent); padding: 25px; border-radius: 24px; margin-bottom: 35px; box-shadow: 0 0 30px var(--accent-glow); }
         .mock-banner { width: 100%; height: 220px; border-radius: 18px; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(135deg, #13072e, #030107); border: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
-        .mock-avatar { width: 74px; height: 74px; border-radius: 50%; margin-bottom: 12px; border: 2px solid var(--secondary); box-shadow: 0 0 20px var(--secondary-glow); position: relative; z-index: 5; }
+        .mock-avatar { width: 74px; height: 74px; border-radius: 50%; margin-bottom: 12px; border: 3px solid var(--secondary); box-shadow: 0 0 20px var(--secondary-glow); position: relative; z-index: 5; }
         .mock-title { font-size: 1.6rem; font-weight: 900; margin: 0; text-transform: uppercase; letter-spacing: 1px; z-index: 5; text-shadow: 0 0 15px rgba(255,255,255,0.4); }
         .mock-subtitle { font-size: 1rem; color: #d8b4fe; margin: 5px 0 0 0; z-index: 5; font-weight: 600; }
 
@@ -135,7 +137,7 @@
         <div class="nav-logo" onclick="hideDashboardArea()">VELORA PROTOCOL</div>
         <div class="nav-menu-links">
             <a class="nav-item" href="https://discord.com/oauth2/authorize?client_id=1499880240640692465&permissions=8&scope=bot%20applications.commands" target="_blank">Invite Bot</a>
-            <span class="nav-item" onclick="scrollToServers()">Dashboard</span>
+            <span class="nav-item" onclick="handleDashboardButtonClick()">Dashboard</span>
         </div>
         <div class="nav-links" id="nav-auth-box">
             <button class="login-btn" onclick="redirectToDiscordOAuth()">Login To Discord</button>
@@ -149,7 +151,7 @@
         
         <div class="hero-btn-group">
             <a class="hero-btn-invite" href="https://discord.com/oauth2/authorize?client_id=1499880240640692465&permissions=8&scope=bot%20applications.commands" target="_blank">Invite Bot</a>
-            <button class="hero-btn-dash" onclick="scrollToServers()">Dashboard Portal</button>
+            <button class="hero-btn-dash" id="main-hero-dash-btn" onclick="handleDashboardButtonClick()">Dashboard Portal</button>
         </div>
     </div>
 
@@ -264,7 +266,7 @@
                     <div class="toggle-box"><div><b>Server XP Modules</b></div><div class="switch" id="sw-leveling_system" onclick="sendToggleRequest('leveling_system')"></div></div>
                     <div class="toggle-box"><div><b>Economy Modules</b></div><div class="switch" id="sw-economy_enabled" onclick="sendToggleRequest('economy_enabled')"></div></div>
                     <div class="form-group"><label>Currency Name</label><input type="text" class="form-control" id="adv-currency-input"></div>
-                    <div class="form-group"><label>Global Log Channel</label><select class="form-control" id="adv-log-channel-dropdown"></select></div>
+                    <div class="form-group"><label>Global Cluster Log Destination Channel</label><select class="form-control" id="adv-log-channel-dropdown"></select></div>
                     <button class="save-btn" onclick="saveAdvancedModulesConfig()">Commit Modules</button>
                 </div>
 
@@ -329,6 +331,7 @@
         let cacheGuildsData = [];
         let activeGuildId = null;
         let globalUserAvatar = "https://cdn.discordapp.com/embed/avatars/0.png";
+        let isLoggedIn = false;
 
         // 1-TIME LOGIN PERSISTENCE CHECK ON LOAD
         window.addEventListener('load', () => {
@@ -340,6 +343,15 @@
             checkOAuthCallback();
         });
 
+        // FIXED: Master function to handle Dashboard click dynamically based on session status
+        function handleDashboardButtonClick() {
+            if (isLoggedIn) {
+                scrollToServers();
+            } else {
+                redirectToDiscordOAuth();
+            }
+        }
+
         document.getElementById("welcome-dropzone").addEventListener("click", () => document.getElementById("welcome-file-hidden").click());
         document.getElementById("goodbye-dropzone").addEventListener("click", () => document.getElementById("goodbye-file-hidden").click());
         document.getElementById("avatar-dropzone").addEventListener("click", () => document.getElementById("avatar-file-hidden").click());
@@ -350,16 +362,12 @@
             if(files.length > 0) { uploadFileToRelay(files[0], document.getElementById(dropzoneId), inputTargetId); }
         }
 
-        // IMPROVED UPLOAD ENGINE TO HANDLE .PNG WITHOUT BLOCKING
         async function uploadFileToRelay(file, element, inputTargetId) {
             element.innerText = "⚡ Uploading asset packet architecture...";
-            
-            // Safe image file verification matrix
             if (!file.type.match('image.*')) {
                 element.innerText = "❌ Extension block: Upload valid image files only.";
                 return;
             }
-
             let formData = new FormData();
             formData.append("image", file);
             try {
@@ -396,7 +404,6 @@
                     const res = await fetch(WRITE_URL + "api/auth", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code: code }) });
                     const data = await res.json();
                     if (data && data.guilds) {
-                        // SAVE TO STORAGE FOR 1-TIME LOGIN LOGIC
                         localStorage.setItem('velora_session_data', JSON.stringify(data));
                         window.history.replaceState({}, document.title, window.location.pathname);
                         loadAuthenticatedDashboard(data);
@@ -407,7 +414,12 @@
 
         function loadAuthenticatedDashboard(data) {
             cacheGuildsData = data.guilds;
+            isLoggedIn = true;
             globalUserAvatar = data.user.avatar_url || "https://cdn.discordapp.com/embed/avatars/0.png";
+            
+            // Fixed Hero Text change dynamically once validated
+            document.getElementById("main-hero-dash-btn").innerText = "Go to Dashboard Portal";
+            
             document.getElementById("nav-auth-box").innerHTML = `
                 <div class="user-nav-badge">
                     <img src="${globalUserAvatar}" class="user-nav-av" onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
@@ -458,7 +470,6 @@
                 const response = await fetch(`${WRITE_URL}api/guild_branding/${guildId}`);
                 const config = await response.json();
                 
-                // RESTORE OLD VALUES FIRST
                 document.getElementById("custom-server-bot-name").value = config.custom_name || "Velora";
                 document.getElementById("custom-server-bot-avatar").value = config.custom_avatar_url || "";
                 document.getElementById("custom-server-bot-banner").value = config.custom_banner_url || "";
@@ -487,7 +498,6 @@
                 updateSwitchUI("anti_channel_purge", config.anti_channel_purge);
                 updateSwitchUI("anti_member_mass_kick", config.anti_member_mass_kick);
                 
-                // FORCE SHOW LOADED OLD VALUES IN PREVIEW BOX ON START
                 syncIdentityPreview();
             } catch (err) {}
 
